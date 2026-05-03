@@ -1,0 +1,1939 @@
+<!doctype html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="utf-8" />
+  <title>S&CM Shooting Script · v3 · iPhone Master Edition</title>
+  <meta name="viewport" content="width=1280, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #161614;
+      --ink-soft: #3b3a36;
+      --ink-faint: #6b6a64;
+      --rule: #d9d6cf;
+      --rule-soft: #ece9e2;
+      --paper: #f5f2ea;
+      --paper-2: #ebe7dc;
+      --accent: oklch(55% 0.12 35);
+      --accent-cool: oklch(45% 0.05 240);
+      --tape: oklch(82% 0.10 85);
+      --filmic: oklch(38% 0.04 30);
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0
+    }
+
+    body {
+      font-family: "Inter", "Noto Sans TC", sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased
+    }
+
+    .sheet {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 56px 64px 120px
+    }
+
+    /* ===== masthead ===== */
+    .masthead {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 32px;
+      padding-bottom: 18px;
+      border-bottom: 1.5px solid var(--ink)
+    }
+
+    .masthead .doc-kind {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 14px
+    }
+
+    .masthead h1 {
+      font-family: "Inter", sans-serif;
+      font-weight: 700;
+      font-size: 42px;
+      line-height: 1.05;
+      letter-spacing: -.02em;
+      margin: 0 0 8px;
+      text-wrap: balance
+    }
+
+    .masthead h1 em {
+      font-style: normal;
+      color: var(--accent)
+    }
+
+    .masthead .sub {
+      font-size: 15px;
+      color: var(--ink-soft);
+      max-width: 620px
+    }
+
+    .meta {
+      text-align: right;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      line-height: 1.7;
+      color: var(--ink-soft)
+    }
+
+    .meta b {
+      color: var(--ink);
+      font-weight: 600
+    }
+
+    .meta .runtime {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 4px 10px;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 12px;
+      letter-spacing: .08em
+    }
+
+    /* ===== section heading ===== */
+    .section-title {
+      margin: 48px 0 18px;
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 10px
+    }
+
+    .section-title .num {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      color: var(--ink-faint);
+      letter-spacing: .1em
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -.01em;
+      text-wrap: balance
+    }
+
+    .section-title .right {
+      margin-left: auto;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      color: var(--ink-faint)
+    }
+
+    /* ===== gear card ===== */
+    .gear-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 8px
+    }
+
+    .gear-card {
+      background: #fbf9f3;
+      border: 1px solid var(--rule);
+      padding: 18px 20px
+    }
+
+    .gear-card .role {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 6px
+    }
+
+    .gear-card .name {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      letter-spacing: -.005em
+    }
+
+    .gear-card ul {
+      margin: 0;
+      padding: 0;
+      list-style: none
+    }
+
+    .gear-card li {
+      font-size: 12.5px;
+      line-height: 1.7;
+      border-bottom: 1px dashed var(--rule);
+      padding: 3px 0;
+      color: var(--ink-soft)
+    }
+
+    .gear-card li b {
+      color: var(--ink);
+      font-weight: 600
+    }
+
+    /* ===== philosophy panel ===== */
+    .philosophy {
+      background: #0e0e0c;
+      color: var(--paper);
+      padding: 26px 30px;
+      margin-top: 18px;
+      border: 1px solid var(--ink)
+    }
+
+    .philosophy .label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px;
+      letter-spacing: .16em;
+      color: var(--tape);
+      text-transform: uppercase;
+      margin-bottom: 10px
+    }
+
+    .philosophy h3 {
+      margin: 0 0 14px;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -.01em;
+      line-height: 1.25;
+      text-wrap: balance
+    }
+
+    .philosophy p {
+      margin: 0 0 8px;
+      font-size: 14px;
+      color: #c8c3b3;
+      line-height: 1.65
+    }
+
+    .philosophy .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid #2c2c28
+    }
+
+    .philosophy .grid h4 {
+      margin: 0 0 6px;
+      font-size: 12px;
+      font-family: "JetBrains Mono", monospace;
+      letter-spacing: .12em;
+      color: var(--tape)
+    }
+
+    .philosophy .grid p {
+      font-size: 13px
+    }
+
+    /* ===== timeline ===== */
+    .timeline {
+      margin: 8px 0 0;
+      border: 1px solid var(--rule);
+      background: #fbf9f3;
+      padding: 14px 18px 12px
+    }
+
+    .tl-head {
+      display: flex;
+      justify-content: space-between;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 10px
+    }
+
+    .tl-bar {
+      display: grid;
+      grid-template-columns: 25fr 60fr 55fr 60fr 60fr 25fr 5fr;
+      height: 36px;
+      border: 1px solid var(--ink)
+    }
+
+    .tl-bar>div {
+      border-right: 1px solid var(--ink);
+      padding: 4px 8px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px;
+      color: var(--paper);
+      line-height: 1.1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden
+    }
+
+    .tl-bar>div:last-child {
+      border-right: none
+    }
+
+    .tl-bar .s1 {
+      background: oklch(55% 0.12 35)
+    }
+
+    .tl-bar .s2 {
+      background: oklch(35% 0.04 30)
+    }
+
+    .tl-bar .s3 {
+      background: oklch(45% 0.05 240)
+    }
+
+    .tl-bar .s4 {
+      background: oklch(40% 0.06 160)
+    }
+
+    .tl-bar .s5 {
+      background: oklch(30% 0.03 250)
+    }
+
+    .tl-bar .s6 {
+      background: oklch(50% 0.08 50)
+    }
+
+    .tl-bar .s7 {
+      background: #1d1d1b;
+      color: var(--tape)
+    }
+
+    .tl-bar>div span:last-child {
+      font-size: 9.5px;
+      opacity: .8
+    }
+
+    /* ===== floor plan ===== */
+    .floorplan-wrap {
+      margin-top: 8px;
+      background: #fbf9f3;
+      border: 1px solid var(--rule);
+      padding: 18px 22px
+    }
+
+    .floorplan-wrap .head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px
+    }
+
+    .floorplan-wrap .head h3 {
+      margin: 0;
+      font-size: 13px;
+      font-family: "JetBrains Mono", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      font-weight: 500
+    }
+
+    .floorplan-wrap .head .addr {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      color: var(--ink-soft)
+    }
+
+    .floorplan {
+      width: 100%;
+      aspect-ratio: 18/7;
+      background: #fff;
+      border: 1px solid var(--rule)
+    }
+
+    .floorplan svg {
+      width: 100%;
+      height: 100%;
+      display: block
+    }
+
+    .legend {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 24px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      color: var(--ink-soft)
+    }
+
+    .legend .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin-right: 6px;
+      vertical-align: middle;
+      border: 1px solid var(--ink)
+    }
+
+    /* ===== segment ===== */
+    .seg {
+      margin-top: 32px;
+      border-top: 2px solid var(--ink)
+    }
+
+    .seg-head {
+      display: grid;
+      grid-template-columns: 130px 1fr auto auto;
+      gap: 20px;
+      align-items: center;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 13px 22px
+    }
+
+    .seg-head .tc {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13px;
+      letter-spacing: .05em
+    }
+
+    .seg-head h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -.005em;
+      text-wrap: balance
+    }
+
+    .seg-head .dur {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      color: var(--tape);
+      border: 1px solid var(--tape);
+      padding: 3px 9px
+    }
+
+    .seg-head .device {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      color: var(--paper);
+      background: var(--accent);
+      padding: 3px 9px
+    }
+
+    .seg-body {
+      border: 1px solid var(--rule);
+      border-top: none;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr
+    }
+
+    .vo {
+      padding: 24px 26px 26px;
+      border-right: 1px solid var(--rule);
+      background: #fbf9f3
+    }
+
+    .vo .label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 12px
+    }
+
+    .vo p {
+      margin: 0 0 10px;
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--ink);
+      text-wrap: pretty
+    }
+
+    .vo p.beat {
+      color: var(--ink-faint);
+      font-size: 12.5px;
+      font-style: italic;
+      border-left: 2px solid var(--accent);
+      padding-left: 10px;
+      margin: 14px 0
+    }
+
+    .vo .pull {
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.4;
+      margin: 14px 0;
+      color: var(--ink)
+    }
+
+    .craft {
+      padding: 22px 24px 24px;
+      background: var(--paper-2)
+    }
+
+    .craft .row {
+      display: grid;
+      grid-template-columns: 84px 1fr;
+      gap: 14px;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--rule-soft);
+      align-items: start
+    }
+
+    .craft .row:last-child {
+      border-bottom: none
+    }
+
+    .craft .row .k {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      padding-top: 2px
+    }
+
+    .craft .row .v {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--ink)
+    }
+
+    .craft .row .v code {
+      font-family: "JetBrains Mono", monospace;
+      background: #fbf9f3;
+      border: 1px solid var(--rule);
+      padding: 1px 6px;
+      font-size: 11.5px
+    }
+
+    .craft .row .v .pill {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 2px 8px;
+      margin-right: 6px;
+      margin-bottom: 4px
+    }
+
+    .craft .row .v .pill.alt {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--ink)
+    }
+
+    .craft .row .v .pill.warn {
+      background: var(--accent);
+      color: var(--paper)
+    }
+
+    /* ===== refboard ===== */
+    .refboard {
+      grid-column: 1/-1;
+      background: #fbf9f3;
+      border-top: 1px solid var(--rule);
+      padding: 20px 24px 22px
+    }
+
+    .refboard h4 {
+      margin: 0 0 14px;
+      font-size: 11px;
+      font-family: "JetBrains Mono", monospace;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      font-weight: 500
+    }
+
+    .refboard h4 span {
+      color: var(--ink);
+      font-weight: 600;
+      margin-left: 8px
+    }
+
+    .refgrid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px
+    }
+
+    .refframe {
+      background: #0e0e0c;
+      border: 1px solid var(--ink);
+      aspect-ratio: 16/9;
+      position: relative;
+      overflow: hidden
+    }
+
+    .refframe svg {
+      display: block;
+      width: 100%;
+      height: 100%
+    }
+
+    .frame-label {
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 9px;
+      letter-spacing: .12em;
+      color: var(--tape);
+      text-transform: uppercase
+    }
+
+    .frame-tc {
+      position: absolute;
+      bottom: 6px;
+      right: 8px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 9px;
+      color: var(--tape);
+      background: rgba(0, 0, 0, .4);
+      padding: 1px 4px
+    }
+
+    .refnote {
+      margin-top: 10px;
+      padding: 10px 12px;
+      background: var(--paper-2);
+      border-left: 3px solid var(--accent);
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: var(--ink-soft)
+    }
+
+    .refnote b {
+      color: var(--ink)
+    }
+
+    .refcap {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10px;
+      color: var(--ink-faint);
+      margin-top: 5px;
+      letter-spacing: .04em;
+      line-height: 1.4
+    }
+
+    .refcap b {
+      color: var(--ink);
+      font-weight: 600
+    }
+
+    /* ===== bottom panels ===== */
+    .endgrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-top: 32px
+    }
+
+    .panel {
+      background: #fbf9f3;
+      border: 1px solid var(--rule);
+      padding: 22px 24px
+    }
+
+    .panel h3 {
+      margin: 0 0 12px;
+      font-size: 13px;
+      font-family: "JetBrains Mono", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      font-weight: 500
+    }
+
+    .panel ol,
+    .panel ul {
+      margin: 0;
+      padding-left: 18px
+    }
+
+    .panel li {
+      font-size: 13px;
+      line-height: 1.65;
+      margin-bottom: 6px
+    }
+
+    .panel li b {
+      color: var(--accent);
+      font-weight: 600
+    }
+
+    .endcard-preview {
+      margin-top: 22px;
+      background: #0e0e0c;
+      color: #f5f2ea;
+      padding: 48px 56px;
+      border: 1px solid var(--ink);
+      aspect-ratio: 16/9;
+      display: flex;
+      flex-direction: column;
+      justify-content: center
+    }
+
+    .endcard-preview .name {
+      font-size: 40px;
+      font-weight: 600;
+      letter-spacing: -.01em;
+      margin-bottom: 12px
+    }
+
+    .endcard-preview .school {
+      font-size: 17px;
+      color: #c8c3b3;
+      margin-bottom: 6px
+    }
+
+    .endcard-preview .mail {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13px;
+      color: #c8c3b3;
+      margin-bottom: 22px
+    }
+
+    .endcard-preview .tag {
+      margin-top: auto;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--tape);
+      border-top: 1px solid #2c2c28;
+      padding-top: 14px
+    }
+
+    .footer {
+      margin-top: 48px;
+      padding-top: 18px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      color: var(--ink-faint)
+    }
+
+    @media print {
+      body {
+        background: #fff
+      }
+
+      .sheet {
+        padding: 24px 28px;
+        max-width: none
+      }
+
+      .seg {
+        page-break-inside: avoid;
+        break-inside: avoid
+      }
+
+      .seg-head {
+        page-break-after: avoid;
+        break-after: avoid
+      }
+
+      .section-title {
+        page-break-after: avoid;
+        break-after: avoid
+      }
+
+      .philosophy {
+        page-break-inside: avoid;
+        break-inside: avoid
+      }
+
+      .panel {
+        page-break-inside: avoid;
+        break-inside: avoid
+      }
+
+      .gear-card {
+        page-break-inside: avoid;
+        break-inside: avoid
+      }
+
+      .refboard {
+        page-break-inside: avoid;
+        break-inside: avoid
+      }
+
+      .tl-bar>div {
+        color: #fff !important
+      }
+
+      .endcard-preview {
+        aspect-ratio: auto;
+        padding: 32px 40px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sheet">
+
+    <!-- ===== MASTHEAD ===== -->
+    <header class="masthead">
+      <div>
+        <div class="doc-kind">NIVEA S&amp;CM Internship · v3 iPhone Master Edition</div>
+        <h1>大師級運鏡 · <em>2× iPhone + MacBook 拍攝腳本</em></h1>
+        <p class="sub">器材有限不是限制,是風格。整支片用兩支 iPhone 拍出 Errol Morris 級的訪談感、Patagonia 級的紀錄質地。MacBook
+          不只是後製機,它在現場有兩個明確角色:外接螢幕監看 + 提詞器。</p>
+      </div>
+      <div class="meta">
+        <div><b>主角</b> Hou-Sheng SHEN</div>
+        <div><b>場地</b> WeWork · 7 Rue de Madrid · 75008</div>
+        <div><b>器材</b> 2× iPhone · 1× MacBook Air M4</div>
+        <div><b>規格</b> 4K · 24fps · ProRes Log</div>
+        <div><b>目標長度</b> 04:50 / 上限 05:00</div>
+        <div class="runtime">TARGET 04:50</div>
+      </div>
+    </header>
+
+    <!-- ===== § 0 PHILOSOPHY ===== -->
+    <div class="section-title">
+      <span class="num">§ 0</span>
+      <h2>運鏡哲學 · 為什麼兩支 iPhone 可以做到大師級</h2>
+      <span class="right">看完這頁再開拍</span>
+    </div>
+
+    <div class="philosophy">
+      <div class="label">Working principle</div>
+      <h3>大師級不是「器材好」,是「決定堅定」。<br>每一個鏡位、每一個運鏡、每一個剪接點都有一個非它不可的理由。</h3>
+      <p>整支片我們只用 <b>三種運鏡</b>(Locked / Slow Push / Walk),只用 <b>三個鏡位</b>(機位 A / 機位 B / 走廊),只用 <b>一種光源</b>(WeWork
+        北向窗光)。重複本身就是電影語言 — 你回到同一張椅子三次,觀眾的潛意識會把它讀成「論文式結構」,這比花俏的運鏡更高級。</p>
+      <div class="grid">
+        <div>
+          <h4>01 · 限制 = 紀律</h4>
+          <p>不要嘗試「掩飾」器材限制。iPhone 拍出來就是 iPhone 的質感。重點是用 iPhone 的優勢(極淺景深 Cinematic mode、ProRes Log、超寬動態範圍)去做專業相機都未必能做的事。
+          </p>
+        </div>
+        <div>
+          <h4>02 · 雙機位是奢侈</h4>
+          <p>大部分申請影片只有一支機。你有兩支,意思是<b>每一個 take 都同時被兩個角度記錄</b>。這讓你能在一次表演裡剪出 jump-cut 而不破連戲,媲美雙機位紀錄片訪談。</p>
+        </div>
+        <div>
+          <h4>03 · MacBook 是隱形主角</h4>
+          <p>MacBook 在拍攝現場做兩件事:① 透過<b>連續互通相機(Continuity Camera)</b>當外接 4K 監看螢幕,讓你能看到構圖;②
+            開啟<b>備忘錄全螢幕</b>當提詞器,字級調到從鏡頭距離剛好讀得到。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== § A GEAR ===== -->
+    <div class="section-title">
+      <span class="num">§ A</span>
+      <h2>器材分工 · 每個物件的明確角色</h2>
+      <span class="right">三件物 · 五個角色</span>
+    </div>
+
+    <div class="gear-row">
+      <div class="gear-card">
+        <div class="role">iPhone #1 · 主機</div>
+        <div class="name">A 機 · 訪談主鏡</div>
+        <ul>
+          <li><b>角色</b> · 全片所有 to-camera 主鏡</li>
+          <li><b>模式</b> · ProRes · 4K · 24fps · Log</li>
+          <li><b>鏡頭</b> · 主鏡頭(1×,等效 24mm)</li>
+          <li><b>架設</b> · 三腳架,鏡頭高度 = 你坐姿的眉心</li>
+          <li><b>距離</b> · 主角前方 1.4m(中景)、0.9m(中近景)</li>
+          <li><b>對焦</b> · 鎖定主角眼睛(長按螢幕鎖定 AE/AF)</li>
+          <li><b>白平衡</b> · 5200K 鎖死 · 用 <code>Blackmagic Camera</code> app</li>
+        </ul>
+      </div>
+
+      <div class="gear-card">
+        <div class="role">iPhone #2 · 副機</div>
+        <div class="name">B 機 · 替身角度 + b-roll</div>
+        <ul>
+          <li><b>角色</b> · 同 take 的 45° 替身角度 + 所有空鏡</li>
+          <li><b>模式</b> · ProRes · 4K · 24fps · Log</li>
+          <li><b>鏡頭</b> · 0.5× 廣角(空間)+ 2× 長焦(特寫)</li>
+          <li><b>架設</b> · 第二支三腳架 / 桌面 mini 腳架</li>
+          <li><b>位置</b> · 主角右前 45°,鏡頭高度同 A 機</li>
+          <li><b>同步</b> · 開拍前兩機同時拍手 1 次,後製對時用</li>
+          <li><b>暗用</b> · S4 走拍時這支變手持(穩定模式 ON)</li>
+        </ul>
+      </div>
+
+      <div class="gear-card">
+        <div class="role">MacBook Air M4</div>
+        <div class="name">監看 · 提詞 · 後製</div>
+        <ul>
+          <li><b>現場 1</b> · Continuity Camera 當 A 機外接螢幕</li>
+          <li><b>現場 2</b> · 備忘錄全螢幕當提詞器</li>
+          <li><b>現場 3</b> · 即時匯入備份(AirDrop)</li>
+          <li><b>後製</b> · Final Cut Pro / DaVinci Resolve</li>
+          <li><b>位置</b> · 在鏡頭外 90°,你只要瞥眼就看到</li>
+          <li><b>提詞字級</b> · 32pt,從 1.4m 距離讀得到</li>
+          <li><b>提詞</b> · 一段一頁,空白鍵翻頁(藍牙鍵盤更好)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== § B FLOOR PLAN ===== -->
+    <div class="section-title">
+      <span class="num">§ B</span>
+      <h2>WeWork 7 Rue de Madrid · 場地配置</h2>
+      <span class="right">3 個機位 · 1 條走廊 · 1 條巴黎街</span>
+    </div>
+
+    <div class="floorplan-wrap">
+      <div class="head">
+        <h3>樓層平面</h3>
+        <div class="addr">7 Rue de Madrid · 75008 Paris</div>
+      </div>
+      <div class="floorplan">
+        <svg viewBox="0 0 720 280">
+          <rect x="20" y="20" width="680" height="240" fill="none" stroke="#161614" stroke-width="2" />
+
+          <!-- window wall -->
+          <g stroke="#6b6a64" stroke-width="1">
+            <line x1="20" y1="20" x2="60" y2="20" />
+            <line x1="80" y1="20" x2="140" y2="20" />
+            <line x1="160" y1="20" x2="220" y2="20" />
+            <line x1="240" y1="20" x2="300" y2="20" />
+            <line x1="320" y1="20" x2="380" y2="20" />
+            <line x1="400" y1="20" x2="460" y2="20" />
+            <line x1="480" y1="20" x2="540" y2="20" />
+            <line x1="560" y1="20" x2="620" y2="20" />
+            <line x1="640" y1="20" x2="700" y2="20" />
+          </g>
+          <text x="360" y="14" font-family="JetBrains Mono" font-size="10" text-anchor="middle" fill="#6b6a64">窗牆 · 北向 ·
+            全片唯一光源</text>
+
+          <!-- LOOK A -->
+          <rect x="80" y="60" width="180" height="90" fill="#ebe7dc" stroke="#161614" />
+          <text x="170" y="85" font-family="Inter" font-size="13" font-weight="600" text-anchor="middle">機位 A ·
+            熱桌中景</text>
+          <text x="170" y="103" font-family="JetBrains Mono" font-size="9" text-anchor="middle" fill="#3b3a36">S1 · S5 ·
+            S6 三度回家</text>
+          <circle cx="170" cy="125" r="7" fill="oklch(55% 0.12 35)" />
+          <text x="170" y="143" font-family="JetBrains Mono" font-size="8" text-anchor="middle" fill="#161614">主角</text>
+
+          <!-- A機 -->
+          <polygon points="170,180 158,205 182,205" fill="#161614" />
+          <text x="170" y="220" font-family="JetBrains Mono" font-size="8" text-anchor="middle" fill="#161614">A ·
+            iPhone #1</text>
+          <text x="170" y="232" font-family="JetBrains Mono" font-size="7" text-anchor="middle" fill="#6b6a64">1.4m ·
+            1×</text>
+
+          <!-- B機 -->
+          <polygon points="245,170 233,193 257,193" fill="#3b3a36" transform="rotate(-30 245 180)" />
+          <text x="260" y="200" font-family="JetBrains Mono" font-size="8" fill="#3b3a36">B · iPhone #2</text>
+          <text x="260" y="212" font-family="JetBrains Mono" font-size="7" fill="#6b6a64">45° · 2×</text>
+
+          <!-- MacBook -->
+          <rect x="105" y="178" width="32" height="22" fill="#fbf9f3" stroke="#161614" />
+          <text x="121" y="216" font-family="JetBrains Mono" font-size="7" text-anchor="middle"
+            fill="#161614">MacBook</text>
+          <text x="121" y="226" font-family="JetBrains Mono" font-size="6.5" text-anchor="middle" fill="#6b6a64">提詞 +
+            監看</text>
+
+          <!-- key light arrow -->
+          <line x1="170" y1="32" x2="170" y2="115" stroke="oklch(82% 0.10 85)" stroke-width="2"
+            stroke-dasharray="3 3" />
+          <text x="180" y="80" font-family="JetBrains Mono" font-size="9" fill="#3b3a36">主光 45°</text>
+
+          <!-- LOOK B -->
+          <rect x="320" y="60" width="180" height="120" fill="#ebe7dc" stroke="#161614" stroke-dasharray="4 3" />
+          <text x="410" y="85" font-family="Inter" font-size="13" font-weight="600" text-anchor="middle">機位 B ·
+            玻璃會議室</text>
+          <text x="410" y="103" font-family="JetBrains Mono" font-size="9" text-anchor="middle" fill="#3b3a36">S2 母親節 ·
+            S3 整段</text>
+          <circle cx="390" cy="135" r="7" fill="oklch(55% 0.12 35)" />
+          <text x="390" y="153" font-family="JetBrains Mono" font-size="8" text-anchor="middle" fill="#161614">主角</text>
+
+          <!-- A機 in B -->
+          <polygon points="450,135 470,123 470,147" fill="#161614" />
+          <text x="475" y="155" font-family="JetBrains Mono" font-size="8" fill="#161614">A · 0.9m · 2×</text>
+
+          <!-- B機 in B -->
+          <polygon points="430,165 415,180 445,180" fill="#3b3a36" transform="rotate(-25 430 172)" />
+          <text x="395" y="178" font-family="JetBrains Mono" font-size="8" fill="#3b3a36">B · 廣角空間</text>
+
+          <!-- LOOK C -->
+          <rect x="560" y="60" width="120" height="100" fill="#ebe7dc" stroke="#161614" />
+          <text x="620" y="85" font-family="Inter" font-size="13" font-weight="600" text-anchor="middle">機位 C ·
+            走廊</text>
+          <text x="620" y="103" font-family="JetBrains Mono" font-size="9" text-anchor="middle" fill="#3b3a36">S4
+            走拍開場</text>
+          <circle cx="600" cy="125" r="6" fill="oklch(55% 0.12 35)" />
+          <text x="640" y="128" font-family="JetBrains Mono" font-size="8" fill="#3b3a36">B 機手持</text>
+
+          <!-- arrow showing walk direction -->
+          <path d="M 600 145 L 600 170" stroke="oklch(55% 0.12 35)" stroke-width="1.5" marker-end="url(#walkarr)" />
+          <defs>
+            <marker id="walkarr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M 0 0 L 6 3 L 0 6 z" fill="oklch(55% 0.12 35)" />
+            </marker>
+          </defs>
+
+          <!-- street outside -->
+          <rect x="20" y="240" width="680" height="22" fill="#fbf9f3" stroke="#161614" stroke-dasharray="2 3" />
+          <text x="360" y="255" font-family="JetBrains Mono" font-size="10" text-anchor="middle" fill="#3b3a36">Rue de
+            Madrid · 進出 WeWork 順手拍藥局綠十字 · 200m 內兩家</text>
+        </svg>
+      </div>
+      <div class="legend">
+        <div><span class="dot" style="background:oklch(55% 0.12 35)"></span>主角站位</div>
+        <div><span class="dot" style="background:#161614"></span>iPhone #1 · A 機(主鏡)</div>
+        <div><span class="dot" style="background:#3b3a36"></span>iPhone #2 · B 機(替身/空鏡)</div>
+        <div><span class="dot" style="background:#fbf9f3;border-color:#161614"></span>MacBook · 提詞+監看</div>
+        <div><span class="dot" style="background:oklch(82% 0.10 85)"></span>窗光主光源</div>
+      </div>
+    </div>
+
+    <!-- ===== § C TIMELINE ===== -->
+    <div class="section-title">
+      <span class="num">§ C</span>
+      <h2>剪輯時間軸 · 4:50 配重</h2>
+      <span class="right">00:00 ─── 04:50</span>
+    </div>
+    <div class="timeline">
+      <div class="tl-head"><span>每段時長</span><span>00:00 ──────────────────── 04:50</span></div>
+      <div class="tl-bar">
+        <div class="s1"><span>S1 開場</span><span>0:25</span></div>
+        <div class="s2"><span>S2 零售</span><span>1:00</span></div>
+        <div class="s3"><span>S3 資料</span><span>0:55</span></div>
+        <div class="s4"><span>S4 跨文化</span><span>1:00</span></div>
+        <div class="s5"><span>S5 為何 NIVEA</span><span>1:00</span></div>
+        <div class="s6"><span>S6 收尾</span><span>0:25</span></div>
+        <div class="s7"><span>End</span><span>0:05</span></div>
+      </div>
+    </div>
+
+    <!-- ===== SEGMENT 1 ===== -->
+    <section class="seg">
+      <div class="seg-head">
+        <div class="tc">00:00 — 00:25</div>
+        <h3>Segment 1 · Opening · three things I bring</h3>
+        <div class="dur">25 秒</div>
+        <div class="device">A + B 雙機</div>
+      </div>
+      <div class="seg-body">
+        <div class="vo">
+          <div class="label">逐字稿</div>
+          <p>"You have probably watched a lot of these today, and most of them sound the same. Someone tells you they
+            are passionate. Someone tells you they are a fast learner."</p>
+          <p class="beat">— 半拍。輕輕笑一下。視線略偏鏡頭。</p>
+          <p>"S&amp;CM is a specific role, so I do not want to only say that I am motivated. I want to show you three
+            things I would bring to the team."</p>
+          <p class="pull">"Retail execution. Data precision. And a cross-cultural lens."</p>
+          <p>"By the end of this video, I hope those three points explain why I am applying, and why I think I could
+            contribute to NIVEA's S&amp;CM team."</p>
+        </div>
+        <div class="craft">
+          <div class="row">
+            <div class="k">大師運鏡</div>
+            <div class="v"><b>Errol Morris 式直視鏡頭</b>。一個 take,A 機 + B 機同步雙機位錄,後製從同一句話裡剪 jump-cut。觀眾以為是兩次拍攝,其實是一次。</div>
+          </div>
+          <div class="row">
+            <div class="k">A 機</div>
+            <div class="v"><span class="pill">1× · 1.4m · 中景</span> · 完全鎖定。眉心高度。主角構圖在右三分線。</div>
+          </div>
+          <div class="row">
+            <div class="k">B 機</div>
+            <div class="v"><span class="pill alt">2× · 45°</span> · 完全鎖定。同高度。剪「I want to show you three
+              things」這句切過去,馬上感覺更貼近。</div>
+          </div>
+          <div class="row">
+            <div class="k">運鏡</div>
+            <div class="v"><span class="pill alt">Locked × 2</span> 兩機都不動。第一句不能推鏡。</div>
+          </div>
+          <div class="row">
+            <div class="k">提詞</div>
+            <div class="v">MacBook 在 A 機左側 30°,字級 32pt。眼睛瞥提詞時剛好在「略偏鏡頭」的位置,自然不出戲。</div>
+          </div>
+          <div class="row">
+            <div class="k">剪接</div>
+            <div class="v"><span class="pill warn">CUT 1</span> 「sound the same」 切到 B 機 · <span class="pill warn">CUT
+                2</span> 「three things」 切回 A 機 · <span class="pill warn">CUT 3</span> 三個名詞各切一刀,A→B→A。</div>
+          </div>
+          <div class="row">
+            <div class="k">音訊</div>
+            <div class="v">主角面前桌上放 iPhone #2 用 Voice Memo 同步錄音(更近主聲源)。後製對時用第一聲拍手。</div>
+          </div>
+        </div>
+        <div class="refboard">
+          <h4>參考分鏡 <span>S1 · 雙機位 jump-cut 範本</span></h4>
+          <div class="refgrid">
+            <div>
+              <div class="refframe">
+                <div class="frame-label">A 機 1×</div>
+                <svg viewBox="0 0 320 180">
+                  <rect width="320" height="180" fill="#252420" />
+                  <g stroke="#c8c3b3" stroke-opacity="0.15" stroke-width=".5">
+                    <line x1="106" y1="0" x2="106" y2="180" />
+                    <line x1="213" y1="0" x2="213" y2="180" />
+                    <line x1="0" y1="60" x2="320" y2="60" />
+                    <line x1="0" y1="120" x2="320" y2="120" />
+                  </g>
+                  <ellipse cx="180" cy="78" rx="22" ry="26" fill="#c8a487" />
+                  <path d="M 138 180 L 138 138 Q 180 110 222 138 L 222 180 Z" fill="#3b3a36" />
+                  <circle cx="173" cy="74" r="1.5" fill="#161614" />
+                  <circle cx="186" cy="74" r="1.5" fill="#161614" />
+                  <path d="M 300 20 L 240 70" stroke="oklch(82% 0.10 85)" stroke-width="1.2" />
+                  <text x="306" y="14" font-family="JetBrains Mono" font-size="6" fill="oklch(82% 0.10 85)"
+                    text-anchor="end">主光 45°</text>
+                </svg>
+                <div class="frame-tc">A · 中景</div>
+              </div>
+              <div class="refcap"><b>A 機 1× 中景</b> · 主體右三分 · 視線略左偏</div>
+            </div>
+            <div>
+              <div class="refframe">
+                <div class="frame-label">B 機 2× · 45°</div>
+                <svg viewBox="0 0 320 180">
+                  <rect width="320" height="180" fill="#252420" />
+                  <ellipse cx="160" cy="60" rx="40" ry="48" fill="#c8a487" />
+                  <path d="M 90 180 L 90 130 Q 160 95 230 130 L 230 180 Z" fill="#3b3a36" />
+                  <circle cx="148" cy="55" r="2" fill="#161614" />
+                  <circle cx="172" cy="55" r="2" fill="#161614" />
+                  <text x="160" y="170" font-family="JetBrains Mono" font-size="7" fill="oklch(55% 0.12 35)"
+                    text-anchor="middle">替身角度</text>
+                </svg>
+                <div class="frame-tc">B · 中近景</div>
+              </div>
+              <div class="refcap"><b>B 機 2× 中近景</b> · 同一個 take 的另一個臉 · 切過去就是 jump-cut</div>
+            </div>
+            <div>
+              <div class="refframe">
+                <div class="frame-label">三段式</div>
+                <svg viewBox="0 0 320 180">
+                  <rect width="320" height="180" fill="#252420" />
+                  <rect x="10" y="20" width="95" height="140" fill="#3b3a36" stroke="#1d1d1b" />
+                  <ellipse cx="57" cy="62" rx="18" ry="22" fill="#c8a487" />
+                  <text x="57" y="148" font-family="JetBrains Mono" font-size="7" fill="oklch(82% 0.10 85)"
+                    text-anchor="middle">RETAIL</text>
+                  <rect x="113" y="20" width="95" height="140" fill="#3b3a36" stroke="#1d1d1b" />
+                  <ellipse cx="160" cy="58" rx="20" ry="24" fill="#c8a487" />
+                  <text x="160" y="148" font-family="JetBrains Mono" font-size="7" fill="oklch(82% 0.10 85)"
+                    text-anchor="middle">DATA</text>
+                  <rect x="216" y="20" width="95" height="140" fill="#3b3a36" stroke="#1d1d1b" />
+                  <ellipse cx="263" cy="64" rx="22" ry="26" fill="#c8a487" />
+                  <text x="263" y="148" font-family="JetBrains Mono" font-size="6.5" fill="oklch(82% 0.10 85)"
+                    text-anchor="middle">CROSS-CULTURAL</text>
+                </svg>
+                <div class="frame-tc">三 cut</div>
+              </div>
+              <div class="refcap"><b>三個名詞三 cut</b> · A→B→A · 每 cut 構圖各微調</div>
+            </div>
+          </div>
+          <div class="refnote">
+            <b>找參考時搜尋:</b> "Errol Morris Interrotron interview"、"Apple WWDC keynote talking head 24mm"。Errol Morris 用的
+            Interrotron 就是讓被攝者直視鏡頭講話 — 你用 iPhone 主鏡頭(等效 24mm)+ MacBook 提詞器,做的是同一件事。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEGMENT 2 ===== -->
+    <section class="seg">
+      <div class="seg-head">
+        <div class="tc">00:25 — 01:25</div>
+        <h3>Segment 2 · Retail Execution · the department store floor</h3>
+        <div class="dur">1:00</div>
+        <div class="device">A + B 換景</div>
+      </div>
+      <div class="seg-body">
+        <div class="vo">
+          <div class="label">逐字稿</div>
+          <p>"In 2023, when I was seventeen, I interned as a floor supervisor at Far Eastern Department Stores,
+            responsible for two floors covering menswear and sportswear, around forty brands in total."</p>
+          <p>"Most of the counter staff had been in retail longer than I had been alive, so the first few weeks were
+            really about listening before doing anything else."</p>
+          <p class="pull">"The moment I want to share is Mother's Day. It is one of the highest-spending retail windows
+            of the year, and the dominant shopper is women and families. But my two floors were menswear and sportswear,
+            so there was a clear mismatch."</p>
+          <p>"We had noticed the cinema on the eighth floor brought in a lot of footfall whenever a film was doing well,
+            so we used that as a starting point and pitched the store manager a free in-store yoga series, three times a
+            week throughout the campaign."</p>
+          <p>"The idea was not to rely on discounts, but to give women and families a real reason to walk onto a floor
+            they would normally skip."</p>
+          <p>"Store visits went up by nearly twenty percent. Mother's Day revenue grew fifteen percent year on year. And
+            visitor-to-buyer conversion improved by eight points."</p>
+          <p>"What I took from that is that the most important category question is not always about the product on the
+            shelf. Sometimes it is about who is not walking past it yet."</p>
+        </div>
+        <div class="craft">
+          <div class="row">
+            <div class="k">大師運鏡</div>
+            <div class="v"><b>場景 = 內容</b>。前半段(鋪陳)在熱桌中景講,「Mother's Day」這句切到玻璃會議室特寫 — 場地的轉換對應論點的轉換。Wes Anderson 級的
+              deliberate spatial logic。</div>
+          </div>
+          <div class="row">
+            <div class="k">A 機(熱桌)</div>
+            <div class="v"><span class="pill">1× · 1.4m</span> 鎖定中景,跟 S1 完全相同構圖。</div>
+          </div>
+          <div class="row">
+            <div class="k">A 機(玻璃室)</div>
+            <div class="v"><span class="pill">2× · 0.9m</span> 中近景。利用 iPhone 2× 鏡頭的 48mm 等效視角 — 比主鏡頭更平、人臉更立體,接近真正的紀錄片
+              50mm 觀感。</div>
+          </div>
+          <div class="row">
+            <div class="k">B 機</div>
+            <div class="v"><span class="pill alt">0.5× 廣角</span> 玻璃室內拍空間鏡 + 主角剪影靠玻璃反射。剪輯時用 1 秒。</div>
+          </div>
+          <div class="row">
+            <div class="k">運鏡</div>
+            <div class="v"><span class="pill alt">Locked</span> 熱桌段,<span class="pill">Slow Push 5%</span> 玻璃室「Mother's
+              Day」進來時。Push 怎麼做:iPhone 放在 MacBook 上,慢慢推 MacBook 往前 — 比手持穩定器穩。</div>
+          </div>
+          <div class="row">
+            <div class="k">B-roll</div>
+            <div class="v">B 機俯拍熱桌:MacBook 螢幕上開一個自製 mock 表格,手指輕滑。<em>絕不可</em>真實公司資料。剪 2 秒。</div>
+          </div>
+          <div class="row">
+            <div class="k">剪接</div>
+            <div class="v"><span class="pill warn">CUT</span> 「a clear mismatch.」 硬切到玻璃室特寫。光變了,場域變了,觀眾的注意力被重設。</div>
+          </div>
+        </div>
+        <div class="refboard">
+          <h4>參考分鏡 <span>S2 · 兩個場域 + 一個俯拍 b-roll</span></h4>
+          <div class="refgrid">
+            <div>
+              <div class="refframe">
+                <div class="frame-label">A 機 · 熱桌</div>
+                <svg viewBox="0 0 320 180">
+                  <rect width="320" height="180" fill="#2a2926" />
+                  <rect x="0" y="130" width="320" height="50" fill="#1d1d1b" />
+                  <ellipse cx="160" cy="78" rx="22" ry="26" fill="#c8a487" />
+                  <path d="M 118 180 L 118 138 Q 160 110 202 138 L 202 180 Z" fill="#3b3a36" />
+                  <rect x="60" y="140" width="60" height="3" fill="#6b6a64" />
+                  <rect x="200" y="140" width="60" height="3" fill="#6b6a64" />
+                  <text x="160" y="170" font-family="JetBrains Mono" font-size="7" fill="oklch(82% 0.10 85)"
+                    text-anchor="middle">熱桌 · 1× · 鎖定</text>
+                </svg>
+                <div class="frame-tc">00:25–00:50</div>
+              </div>
+              <div class="refcap"><b>機位 A 鋪陳</b> · 桌面有筆電線索但不入主構圖</div>
+            </div>
+            <div>
+              <div class="refframe">
+                <div class="frame-label">A 機 · 玻璃室 PUSH</div>
+                <svg viewBox="0 0 320 180">
+                  <rect width="320" height="180" fill="#252420" />
+                  <g stroke="#3b3a36" stroke-width=".5" opacity=".6">
+                    <line x1="40" y1="0" x2="40" y2="180" />
+                    <line x1="270" y1="0" x2="270" y2="180" />
+                  </g>
+                  <ellipse cx="160" cy="68" rx="48" ry="56" fill="#c8a487" />
+                  <path d="M 70 180 L 70 130 Q 160 95 250 130 L 250 180 Z" fill="#3b3a36" />
+                  <circle cx="146" cy="62" r="2.5" fill="#161614" />
+                  <circle cx="174" cy="62" r="2.5" fill="#161614" />
+                  <path d="M 160 175 L 160 145" stroke="oklch(55% 0.12 35)" stroke-width="1.2" />
+                  <text x="160" y="172" font-family="JetBrains Mono" font-size="6.5" fill="oklch(55% 0.12 35)"
+                    text-anchor="middle">推 5% · MacBook 滑行</text>
+                </svg>
+                <div class="frame-tc">00:50–01:05</div>
+              </div>
+              <div class="refcap"><b>玻璃室 2× 中近景</b> · iPhone 放 MacBook 上推進 · 比穩定器穩</div>
+            </div>
+            <div>
+              <div class="refframe">
+                <div class="frame-label">B 機 · 俯拍空鏡</div>
+                <svg viewBox="0 0 320 180">
+                  <rect width="320" height="180" fill="#1d1d1b" />
+                  <rect x="60" y="40" width="200" height="120" rx="3" fill="#0a0a08" />
+                  <rect x="68" y="48" width="184" height="100" fill="#f5f2ea" />
+                  <g fill="#161614">
+                    <rect x="80" y="120" width="14" height="20" />
+                    <rect x="100" y="105" width="14" height="35" />
+                    <rect x="120" y="90" width="14" height="50" />
+                    <rect x="140" y="78" width="14" height="62" />
+                    <rect x="160" y="65" width="14" height="75" />
+                  </g>
+                  <text x="84" y="62" font-family="JetBrains Mono" font-size="6" fill="#161614">VISITS · MAY 2024</text>
+                  <text x="220" y="62" font-family="JetBrains Mono" font-size="7" fill="oklch(55% 0.12 35)"
+                    font-weight="600">+15%</text>
+                  <ellipse cx="220" cy="115" rx="14" ry="20" fill="#c8a487" opacity=".7" />
+                </svg>
+                <div class="frame-tc">01:05–01:20</div>
+              </div>
+              <div class="refcap"><b>B 機俯拍</b> · 自製 mock 表格 · 不可真實資料</div>
+            </div>
+          </div>
+          <div class="refnote">
+            <b>iPhone 推鏡的祕訣:</b> 把 iPhone 平放在 MacBook 鍵盤前緣,雙手慢推 MacBook(像在桌上滑)。MacBook 底面摩擦力低又均勻,推出來的軌跡比廉價 gimbal
+            還穩。<b>這是免費的滑軌</b>。<br>
+            <b>找參考時搜尋:</b> "Bloomberg Originals founder interview 50mm"、"Documentary subject sit down talking head two
+            angle"。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEGMENT 3 ===== -->
+    <section class="seg">
+      <div class="seg-head">
+        <div class="tc">01:25 — 02:20</div>
+        <h3>Segment 3 · Data Precision · turning ambiguity into action</h3>
+        <div class="dur">0:55</div>
+        <div class="device">A 機 + B 越肩</div>
+      </div>
+      <div class="seg-body">
+        <div class="vo">
+          <div class="label">逐字稿</div>
+          <p>"My second piece of evidence comes from a job that has nothing to do with FMCG, and I want to be upfront
+            about that."</p>
+          <p>"Outlier is a subsidiary of Scale AI. My role there is to evaluate and improve AI model outputs across
+            multimodal data, rubric design, and quality assessment, usually with three or four projects running at the
+            same time."</p>
+          <p>"After producing consistent quality work, I was promoted to a role where I also help other contributors
+            reach the same bar. Part of that role is preparing and co-hosting webinars for new contributors."</p>
+          <p class="pull">"The challenge there is always the same. The Quality Manager knows exactly what good looks
+            like, but that knowledge is dense and full of edge cases. My job sits in the middle, which is to understand
+            what the team really needs, and translate it into something a contributor can act on the next day."</p>
+          <p>"What I am really doing is taking something complex and ambiguous, building a clear structure around it,
+            and communicating it in a way that drives consistent action. That is not an AI skill. It is a thinking
+            pattern."</p>
+          <p>"And I think it is exactly the same pattern you use in S&amp;CM, when you are sitting across from a retail
+            buyer and explaining why a planogram should change, or why a category deserves more shelf space. You are
+            translating data and strategy into something another person can act on."</p>
+        </div>
+        <div class="craft">
+          <div class="row">
+            <div class="k">大師運鏡</div>
+            <div class="v"><b>整段一個鏡位 · Lex Fridman 級單機紀律</b>。最分析性的段落,鏡頭也最克制。整段一個 take 不換景,A 機鎖死 50 多秒,中間插一個 2 秒越肩鏡頭。
+            </div>
+          </div>
+          <div class="row">
+            <div class="k">A 機</div>
+            <div class="v"><span class="pill">2× · 0.9m · 特寫</span> 玻璃會議室,完全鎖定。眼睛在上三分線。</div>
+          </div>
+          <div class="row">
+            <div class="k">B 機</div>
+            <div class="v"><span class="pill alt">越肩 1×</span> 從主角後方拍 MacBook 螢幕,螢幕上是匿名 mock 文件。剪 2 秒。<em>絕不可</em>真實
+              Outlier 內容。</div>
+          </div>
+          <div class="row">
+            <div class="k">運鏡</div>
+            <div class="v"><span class="pill alt">Locked × 全程</span> 唯一不動的段。內容是結構性的,鏡頭也要是。</div>
+          </div>
+          <div class="row">
+            <div class="k">關鍵停拍</div>
+            <div class="v">「That is not an AI skill. It is a thinking pattern.」<b>前後各停滿半秒</b>。剪輯時不要剪掉這個沉默。</div>
+          </div>
+          <div class="row">
+            <div class="k">提詞</div>
+            <div class="v">這段最長,提詞要分四頁。每翻頁主角的眼神會微微變動 — 這是好的,讓觀眾感覺你在思考,不是在背。</div>
+          </div>
+        </div>
+        <div class="refboard">
+          <h4>參考分鏡 <span>S3 · 整段一個鏡位 · 用沉默代替剪接</span></h4>
+          <div class="refgrid">
+            <div>
+              <div class="refframe">
+                <div class="frame-label">A 機 · 鎖定特寫</div>
+                <svg viewBox="0 0 320 180">
+                  <rect width="320" height="180" fill="#252420" />
+                  <g stroke="#3b3a36" stroke-width=".5" opacity=".6">
+                    <line x1="40" y1="0" x2="40" y2="180" />
+                    <line x1="270" y1="0" x2="270" y2="180" />
+                  </g>
+                  <ellipse cx="160" cy="65" rx="46" ry="55" fill="#c8a487" />
+                  <path d="M 75 180 L 75 132 Q 160 98 245 132 L 245 180 Z" fill="#3b3a36" />
+                  <circle cx="147" cy="60" r="2.5" fill="#161614" />
+                  <circle cx="173" cy="60" r="2.5" fill="#161614" />
+                  <text x="10" y="172" font-family="JetBrains Mono" font-size="7" fill="oklch(82% 0.10 85)">A 2× ·
+                    TRIPOD · LOCKED</text>
+                </svg>
+                <div class="frame-tc">01:25–02:20</div>
+              </div>
+              <div class="refcap"><b>整段一個鏡位</b> · 完全鎖定不運鏡 · 整片唯一 50 秒長 take</div>
+            </div>
+            <div>
+              <div class="refframe">
+                <div class="frame-label">B 機 · 越肩</div>
+                <svg viewBox="0 0 320 180">
+                  <rect width="320" height="180" fill="#1d1d1b" />
+                  <path d="M 0 110 L 0 180 L 130 180 L 130 130 Q 90 110 60 110 Z" fill="#3b3a36" />
+                  <ellipse cx="55" cy="60" rx="30" ry="38" fill="#c8a487" opacity=".85" />
+                  <rect x="160" y="60" width="140" height="90" fill="#0a0a08" stroke="#6b6a64" />
+                  <rect x="166" y="66" width="128" height="78" fill="#f5f2ea" />
+                  <g fill="#161614">
+                    <rect x="172" y="72" width="60" height="2" />
+                    <rect x="172" y="80" width="100" height="1.5" />
+                    <rect x="172" y="86" width="80" height="1.5" />
+                    <rect x="172" y="100" width="40" height="2" />
+                    <rect x="172" y="108" width="100" height="1.5" />
+                    <rect x="172" y="114" width="100" height="1.5" />
+                  </g>
+                </svg>
+                <div class="frame-tc">01:55–01:57</div>
+              </div>
+              <div class="refcap"><b>B 機越肩(2 秒)</b> · 從主角後方拍 MacBook · 螢幕是匿名 mock 文件</div>
+            </div>
+            <div>
+              <div class="refframe">
+                <div class="frame-label">PAUSE</div>
+                <svg viewBox="0 0 320 180">
+                  <rect width="320" height="180" fill="#252420" />
+                  <ellipse cx="160" cy="65" rx="46" ry="55" fill="#c8a487" />
+                  <path d="M 75 180 L 75 132 Q 160 98 245 132 L 245 180 Z" fill="#3b3a36" />
+                  <circle cx="147" cy="60" r="2.5" fill="#161614" />
+                  <circle cx="173" cy="60" r="2.5" fill="#161614" />
+                  <text x="160" y="155" font-family="JetBrains Mono" font-size="9" fill="oklch(55% 0.12 35)"
+                    text-anchor="middle" letter-spacing="2">‖ PAUSE ‖</text>
+                  <text x="160" y="167" font-family="JetBrains Mono" font-size="6" fill="oklch(82% 0.10 85)"
+                    text-anchor="middle">前後各 0.5s</text>
+                </svg>
+                <div class="frame-tc">02:10</div>
+              </div>
+              <div class="refcap"><b>關鍵停拍</b> · 「thinking pattern」 前後各停半秒 · 不要剪掉</div>
+            </div>
+          </div>
+          <div class="refnote">
+            <b>找參考時搜尋:</b> "Lex Fridman podcast solo monologue framing"、"Y Combinator partner essay
+            video"。這段最危險的不是構圖是<b>表演</b> — 找那種「在說自己反覆思考過的事」的影片,語氣要像在 think out loud,不是在 pitch。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEGMENT 4 ===== -->
+    <section class="seg">
+      <div class="seg-head">
+        <div class="tc">02:20 — 03:20</div>
+        <h3>Segment 4 · Cross-Cultural Lens · Taipei and Paris</h3>
+        <div class="dur">1:00</div>
+        <div class="device">B 手持走拍</div>
+      </div>
+      <div class="seg-body">
+        <div class="vo">
+          <div class="label">逐字稿</div>
+          <p>"I transferred to ESCP in Paris by choice. Not because I wanted to live abroad, but because I wanted to put
+            myself in a market I did not already understand."</p>
+          <p>"What stood out to me very early on is that retail in Taiwan and retail in France work in almost opposite
+            logics."</p>
+          <p>"In Taiwan, skincare often sits inside a world of promotions, KOL recommendations, whitening claims and
+            functional labels. The shelf is designed to tell you what the product does and why it is on sale."</p>
+          <p class="pull">"In France, especially in the pharmacy channel, skincare feels much closer to dermatology than
+            to beauty. The brands that win there win on trust and on the sense that a professional would recommend
+            them."</p>
+          <p>"It is the same brand and the same blue tin, but the reason people trust it changes depending on the
+            market."</p>
+          <p>"My French is still at A2. But not being fluent actually gave me something useful, because when you are not
+            fluent, you pay attention differently. You notice where signage breaks down, or where a foreign shopper gets
+            lost. That is a perspective a native speaker does not automatically have."</p>
+        </div>
+        <div class="craft">
+          <div class="row">
+            <div class="k">大師運鏡</div>
+            <div class="v"><b>身體感的論述</b>。整段以走廊走拍開場 — 主角邊走邊講「兩個市場的對比」,身體前進對應思想前進。Vox 級紀錄片走拍。</div>
+          </div>
+          <div class="row">
+            <div class="k">B 機</div>
+            <div class="v"><span class="pill">1× · 手持 · 動態模式 ON</span> · iPhone 內建影片穩定 + 走慢一點。倒退走,主角領先 1m,絕對需要有人在後方護航。
+            </div>
+          </div>
+          <div class="row">
+            <div class="k">A 機</div>
+            <div class="v">前半段不出鏡。<span class="pill">最後 15 秒切回 1× 中景</span>(機位 A 熱桌)講「My French is still A2」。</div>
+          </div>
+          <div class="row">
+            <div class="k">運鏡</div>
+            <div class="v"><span class="pill">Walk · 慢</span> · 倒退走 25 秒 → <span class="pill alt">Locked</span> 收尾 15 秒。
+            </div>
+          </div>
+          <div class="row">
+            <div class="k">B-roll</div>
+            <div class="v">巴黎藥局綠十字 — 進出 WeWork 路上拍。Rue de Madrid × Rue de Lisbonne 交叉口,或 × Rue de Constantinople
+              交叉口。<b>陰天下午或日落前 30 分鐘</b>綠色最美。剪 1.5 秒。</div>
+          </div>
+          <div class="row">
+            <div class="k">剪接</div>
+            <div class="v"><span class="pill warn">CUT</span> 「same blue tin」前 1.5 秒插入綠十字空鏡 hold,然後 cut 回主角。</div>
+          </div>
+          <div class="row">
+            <div class="k">音訊</div>
+            <div class="v">走拍時用 iPhone 內建麥 + 走廊空音。如果有風或腳步聲,後製用 Final Cut 的 Voice Isolation(免費內建)濾掉。</div>
+          </div>
+        </div>
+        <div class="refboard">
+          <h4>參考分鏡 <span>S4 · 走拍 + 巴黎街頭空鏡 + 收尾鎖定</span></h4>
+          <div class="refgrid">
+            <div>
+              <div class="refframe">
+                <div class="frame-label">B 機 · 倒退走</div>
+                <svg viewBox="0 0 320 180">
+                  <rect width="320" height="180" fill="#2a2926" />
+                  <g stroke="#3b3a36" stroke-width=".5">
+                    <line x1="0" y1="40" x2="320" y2="80" />
+                    <line x1="0" y1="140" x2="320" y2="100" />
+                  </g>
+                  <line x1="160" y1="60" x2="160" y2="120" stroke="#3b3a36" stroke-width=".3" />
+                  <ellipse cx="170" cy="76" rx="24" ry="28" fill="#c8a487" />
+                  <path d="M 124 180 L 124 138 Q 170 108 216 138 L 216 180 Z" fill="#3b3a36" />
+                  <path d="M 170 165 L 170 185" stroke="oklch(55% 0.12 35)" stroke-width="1.2" />
+                  <text x="10" y="172" font-family="JetBrains Mono" font-size="6.5" fill="oklch(82% 0.10 85)">B 手持 · 倒退走
+                    1m 領先</text>
+                </svg>
+                <div class="frame-tc">02:20–02:50</div>
+              </div>
+              <div class="refcap"><b>走廊走拍</b> · iPhone 動態模式 · 後方需護航人員</div>
+            </div>
+            <div>
+              <div class="refframe">
+                <div class="frame-label">B-ROLL · 綠十字</div>
+                <svg viewBox="0 0 320 180">
+                  <rect width="320" height="180" fill="#5a6b6a" />
+                  <rect x="0" y="40" width="320" height="100" fill="#c8c3b3" />
+                  <g fill="#3b3a36" opacity=".5">
+                    <rect x="20" y="60" width="14" height="20" />
+                    <rect x="60" y="60" width="14" height="20" />
+                    <rect x="100" y="60" width="14" height="20" />
+                    <rect x="20" y="95" width="14" height="20" />
+                    <rect x="60" y="95" width="14" height="20" />
+                    <rect x="100" y="95" width="14" height="20" />
+                  </g>
+                  <g transform="translate(220, 75)">
+                    <rect x="-4" y="-20" width="8" height="40" fill="oklch(60% 0.18 145)" />
+                    <rect x="-20" y="-4" width="40" height="8" fill="oklch(60% 0.18 145)" />
+                  </g>
+                  <rect x="0" y="140" width="320" height="40" fill="#3b3a36" />
+                  <text x="220" y="170" font-family="JetBrains Mono" font-size="7" fill="oklch(82% 0.10 85)"
+                    text-anchor="middle">PHARMACIE · HOLD 1.5s</text>
+                </svg>
+                <div class="frame-tc">02:50–02:55</div>
+              </div>
+              <div class="refcap"><b>巴黎藥局綠十字</b> · 進出 WeWork 順手拍 · 陰天最美</div>
+            </div>
+            <div>
+              <div class="refframe">
+                <div class="frame-label">A 機 · 收尾鎖定</div>
+                <svg viewBox="0 0 320 180">
+                  <rect width="320" height="180" fill="#2a2926" />
+                  <rect x="0" y="130" width="320" height="50" fill="#1d1d1b" />
+                  <ellipse cx="180" cy="78" rx="22" ry="26" fill="#c8a487" />
+                  <path d="M 138 180 L 138 138 Q 180 110 222 138 L 222 180 Z" fill="#3b3a36" />
+                  <text x="160" y="20" font-family="JetBrains Mono" font-size="7" fill="oklch(82% 0.10 85)"
+                    text-anchor="middle">RHYME WITH S1</text>
+                </svg>
+                <div class="frame-tc">03:05–03:20</div>
+              </div>
+              <div class="refcap"><b>回機位 A 中景</b> · 「French A2」這句講完開始 · 跟 S1 押韻</div>
+            </div>
+          </div>
+          <div class="refnote">
+            <b>找參考時搜尋:</b> "Vox walking talking 35mm"、"Patagonia walking interview corridor"。<br>
+            <b>巴黎藥局實拍:</b> Rue de Madrid 走 200 米內至少兩家(× Rue de Lisbonne 與 × Rue de Constantinople 交叉口)。陰天下午或日落前 30
+            分鐘綠十字會自己發亮。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEGMENT 5 ===== -->
+    <section class="seg">
+      <div class="seg-head">
+        <div class="tc">03:20 — 04:20</div>
+        <h3>Segment 5 · Why NIVEA · the question that interests me</h3>
+        <div class="dur">1:00</div>
+        <div class="device">A + B 雙機 · 字卡</div>
+      </div>
+      <div class="seg-body">
+        <div class="vo">
+          <div class="label">逐字稿</div>
+          <p>"And finally, why NIVEA. Not because it is a large brand, but because I think it is a brand with a very
+            specific and interesting problem."</p>
+          <p>"Beiersdorf's group organic sales grew around 2.4 percent in 2025, and NIVEA itself grew 0.9 percent. Most
+            of that growth came from price rather than from more people buying more product."</p>
+          <p class="beat">— 數字講平。讓資料聽起來像觀察,不是業績報告。</p>
+          <p>"For a brand at around 5.5 billion euros in sales, that is not a crisis, but I think it is a signal.
+            Skincare has fragmented into derma, ingredient, K-beauty and clean beauty brands, and every one of them is
+            talking to consumers in a more specific way than a mass brand can."</p>
+          <p class="pull">"So the real question NIVEA is trying to answer right now is how a mass brand stays relevant
+            when the market keeps moving towards niche."</p>
+          <p>"And in the two markets I have lived in, the same brand and the same blue tin sit in very different
+            environments. In Taipei, it sits in a Watsons aisle next to promotions and functional claims. In Paris, it
+            sits in a pharmacy next to clinical, derma-style brands. The reason a shopper trusts it is not the same in
+            those two places."</p>
+          <p>"That gap, between what a brand wants to say and what a shopper actually sees in front of them, is the part
+            of S&amp;CM I want to spend time on. Not because I have the answer, but because I think it is the right
+            question."</p>
+        </div>
+        <div class="craft">
+          <div class="row">
+            <div class="k">大師運鏡</div>
+            <div class="v"><b>視覺押韻 + FT Big Read 級資訊圖</b>。回機位 A,跟 S1 完全相同構圖 — 三度回家。下三分之一字卡(自己用 Keynote 做、後製貼)在數字上方淡入淡出。
+            </div>
+          </div>
+          <div class="row">
+            <div class="k">A 機</div>
+            <div class="v"><span class="pill">1× · 1.4m · 中景</span> 跟 S1、S6 相同。整片視覺押韻的核心。</div>
+          </div>
+          <div class="row">
+            <div class="k">B 機</div>
+            <div class="v"><span class="pill alt">2× · 45° · 切緊</span> 「the right question」 cut 過去 — 整片最緊的構圖。</div>
+          </div>
+          <div class="row">
+            <div class="k">運鏡</div>
+            <div class="v"><span class="pill alt">Locked</span> 整段靜態 → <span class="pill">Slow Push 3%</span> 最後 6
+              秒(MacBook 滑行法)。</div>
+          </div>
+          <div class="row">
+            <div class="k">字卡</div>
+            <div class="v">三張下三分之一字卡: <code>+2.4% ORG</code> · <code>+0.9% NIVEA</code> · <code>~€5.5bn</code>。等寬字、左下、底色
+              <code>#161614</code>。淡入淡出 200ms,各 hold 1.2s。<em>絕不可</em>動畫飛入。
+            </div>
+          </div>
+          <div class="row">
+            <div class="k">字卡製作</div>
+            <div class="v">Keynote 開新文件 → 16:9 → 字卡放左下 → 匯出透明背景 PNG → 放進 Final Cut 主時間軸 → 200ms cross dissolve。</div>
+          </div>
+        </div>
+        <div class="refboard">
+          <h4>參考分鏡 <span>S5 · 字卡 + 視覺押韻 + 修辭樞紐</span></h4>
+          <div class="refgrid">
+            <div>
+              <div class="refframe">
+                <div class="frame-label">A 機 + 字卡</div>
+                <svg viewBox="0 0 320 180">
+                  <rect width="320" height="180" fill="#2a2926" />
+                  <rect x="0" y="130" width="320" height="50" fill="#1d1d1b" />
+                  <ellipse cx="180" cy="78" rx="22" ry="26" fill="#c8a487" />
+                  <path d="M 138 180 L 138 138 Q 180 110 222 138 L 222 180 Z" fill="#3b3a36" />
+                  <rect x="14" y="148" width="78" height="22" fill="#161614" stroke="oklch(55% 0.12 35)" />
+                  <text x="22" y="156" font-family="JetBrains Mono" font-size="6" fill="#c8c3b3">BEIERSDORF GROUP</text>
+                  <text x="22" y="166" font-family="JetBrains Mono" font-size="9" fill="oklch(82% 0.10 85)"
+                    font-weight="600">+2.4% ORG</text>
+                </svg>
+                <div class="frame-tc">03:30</div>
+              </div>
+              <div class="refcap"><b>下三分之一字卡</b> · 等寬左下 · 1.2s hold · 200ms 淡出</div>
+            </div>
+            <div>
+              <div class="refframe">
+                <div class="frame-label">B 機 · 修辭樞紐</div>
+                <svg viewBox="0 0 320 180">
+                  <rect width="320" height="180" fill="#252420" />
+                  <ellipse cx="160" cy="78" rx="58" ry="68" fill="#c8a487" />
+                  <path d="M 50 180 L 50 138 Q 160 100 270 138 L 270 180 Z" fill="#3b3a36" />
+                  <circle cx="142" cy="72" r="3" fill="#161614" />
+                  <circle cx="178" cy="72" r="3" fill="#161614" />
+                  <line x1="160" y1="78" x2="160" y2="180" stroke="oklch(55% 0.12 35)" stroke-width=".5"
+                    stroke-dasharray="2 2" />
+                  <text x="160" y="170" font-family="JetBrains Mono" font-size="6.5" fill="oklch(55% 0.12 35)"
+                    text-anchor="middle">整片最緊構圖</text>
+                </svg>
+                <div class="frame-tc">03:55</div>
+              </div>
+              <div class="refcap"><b>「the right question」</b> · 切到 B 機 2× · 全片唯二直視鏡頭瞬間之一</div>
+            </div>
+            <div>
+              <div class="refframe">
+                <div class="frame-label">SLOW PUSH 3%</div>
+                <svg viewBox="0 0 320 180">
+                  <rect width="320" height="180" fill="#2a2926" />
+                  <rect x="0" y="130" width="320" height="50" fill="#1d1d1b" />
+                  <ellipse cx="180" cy="78" rx="24" ry="29" fill="#c8a487" />
+                  <path d="M 134 180 L 134 138 Q 180 108 226 138 L 226 180 Z" fill="#3b3a36" />
+                  <path d="M 280 100 L 240 100" stroke="oklch(55% 0.12 35)" stroke-width="1.2" />
+                  <text x="280" y="92" font-family="JetBrains Mono" font-size="6" fill="oklch(55% 0.12 35)"
+                    text-anchor="end">推 3% · 6 秒</text>
+                </svg>
+                <div class="frame-tc">04:14–04:20</div>
+              </div>
+              <div class="refcap"><b>結尾 6 秒緩推 3%</b> · 觀眾不該注意到 · 但情緒會跟著沉下來</div>
+            </div>
+          </div>
+          <div class="refnote">
+            <b>找參考時搜尋:</b> "Financial Times Big Read explainer lower third"、"Bloomberg Quicktake number card
+            animation"。<br>
+            <b>字卡守則:</b> 等寬字、左下、底色 <code>#161614</code>、frame inset 14px、寬度自適應。<b>絕對不可</b>用無襯線斜體、<b>絕對不可</b>動畫飛入。淡入淡出
+            200ms 即可。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEGMENT 6 ===== -->
+    <section class="seg">
+      <div class="seg-head">
+        <div class="tc">04:20 — 04:45</div>
+        <h3>Segment 6 · Close · what I bring</h3>
+        <div class="dur">0:25</div>
+        <div class="device">A 機 · 直視鏡頭</div>
+      </div>
+      <div class="seg-body">
+        <div class="vo">
+          <div class="label">逐字稿</div>
+          <p>"So to bring this back together. I started this video by saying I wanted to show you what I bring, rather
+            than only how I feel about the role."</p>
+          <p class="pull">"What I bring is retail experience from a real department store floor with real numbers, a way
+            of building structure around ambiguous problems, and a perspective from genuinely living in two markets
+            rather than only studying them."</p>
+          <p>"What I want from this internship is to understand how strategic thinking becomes a concrete commercial
+            decision on the shelf, in the channel, and in front of the shopper. That is the mindset I am ready to bring
+            to NIVEA's S&amp;CM team."</p>
+        </div>
+        <div class="craft">
+          <div class="row">
+            <div class="k">大師運鏡</div>
+            <div class="v"><b>三度回家 · BBC Newsnight 級收尾</b>。整片第三次出現同一個機位 A 中景。內容本身就是運鏡 — 鏡頭重複,觀眾的潛意識會把它讀成「這個人有想法、有結構」。
+            </div>
+          </div>
+          <div class="row">
+            <div class="k">A 機</div>
+            <div class="v"><span class="pill">1× · 1.4m · 中景</span> 跟 S1、S5 完全相同。完全鎖定。</div>
+          </div>
+          <div class="row">
+            <div class="k">B 機</div>
+            <div class="v">這段不切。整段一個鏡位。</div>
+          </div>
+          <div class="row">
+            <div class="k">表演</div>
+            <div class="v"><b>直視鏡頭</b>。略慢。最後一個子句之前不要笑 — 真要笑也只是輕輕一下,「ready to bring」處。</div>
+          </div>
+          <div class="row">
+            <div class="k">音訊尾巴</div>
+            <div class="v">講完最後一個字 hold 2 秒環境音再切。<em>現場就要錄</em>,不要靠後製。</div>
+          </div>
+          <div class="row">
+            <div class="k">提詞</div>
+            <div class="v">這段提詞要關掉,改成主角看著 MacBook 黑屏(假裝 monitor)。最後一段不能有提詞痕跡。</div>
+          </div>
+        </div>
+        <div class="refboard">
+          <h4>參考分鏡 <span>S6 · 三度回家</span></h4>
+          <div class="refgrid">
+            <div>
+              <div class="refframe">
+                <div class="frame-label">A · LOCKED</div>
+                <svg viewBox="0 0 320 180">
+                  <rect width="320" height="180" fill="#2a2926" />
+                  <rect x="0" y="130" width="320" height="50" fill="#1d1d1b" />
+                  <ellipse cx="180" cy="78" rx="22" ry="26" fill="#c8a487" />
+                  <path d="M 138 180 L 138 138 Q 180 110 222 138 L 222 180 Z" fill="#3b3a36" />
+                  <circle cx="173" cy="74" r="1.5" fill="#161614" />
+                  <circle cx="186" cy="74" r="1.5" fill="#161614" />
+                  <line x1="180" y1="78" x2="180" y2="180" stroke="oklch(55% 0.12 35)" stroke-width=".4"
+                    stroke-dasharray="2 2" />
+                  <text x="160" y="20" font-family="JetBrains Mono" font-size="7" fill="oklch(82% 0.10 85)"
+                    text-anchor="middle">SAME AS S1 + S5</text>
+                </svg>
+                <div class="frame-tc">04:20–04:42</div>
+              </div>
+              <div class="refcap"><b>機位 A · 完全鎖定</b> · 直視鏡頭 · 跟 S1、S5 完全相同構圖</div>
+            </div>
+            <div>
+              <div class="refframe">
+                <div class="frame-label">微笑</div>
+                <svg viewBox="0 0 320 180">
+                  <rect width="320" height="180" fill="#2a2926" />
+                  <rect x="0" y="130" width="320" height="50" fill="#1d1d1b" />
+                  <ellipse cx="180" cy="78" rx="22" ry="26" fill="#c8a487" />
+                  <path d="M 138 180 L 138 138 Q 180 110 222 138 L 222 180 Z" fill="#3b3a36" />
+                  <path d="M 173 84 Q 180 87 187 84" stroke="#161614" stroke-width=".7" fill="none" />
+                  <text x="160" y="160" font-family="JetBrains Mono" font-size="6.5" fill="oklch(82% 0.10 85)"
+                    text-anchor="middle">FINAL CLAUSE · BRIEF</text>
+                </svg>
+                <div class="frame-tc">04:42</div>
+              </div>
+              <div class="refcap"><b>最後子句允許微笑</b> · 整支片唯一的笑 · 短輕不咧嘴</div>
+            </div>
+            <div>
+              <div class="refframe">
+                <div class="frame-label">2s 尾音</div>
+                <svg viewBox="0 0 320 180">
+                  <rect width="320" height="180" fill="#1d1d1b" />
+                  <ellipse cx="180" cy="78" rx="22" ry="26" fill="#c8a487" opacity=".3" />
+                  <path d="M 138 180 L 138 138 Q 180 110 222 138 L 222 180 Z" fill="#3b3a36" opacity=".3" />
+                  <text x="160" y="100" font-family="JetBrains Mono" font-size="9" fill="oklch(82% 0.10 85)"
+                    text-anchor="middle">2s ROOM TONE</text>
+                  <text x="160" y="115" font-family="JetBrains Mono" font-size="7" fill="#6b6a64"
+                    text-anchor="middle">CAPTURE ON SET</text>
+                </svg>
+                <div class="frame-tc">04:43–04:45</div>
+              </div>
+              <div class="refcap"><b>2 秒環境音尾巴</b> · 講完最後一字 hold 2 秒再切 · 現場錄</div>
+            </div>
+          </div>
+          <div class="refnote">
+            <b>找參考時搜尋:</b> "BBC Newsnight closing shot interview"、"Pixar director sign-off documentary"。S6 不是「sales
+            close」是「thinking close」 — 找那種講完話直視鏡頭兩秒的紀錄片收尾,不是演講比賽結尾。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEGMENT 7 ===== -->
+    <section class="seg">
+      <div class="seg-head">
+        <div class="tc">04:45 — 04:50</div>
+        <h3>Segment 7 · End Card · silent</h3>
+        <div class="dur">0:05</div>
+        <div class="device">後製</div>
+      </div>
+      <div class="seg-body">
+        <div class="vo" style="padding:0;">
+          <div class="endcard-preview" style="margin:0;aspect-ratio:auto;">
+            <div class="name">Hou-Sheng SHEN</div>
+            <div class="school">ESCP Business School · Paris</div>
+            <div class="mail">hou_sheng.shen@edu.escp.eu</div>
+            <div class="tag">S&amp;CM Internship Application · 2026</div>
+          </div>
+        </div>
+        <div class="craft">
+          <div class="row">
+            <div class="k">構成</div>
+            <div class="v">靜態片尾卡 · 深墨底 <code>#0E0E0C</code> · 紙白前景 <code>#F5F2EA</code> · 留白比資訊多。</div>
+          </div>
+          <div class="row">
+            <div class="k">時長</div>
+            <div class="v">5 秒。剛好讓資訊看完不留死板尾巴。</div>
+          </div>
+          <div class="row">
+            <div class="k">音訊</div>
+            <div class="v">S6 結尾的環境音 4 秒淡出到完全靜音。<b>全片無配樂</b>。</div>
+          </div>
+          <div class="row">
+            <div class="k">收尾</div>
+            <div class="v">04:49 → 04:50 最後一格淡入全黑。硬出。</div>
+          </div>
+          <div class="row">
+            <div class="k">參考</div>
+            <div class="v">"Stripe Press end card"、"A24 closing credit minimal"。重點是<b>留白比資訊多</b> — 不要 LinkedIn QR、不要
+              logo、不要 portfolio link。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== § D RUNDOWN ===== -->
+    <div class="section-title">
+      <span class="num">§ D</span>
+      <h2>現場流程 · 拍攝順序</h2>
+      <span class="right">約 3.5 小時</span>
+    </div>
+
+    <div class="endgrid">
+      <div class="panel">
+        <h3>拍攝順序</h3>
+        <ol>
+          <li><b>09:30</b> 到 WeWork。確認預訂空間(熱桌 + 玻璃會議室)。看窗戶日照方向。</li>
+          <li><b>09:45</b> 換裝 + 兩支 iPhone 都接外接電源。MacBook 開 Continuity Camera 對 A 機。錄 30 秒環境音。</li>
+          <li><b>10:00</b> 架設機位 A(熱桌)。A 機(三腳架,1.4m)+ B 機(45°,2×)+ MacBook 提詞器。對焦 + 白平衡 + 音量。</li>
+          <li><b>10:20</b> 連拍 <b>S1 / S5 / S6</b> — 同一機位、同一光、各 3 take。S5 最長,留多一點時間。<em>不要中途換景</em>。</li>
+          <li><b>11:15</b> 移到玻璃會議室。重新架 A 機(0.9m,2×)+ B 機(廣角空間)。</li>
+          <li><b>11:30</b> 拍 <b>S3</b>(整段一鏡)+ <b>S2</b> 母親節特寫補拍。S3 是長 take,提詞要分四頁。</li>
+          <li><b>12:00</b> 回機位 A 拍 <b>S2</b> 寬景。</li>
+          <li><b>12:15</b> 走廊拍 <b>S4</b> 走拍。B 機手持,至少 3 趟。需要有人在後方護航。</li>
+          <li><b>12:30</b> B 機俯拍 b-roll:MacBook 螢幕上 mock 表格。</li>
+          <li><b>12:45</b> 出 WeWork,Rue de Madrid 街上拍藥局綠十字 × 2 個交叉口。</li>
+          <li><b>13:00</b> 收工。離開前用 AirDrop 把所有 take 傳 MacBook 備份。</li>
+        </ol>
+      </div>
+      <div class="panel">
+        <h3>iPhone 拍攝設定 · 必做清單</h3>
+        <ul>
+          <li>□ <b>Blackmagic Camera</b>(免費)取代內建相機:能鎖白平衡、ISO、快門。</li>
+          <li>□ 影片格式:<b>ProRes 4K 24fps Log</b>(iPhone 15 Pro 以上)。</li>
+          <li>□ 兩支 iPhone 設定<b>完全相同</b>:同 ISO、同快門 1/48、同白平衡 5200K。</li>
+          <li>□ 對焦鎖定主角眼睛(長按螢幕直到出現 AE/AF LOCK)。</li>
+          <li>□ 飛航模式 ON(避免來電/通知中斷錄製)。</li>
+          <li>□ 兩支同時開錄 + 拍手對時(後製用)。</li>
+          <li>□ 每段拍完 3 take 就 AirDrop 到 MacBook 備份,避免空間爆滿。</li>
+          <li>□ MacBook 螢幕亮度調最低,避免反光進 iPhone 鏡頭。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="endgrid">
+      <div class="panel">
+        <h3>燈光 · 用 WeWork 的窗光當主光</h3>
+        <ul>
+          <li><b>主光:</b> 北向窗 45° 在攝影機右側。陽光太強時用百葉柔化或退到牆邊。</li>
+          <li><b>補光:</b> 用 MacBook 開純白螢幕當銀板補光,放主角左前 1.2m。意外有效。</li>
+          <li><b>背景:</b> 讓 WeWork 內部柔散成 bokeh — 畫面內<em>不要出現品牌 logo</em>,不要拍到其他人。</li>
+          <li><b>玻璃室:</b> 關走廊側百葉,控制主角後方玻璃反光。</li>
+          <li><b>白平衡:</b> 5200K 鎖死。<em>絕不要用自動</em>。</li>
+          <li><b>時段:</b> 中午前拍完 — 巴黎五月的光在 10:00–12:00 之間最柔。</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>音訊 · 自拍片最常死在這裡</h3>
+        <ul>
+          <li><b>主聲源:</b> iPhone #2 用 Voice Memo 放在主角面前桌上(鏡頭外)。比相機麥近 3 倍。</li>
+          <li><b>備份:</b> A 機本身的麥克風。對時用第一聲拍手。</li>
+          <li><b>關空調</b> 如果 WeWork 允許。不行的話,離出風口 1 米以上。</li>
+          <li><b>茶水間咖啡機</b> 會毀掉一整個 take。每次開錄前先聽。</li>
+          <li><b>每個機位 30 秒環境音</b> — 開拍前先錄,不要後錄。</li>
+          <li><b>音量峰值:</b> ‑12dB,底噪 ‑40dB。<em>全程戴耳機</em>。</li>
+          <li><b>後製:</b> Final Cut 內建 Voice Isolation 效果可以救 90% 的問題。</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== § E POST ===== -->
+    <div class="section-title">
+      <span class="num">§ E</span>
+      <h2>後製 · MacBook Air M4 / Final Cut Pro</h2>
+      <span class="right">24fps · H.264 · -16 LUFS</span>
+    </div>
+
+    <div class="endgrid">
+      <div class="panel">
+        <h3>剪輯順序</h3>
+        <ol>
+          <li>所有 take AirDrop 進 MacBook,用拍手對時對齊兩支 iPhone 的 take。</li>
+          <li>組合剪:所有主 take 接成一條,先別修。看一遍。</li>
+          <li>每段選一個主 take — 看<em>表達</em>,不看臉。</li>
+          <li>把 B 機素材排在 A 機素材的下層(V2),需要 jump-cut 時就切過去。</li>
+          <li>收緊到 5:00 粗剪,不擔心超時。</li>
+          <li>鎖死 S1 → S6 主軸,然後狠剪到畫面定剪 4:45。</li>
+          <li>空鏡只放有功能的:藥局綠十字、表格、走拍。<em>不要塞填料</em>。</li>
+          <li>S5 加下三分之一字卡(Keynote 匯出 PNG)。</li>
+          <li>調色:Apple Log → Rec. 709 LUT(iPhone 內建)+ 對比 +5 + 色溫 +200K 偏暖。</li>
+          <li>混音:-16 LUFS 整體。Voice Isolation。<b>無配樂</b>。</li>
+          <li>片尾卡 5 秒。總長 4:50。輸出 <code>3840×2160 · 24fps · H.264</code>。</li>
+        </ol>
+      </div>
+      <div class="panel">
+        <h3>送出前自審清單</h3>
+        <ul>
+          <li>□ 1.0× 從頭到尾看一遍,手不要碰時間軸。</li>
+          <li>□ 靜音播放,只看畫面 — 沒有旁白也撐得住嗎?</li>
+          <li>□ 關螢幕只聽聲音 — 論點還站得住嗎?</li>
+          <li>□ 寄給一個你信任的人。請對方指出<em>一個</em>感覺最在「演」的瞬間。</li>
+          <li>□ 那個瞬間如果有時間,重拍。</li>
+          <li>□ 檔名:<code>HouShengSHEN_NIVEA_SCM_2026.mp4</code></li>
+          <li>□ 附字幕檔(.srt)— 法文 + 英文。</li>
+          <li>□ 最終長度:<b>04:45 — 04:55 之間</b>。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>v3 iPhone Master Edition · 2026-05-03 · NIVEA_Video</span>
+      <span>一頁印出來 = 一天拍攝 · 帶去現場</span>
+    </div>
+
+  </div>
+</body>
+
+</html>

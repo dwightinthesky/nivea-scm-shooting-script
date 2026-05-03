@@ -1,0 +1,974 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<title>S&amp;CM Application — Shooting Script · 4:40</title>
+<meta name="viewport" content="width=1200, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink: #161614;
+    --ink-soft: #3b3a36;
+    --ink-faint: #6b6a64;
+    --rule: #d9d6cf;
+    --rule-soft: #ece9e2;
+    --paper: #f5f2ea;
+    --paper-2: #ebe7dc;
+    --accent: oklch(55% 0.12 35);   /* 暖磚紅 — 拍攝節點/警示 */
+    --accent-2: oklch(45% 0.05 240); /* 冷藍灰 — 旁白引言 */
+    --tape: oklch(82% 0.10 85);
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .sheet{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 64px 72px 120px;
+  }
+
+  /* ===== Header ===== */
+  .masthead{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 32px;
+    padding-bottom: 18px;
+    border-bottom: 1.5px solid var(--ink);
+  }
+  .masthead .lockup .doc-kind{
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 14px;
+  }
+  .masthead h1{
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 8px;
+  }
+  .masthead h1 em{
+    font-style: normal;
+    color: var(--accent);
+  }
+  .masthead .sub{
+    font-size: 15px;
+    color: var(--ink-soft);
+    max-width: 560px;
+  }
+  .meta-stack{
+    text-align: right;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+  .meta-stack b{ color: var(--ink); font-weight: 600; }
+  .meta-stack .runtime{
+    display:inline-block;
+    margin-top: 6px;
+    padding: 4px 10px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+  }
+
+  /* ===== Section heading ===== */
+  .section-title{
+    margin: 56px 0 18px;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 10px;
+  }
+  .section-title .num{
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    color: var(--ink-faint);
+    letter-spacing: 0.1em;
+  }
+  .section-title h2{
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .section-title .right{
+    margin-left: auto;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+  }
+
+  /* ===== Setup map (location) ===== */
+  .setup{
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 28px;
+    margin-top: 8px;
+  }
+  .map-card{
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    padding: 20px;
+    position: relative;
+  }
+  .map-card h3{
+    margin: 0 0 4px;
+    font-size: 13px;
+    font-family: "JetBrains Mono", monospace;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 500;
+  }
+  .map-card .addr{
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .floorplan{
+    width: 100%;
+    aspect-ratio: 16 / 11;
+    background: #fbf9f3;
+    border: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+  }
+  .floorplan svg{ width: 100%; height: 100%; display:block; }
+  .legend{
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px 16px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+  .legend .dot{
+    display:inline-block; width: 10px; height: 10px;
+    margin-right: 6px; vertical-align: middle;
+    border: 1px solid var(--ink);
+  }
+
+  .gear{
+    background: #fbf9f3;
+    border: 1px solid var(--rule);
+    padding: 20px 22px;
+  }
+  .gear h3{
+    margin: 0 0 10px;
+    font-size: 13px;
+    font-family: "JetBrains Mono", monospace;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 500;
+  }
+  .gear ul{
+    margin: 0; padding: 0; list-style: none;
+    columns: 2;
+    column-gap: 28px;
+  }
+  .gear li{
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    line-height: 1.9;
+    color: var(--ink);
+    border-bottom: 1px dashed var(--rule);
+    padding: 2px 0;
+    break-inside: avoid;
+  }
+  .gear li::before{
+    content: "□";
+    margin-right: 8px;
+    color: var(--ink-faint);
+  }
+
+  /* ===== Segment block ===== */
+  .seg{
+    margin-top: 36px;
+    border-top: 2px solid var(--ink);
+    padding-top: 0;
+  }
+  .seg-head{
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    gap: 24px;
+    align-items: center;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 14px 22px;
+  }
+  .seg-head .tc{
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+  }
+  .seg-head h3{
+    margin: 0;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+  .seg-head .dur{
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    color: var(--tape);
+    border: 1px solid var(--tape);
+    padding: 3px 10px;
+  }
+
+  .seg-body{
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 0;
+    border: 1px solid var(--rule);
+    border-top: none;
+  }
+  .vo{
+    padding: 24px 26px 28px;
+    border-right: 1px solid var(--rule);
+    background: #fbf9f3;
+  }
+  .vo .label{
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 12px;
+  }
+  .vo p{
+    margin: 0 0 10px;
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+  .vo p.beat{
+    color: var(--ink-faint);
+    font-size: 13px;
+    font-style: italic;
+    border-left: 2px solid var(--accent);
+    padding-left: 10px;
+    margin: 14px 0;
+  }
+  .vo .pull{
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 14px 0;
+    color: var(--ink);
+  }
+
+  .craft{
+    padding: 22px 24px 24px;
+    background: var(--paper-2);
+  }
+  .craft .row{
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: start;
+  }
+  .craft .row:last-child{ border-bottom: none; }
+  .craft .row .k{
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding-top: 2px;
+  }
+  .craft .row .v{
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .craft .row .v code{
+    font-family: "JetBrains Mono", monospace;
+    background: #fbf9f3;
+    border: 1px solid var(--rule);
+    padding: 1px 6px;
+    font-size: 12px;
+  }
+  .craft .row .v .pill{
+    display:inline-block;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2px 8px;
+    margin-right: 6px;
+    margin-bottom: 4px;
+  }
+  .craft .row .v .pill.alt{
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+  }
+  .craft .row .v .pill.warn{
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  /* shot-thumb diagram */
+  .shotgrid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .shot{
+    background: #fbf9f3;
+    border: 1px solid var(--rule);
+    padding: 8px;
+    aspect-ratio: 16 / 11;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .shot svg{ flex: 1; width: 100%; }
+  .shot .cap{
+    font-family: "JetBrains Mono", monospace;
+    font-size: 9.5px;
+    color: var(--ink-faint);
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* timeline strip */
+  .timeline{
+    margin: 18px 0 0;
+    border: 1px solid var(--rule);
+    background: #fbf9f3;
+    padding: 16px 18px 12px;
+  }
+  .timeline .tl-head{
+    display: flex;
+    justify-content: space-between;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+  }
+  .tl-bar{
+    display: grid;
+    grid-template-columns: 22fr 60fr 70fr 70fr 80fr 28fr 20fr;
+    height: 36px;
+    border: 1px solid var(--ink);
+  }
+  .tl-bar > div{
+    border-right: 1px solid var(--ink);
+    padding: 4px 8px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10.5px;
+    color: var(--paper);
+    line-height: 1.1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+  .tl-bar > div:last-child{ border-right: none; }
+  .tl-bar .s1{ background: oklch(55% 0.12 35); }
+  .tl-bar .s2{ background: oklch(35% 0.04 30); }
+  .tl-bar .s3{ background: oklch(45% 0.05 240); }
+  .tl-bar .s4{ background: oklch(40% 0.06 160); }
+  .tl-bar .s5{ background: oklch(30% 0.03 250); }
+  .tl-bar .s6{ background: oklch(50% 0.08 50); }
+  .tl-bar .s7{ background: #1d1d1b; color: var(--tape); }
+  .tl-bar > div span:last-child{ font-size: 9.5px; opacity: 0.8; }
+
+  /* checklists at end */
+  .endgrid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 36px;
+  }
+  .panel{
+    background: #fbf9f3;
+    border: 1px solid var(--rule);
+    padding: 22px 24px;
+  }
+  .panel h3{
+    margin: 0 0 12px;
+    font-size: 13px;
+    font-family: "JetBrains Mono", monospace;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 500;
+  }
+  .panel ol, .panel ul{
+    margin: 0; padding-left: 18px;
+  }
+  .panel li{
+    font-size: 13.5px;
+    line-height: 1.65;
+    margin-bottom: 6px;
+  }
+  .panel li b{ color: var(--accent); font-weight: 600; }
+
+  .endcard-preview{
+    margin-top: 36px;
+    background: #0e0e0c;
+    color: #f5f2ea;
+    padding: 56px 64px;
+    border: 1px solid var(--ink);
+    aspect-ratio: 16/9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .endcard-preview .name{
+    font-size: 44px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 14px;
+  }
+  .endcard-preview .school{
+    font-size: 18px;
+    color: #c8c3b3;
+    margin-bottom: 6px;
+  }
+  .endcard-preview .mail{
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+    color: #c8c3b3;
+    margin-bottom: 24px;
+  }
+  .endcard-preview .tag{
+    margin-top: auto;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--tape);
+    border-top: 1px solid #2c2c28;
+    padding-top: 14px;
+  }
+
+  .footer{
+    margin-top: 60px;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+  }
+
+  /* page break for print */
+  @media print{
+    body{ background: white; }
+    .sheet{ padding: 24px 28px; max-width: none; }
+    .seg{ page-break-inside: avoid; }
+    .setup{ page-break-inside: avoid; }
+  }
+
+  /* tape sticker accent */
+  .tape{
+    position: relative;
+  }
+  .tape::before{
+    content: "";
+    position: absolute;
+    top: -10px; left: 24px;
+    width: 80px; height: 22px;
+    background: var(--tape);
+    opacity: 0.85;
+    transform: rotate(-2deg);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+  }
+</style>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#f5f2ea">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#f5f2ea"/>
+    <rect x="120" y="140" width="960" height="3" fill="#161614"/>
+    <text x="120" y="240" font-family="Inter, sans-serif" font-size="80" font-weight="700" fill="#161614" letter-spacing="-2">Shooting</text>
+    <text x="120" y="330" font-family="Inter, sans-serif" font-size="80" font-weight="700" fill="oklch(55% 0.12 35)" letter-spacing="-2" font-style="italic">Script.</text>
+    <text x="120" y="430" font-family="JetBrains Mono, monospace" font-size="22" fill="#3b3a36" letter-spacing="2">04:40 · WeWork · 7 RUE DE MADRID</text>
+    <g transform="translate(120, 540)">
+      <rect width="220" height="44" fill="oklch(55% 0.12 35)"/>
+      <rect x="220" width="160" height="44" fill="oklch(35% 0.04 30)"/>
+      <rect x="380" width="160" height="44" fill="oklch(45% 0.05 240)"/>
+      <rect x="540" width="160" height="44" fill="oklch(40% 0.06 160)"/>
+      <rect x="700" width="180" height="44" fill="oklch(30% 0.03 250)"/>
+      <rect x="880" width="60" height="44" fill="oklch(50% 0.08 50)"/>
+      <rect x="940" width="40" height="44" fill="#1d1d1b"/>
+    </g>
+    <text x="120" y="640" font-family="JetBrains Mono, monospace" font-size="14" fill="#6b6a64" letter-spacing="3">SELF-TAPE · PRODUCTION WORKBOOK · v3 FINAL</text>
+  </svg>
+</template>
+<div class="sheet">
+
+  <!-- ============== MASTHEAD ============== -->
+  <header class="masthead">
+    <div class="lockup">
+      <div class="doc-kind">自拍式申請影片 · 拍攝工作手冊 · v3 final</div>
+      <h1>NIVEA S&amp;CM 申請影片 — <em>拍攝腳本.</em></h1>
+      <p class="sub">原版 6:55 重剪到 4:40。一人出鏡、一人掌機、一個場地。主拍手持,腳架備援。拍攝當天從上到下照著這份走。</p>
+    </div>
+    <div class="meta-stack">
+      <div><b>主角</b>  Hou-Sheng SHEN</div>
+      <div><b>場地</b>  WeWork · 7 Rue de Madrid · 75008</div>
+      <div><b>日期</b>  待定 · 09:30 進場</div>
+      <div><b>規格</b>  4K · 24fps · 16:9</div>
+      <div><b>成品</b>  ≤ 4'40"</div>
+      <div class="runtime">RUNTIME 04:40</div>
+    </div>
+  </header>
+
+  <!-- ============== TIMELINE STRIP ============== -->
+  <div class="timeline">
+    <div class="tl-head">
+      <span>剪輯時間軸 · 總長 4:40</span>
+      <span>00:00 ────────────────────────────────────── 04:40</span>
+    </div>
+    <div class="tl-bar">
+      <div class="s1"><span>S1 開場</span><span>0:18</span></div>
+      <div class="s2"><span>S2 零售現場</span><span>0:55</span></div>
+      <div class="s3"><span>S3 資料思考</span><span>0:55</span></div>
+      <div class="s4"><span>S4 跨文化視角</span><span>0:55</span></div>
+      <div class="s5"><span>S5 品牌觀察</span><span>0:60</span></div>
+      <div class="s6"><span>S6 收尾</span><span>0:22</span></div>
+      <div class="s7"><span>S7 片尾卡</span><span>0:15</span></div>
+    </div>
+  </div>
+
+  <!-- ============== LOCATION ============== -->
+  <h2 class="section-title">
+    <span class="num">§ A</span>
+    <h2>場地 · WeWork 7 Rue de Madrid</h2>
+    <span class="right">3 個機位 · 1 個樓層 · 換景總時間 ≤ 90 分鐘</span>
+  </h2>
+
+  <div class="setup">
+    <div class="map-card">
+      <h3>平面圖 — 三個拍攝機位</h3>
+      <div class="addr">7 Rue de Madrid, 75008 Paris</div>
+      <div class="floorplan">
+        <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg">
+          <!-- room outline -->
+          <rect x="20" y="20" width="440" height="280" fill="none" stroke="#161614" stroke-width="2"/>
+          <!-- window wall (top) -->
+          <g stroke="#6b6a64" stroke-width="1">
+            <line x1="20" y1="20" x2="40" y2="20"/>
+            <line x1="60" y1="20" x2="100" y2="20"/>
+            <line x1="120" y1="20" x2="160" y2="20"/>
+            <line x1="180" y1="20" x2="220" y2="20"/>
+            <line x1="240" y1="20" x2="280" y2="20"/>
+            <line x1="300" y1="20" x2="340" y2="20"/>
+            <line x1="360" y1="20" x2="400" y2="20"/>
+            <line x1="420" y1="20" x2="460" y2="20"/>
+          </g>
+          <text x="240" y="14" font-family="JetBrains Mono" font-size="9" text-anchor="middle" fill="#6b6a64">窗牆 · 朝北 · 柔光主光源</text>
+
+          <!-- LOOK A: Hot desk corner -->
+          <rect x="55" y="60" width="120" height="60" fill="#ebe7dc" stroke="#161614"/>
+          <text x="115" y="85" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle">機位 A</text>
+          <text x="115" y="100" font-family="JetBrains Mono" font-size="9" text-anchor="middle" fill="#3b3a36">熱桌 · 中景</text>
+          <!-- subject mark -->
+          <circle cx="115" cy="135" r="6" fill="oklch(55% 0.12 35)"/>
+          <text x="115" y="155" font-family="JetBrains Mono" font-size="8" text-anchor="middle" fill="#161614">主角站位</text>
+          <!-- camera A -->
+          <polygon points="115,200 105,220 125,220" fill="#161614"/>
+          <text x="115" y="235" font-family="JetBrains Mono" font-size="8" text-anchor="middle" fill="#161614">攝影機 A · 35mm</text>
+
+          <!-- LOOK B: Glass meeting room -->
+          <rect x="220" y="60" width="120" height="100" fill="#ebe7dc" stroke="#161614" stroke-dasharray="4 3"/>
+          <text x="280" y="85" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle">機位 B</text>
+          <text x="280" y="100" font-family="JetBrains Mono" font-size="9" text-anchor="middle" fill="#3b3a36">玻璃會議室</text>
+          <text x="280" y="113" font-family="JetBrains Mono" font-size="9" text-anchor="middle" fill="#3b3a36">特寫 · 坐姿</text>
+          <circle cx="260" cy="140" r="6" fill="oklch(55% 0.12 35)"/>
+          <polygon points="305,140 320,130 320,150" fill="#161614"/>
+          <text x="320" y="165" font-family="JetBrains Mono" font-size="8" text-anchor="end" fill="#161614">攝影機 B · 50mm</text>
+
+          <!-- LOOK C: Lounge / coffee -->
+          <rect x="370" y="60" width="80" height="80" fill="#ebe7dc" stroke="#161614"/>
+          <text x="410" y="85" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle">機位 C</text>
+          <text x="410" y="100" font-family="JetBrains Mono" font-size="9" text-anchor="middle" fill="#3b3a36">休息區</text>
+          <text x="410" y="113" font-family="JetBrains Mono" font-size="9" text-anchor="middle" fill="#3b3a36">純空鏡</text>
+          <circle cx="410" cy="155" r="5" fill="oklch(45% 0.05 240)"/>
+
+          <!-- corridor -->
+          <rect x="55" y="240" width="395" height="44" fill="#fbf9f3" stroke="#161614" stroke-dasharray="2 3"/>
+          <text x="252" y="266" font-family="JetBrains Mono" font-size="10" text-anchor="middle" fill="#3b3a36">走廊 · 走拍空鏡 · S4 過場</text>
+
+          <!-- door -->
+          <path d="M 460 280 a 20 20 0 0 1 -20 -20" fill="none" stroke="#161614"/>
+          <text x="445" y="295" font-family="JetBrains Mono" font-size="8" text-anchor="end" fill="#3b3a36">入口</text>
+
+          <!-- key light arrow -->
+          <line x1="115" y1="32" x2="115" y2="120" stroke="oklch(82% 0.10 85)" stroke-width="2" stroke-dasharray="3 3"/>
+          <text x="125" y="80" font-family="JetBrains Mono" font-size="8" fill="#3b3a36">主光</text>
+        </svg>
+      </div>
+      <div class="legend">
+        <div><span class="dot" style="background: oklch(55% 0.12 35);"></span>主角站位</div>
+        <div><span class="dot" style="background: #161614;"></span>攝影機位置</div>
+        <div><span class="dot" style="background: #ebe7dc; border-color:#161614;"></span>已預訂空間</div>
+        <div><span class="dot" style="background: oklch(82% 0.10 85);"></span>窗光主光</div>
+      </div>
+    </div>
+
+    <div class="gear">
+      <h3>器材清單 — 輕裝上陣</h3>
+      <ul>
+        <li>主攝影機 · iPhone 15 Pro / 微單</li>
+        <li>三腳架 + 油壓雲台</li>
+        <li>穩定器(走拍空鏡用)</li>
+        <li>領夾麥(Rode Wireless Go)</li>
+        <li>備份錄音 · 手機 Voice Memo</li>
+        <li>反光板 · 銀/白 80cm</li>
+        <li>ND 減光鏡(防窗口過曝)</li>
+        <li>行動電源 · 2 條傳輸線</li>
+        <li>SD 卡 · 2 張預先格式化</li>
+        <li>服裝:深灰針織 + 白 T 內搭</li>
+        <li>列印版腳本(本文件)</li>
+        <li>場記板或場記 App</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============== SEGMENT 1 ============== -->
+  <section class="seg">
+    <div class="seg-head">
+      <div class="tc">00:00 — 00:18</div>
+      <h3>Segment 1 · 開場 — 「specific things」</h3>
+      <div class="dur">約 18 秒 · 52 字</div>
+    </div>
+    <div class="seg-body">
+      <div class="vo">
+        <div class="label">Voiceover · on camera</div>
+        <p>"You've probably watched ten of these today. Someone's <em>passionate</em>. Someone's a <em>fast learner</em>."</p>
+        <p class="beat">— 半拍頂點。視線略偏鏡頭。</p>
+        <p>"Let me try something different. S&amp;CM is a specific job. So I'll show you three specific things I bring:</p>
+        <p class="pull">Retail Execution. Data Precision. Cross-Cultural Lens.</p>
+        <p>By the end, you'll know why those three — and why me."</p>
+      </div>
+      <div class="craft">
+        <div class="row"><div class="k">Look</div><div class="v"><span class="pill">A · 熱桌中景</span> 窗光在右肩上方,45° 偏光。</div></div>
+        <div class="row"><div class="k">Lens</div><div class="v"><code>35mm · f/2.8</code> · 腰以上,頭頂留少量,眼睛落在上三分之一。</div></div>
+        <div class="row"><div class="k">Movement</div><div class="v"><span class="pill alt">完全鎖定</span> 靜態中景。第一句<em>不要</em>推鏡 — 運鏡要留到後面賀來。</div></div>
+        <div class="row"><div class="k">Delivery</div><div class="v"><strong>低能量、口語化</strong>。前三句是誘餌,不要用力讚。</div></div>
+        <div class="row"><div class="k">Cut beats</div><div class="v"><span class="pill warn">CUT 1</span> 在 「different」 切到更緊的中近景。<br><span class="pill warn">CUT 2</span> 三個名詞(Retail / Data / Cross-Cultural)同一句身上連出三個 jump-cut,每個重構圖一點點。</div></div>
+        <div class="row"><div class="k">B-roll</div><div class="v">無。這段讓空間本身說話。</div></div>
+        <div class="row"><div class="k">Sound</div><div class="v">領夾麥。開錄前先聽 WeWork 咖啡機有沒有在跑。</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== SEGMENT 2 ============== -->
+  <section class="seg">
+    <div class="seg-head">
+      <div class="tc">00:18 — 01:13</div>
+      <h3>Segment 2 · 零售現場 — 遠東百貨 · 17 歲</h3>
+      <div class="dur">約 55 秒 · 原 95 秒壓縮</div>
+    </div>
+    <div class="seg-body">
+      <div class="vo">
+        <div class="label">Voiceover · cut down</div>
+        <p>"2023. I was 17. Floor supervisor intern at Far Eastern Department Stores — youngest in the company's history. Two floors, forty brands, menswear and sportswear. Most of the counter staff had been in retail longer than I'd been alive."</p>
+        <p class="beat">— 說快一點。這段的質感在數字,不在故事。</p>
+        <p>"Every morning, thirty minutes before the manager's floor walk: pull reports, build the analysis — DoD, MoM, YoY — and have a reason for every number that moved. Briefs, planograms, POPs, complaints, inventory. I built a shared dashboard in three days because nobody could track me across both floors."</p>
+        <p class="pull">"Then — Mother's Day. Highest-spending window of the year. Dominant shopper: women and families. My floors: men and sport. A mismatch."</p>
+        <p>"We pitched the manager a free in-store yoga series, three times a week, using the cinema's footfall as the hook. Not a discount. A reason to walk a floor they'd skip."</p>
+        <p>"Visits up nearly 20%. Mother's Day revenue +15% YoY. Conversion +8 points. The category question isn't always what's on the shelf — sometimes it's who isn't walking past it yet."</p>
+      </div>
+      <div class="craft">
+        <div class="row"><div class="k">Look</div><div class="v"><span class="pill">A → B</span> 熱桌中景開場,「Mother's Day」這句切到玻璃會議室特寫。</div></div>
+        <div class="row"><div class="k">Shots</div><div class="v">
+          <div class="shotgrid">
+            <div class="shot">
+              <svg viewBox="0 0 100 70"><rect x="2" y="2" width="96" height="66" fill="none" stroke="#161614"/><circle cx="50" cy="38" r="14" fill="#ebe7dc" stroke="#161614"/><line x1="20" y1="65" x2="80" y2="65" stroke="#6b6a64" stroke-dasharray="2 2"/></svg>
+              <div class="cap">A · 中景 35mm</div>
+            </div>
+            <div class="shot">
+              <svg viewBox="0 0 100 70"><rect x="2" y="2" width="96" height="66" fill="none" stroke="#161614"/><circle cx="50" cy="34" r="22" fill="#ebe7dc" stroke="#161614"/></svg>
+              <div class="cap">B · 中近景 50mm</div>
+            </div>
+            <div class="shot">
+              <svg viewBox="0 0 100 70"><rect x="2" y="2" width="96" height="66" fill="none" stroke="#161614"/><rect x="20" y="20" width="60" height="30" fill="#fbf9f3" stroke="#161614"/><text x="50" y="40" text-anchor="middle" font-size="8" font-family="JetBrains Mono">+15% YoY</text></svg>
+              <div class="cap">數字字卡</div>
+            </div>
+            <div class="shot">
+              <svg viewBox="0 0 100 70"><rect x="2" y="2" width="96" height="66" fill="none" stroke="#161614"/><line x1="10" y1="55" x2="90" y2="20" stroke="#161614" stroke-width="2"/><circle cx="90" cy="20" r="3" fill="oklch(55% 0.12 35)"/></svg>
+              <div class="cap">指尖滑螢幕</div>
+            </div>
+          </div>
+        </div></div>
+        <div class="row"><div class="k">Movement</div><div class="v"><span class="pill alt">緩推 5%</span> 「Mother's Day」 那拍用穩定器走進特寫,鎖住。其餘靜態。</div></div>
+        <div class="row"><div class="k">Delivery</div><div class="v">數字講平,不要錄調。讓資料聽起來像事實,不是業績。每個百分比後停滿一拍。</div></div>
+        <div class="row"><div class="k">B-roll</div><div class="v">無聲插入:筆電上一個乾淨的表格畫面(自製 mock,<em>不可出現真實公司資料</em>)。熱桌上俯拍。</div></div>
+        <div class="row"><div class="k">Cut beats</div><div class="v"><span class="pill warn">CUT</span> 「A mismatch.」 硬切到玻璃室特寫。光變了,能量也變了。</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== SEGMENT 3 ============== -->
+  <section class="seg">
+    <div class="seg-head">
+      <div class="tc">01:13 — 02:08</div>
+      <h3>Segment 3 · 資料思考 — Outlier / Scale AI</h3>
+      <div class="dur">約 55 秒 · 原 75 秒壓縮</div>
+    </div>
+    <div class="seg-body">
+      <div class="vo">
+        <div class="label">Voiceover · cut down</div>
+        <p>"Outlier has nothing to do with FMCG. I want to be upfront about that."</p>
+        <p>"It's a Scale AI subsidiary. I evaluate AI model outputs — multimodal data, rubric design, quality across thirty-plus projects, three or four running in parallel."</p>
+        <p>"You start as a contributor. Hit consistent quality and you're promoted to <em>Super Attempter</em> — now you're also helping other contributors hit the bar. That's where it got interesting."</p>
+        <p class="pull">"Part of my role: co-host contributor webinars. The Quality Manager knows what good looks like. My job was to translate that into something a contributor could act on tomorrow."</p>
+        <p>"Take something dense and ambiguous, build a structure around it, communicate it so it drives consistent action. That's not an AI skill. It's a thinking pattern."</p>
+        <p>"In S&amp;CM — sitting across from a buyer, arguing why a planogram should change, why a category deserves more shelf — you're doing the same thing. Translating data into something another person can act on."</p>
+      </div>
+      <div class="craft">
+        <div class="row"><div class="k">Look</div><div class="v"><span class="pill">B · 玻璃室特寫</span> 整段不換景。更緊、更分析性的能量。</div></div>
+        <div class="row"><div class="k">Lens</div><div class="v"><code>50mm · f/2.0</code> · 特寫,眼睛在上三分之一,背景柔散。</div></div>
+        <div class="row"><div class="k">Movement</div><div class="v"><span class="pill alt">完全鎖定</span> 只用三腳架。內容是結構性的,鏡頭也要是。</div></div>
+        <div class="row"><div class="k">Delivery</div><div class="v">比 S2 更慢。這是「我怎麼想」的段。「<em>That's not an AI skill. It's a thinking pattern.</em>」前後各停滿半秒。</div></div>
+        <div class="row"><div class="k">B-roll</div><div class="v">可選:筆電螢幕上的匿名 rubric / outline 文件 — 越肩鏡頭,35mm,2 秒。<em>不要</em>出現任何真實 Outlier 內容。</div></div>
+        <div class="row"><div class="k">Cut beats</div><div class="v"><span class="pill warn">CUT</span> 4:40 版已刪去 「Just in a very different room」。改在 「act on」 收尾,硬切到 S4 走拍鏡頭。</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== SEGMENT 4 ============== -->
+  <section class="seg">
+    <div class="seg-head">
+      <div class="tc">02:08 — 03:03</div>
+      <h3>Segment 4 · 跨文化視角 — 台北 ↔ 巴黎</h3>
+      <div class="dur">約 55 秒 · 原 80 秒壓縮</div>
+    </div>
+    <div class="seg-body">
+      <div class="vo">
+        <div class="label">Voiceover · cut down</div>
+        <p>"I transferred to ESCP Paris by choice. Not because I wanted to live abroad — because I wanted to be in a market I didn't already understand."</p>
+        <p>"In Taiwan, a convenience store is infrastructure. Food, bills, parcels, printing, coffee, 2am. Everything in one place."</p>
+        <p>"In France, that doesn't exist. Supermarket for food, pharmacy for skincare, tabac for the rest. Different pace, distributed system."</p>
+        <p class="pull">"And the pharmacy is the part I find most relevant for NIVEA."</p>
+        <p>"In Taiwan, skincare lives next to promotions, KOL claims, whitening labels. The shelf shouts what it does. In France, the pharmacy reads closer to dermatology than beauty — the brands that win win on trust."</p>
+        <p>"My French is still A2. But when you're not fluent, you notice differently — where signage breaks, where a foreign shopper gets lost. That's a perspective a native doesn't get for free."</p>
+      </div>
+      <div class="craft">
+        <div class="row"><div class="k">Look</div><div class="v"><span class="pill">走拍 → A</span> 走廊走拍開場,結尾回到熱桌中景講最後一句。</div></div>
+        <div class="row"><div class="k">Lens</div><div class="v"><code>35mm · f/2.8</code> 上穩定器 · 主角領先攝影機約 1 米,操作員倒退走,需有人在後方護航。</div></div>
+        <div class="row"><div class="k">Movement</div><div class="v"><span class="pill">走</span> 慢、不慌。「the pharmacy is the part…」 切到 <span class="pill alt">鎖定中景</span>。</div></div>
+        <div class="row"><div class="k">B-roll</div><div class="v">兩個空鏡是這段的關鍵:<br>① 台灣便利商店內部 — 如果你手機裡有舊素材就用,沒有就刪掉,<em>不要刻意擺拍</em>。<br>② 巴黎藥局外的綠十字 — 進出 WeWork 順手拍。Rue de Madrid 200 米內至少有兩家。</div></div>
+        <div class="row"><div class="k">Delivery</div><div class="v">好奇的語氣,不是學術的。走路讓「比較」這件事有身體感。</div></div>
+        <div class="row"><div class="k">Cut beats</div><div class="v"><span class="pill warn">CUT</span> 「pharmacy」 這個字落地前,綠十字空鏡多停 1.5 秒。</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== SEGMENT 5 ============== -->
+  <section class="seg">
+    <div class="seg-head">
+      <div class="tc">03:03 — 04:03</div>
+      <h3>Segment 5 · 為什麼是這個品牌</h3>
+      <div class="dur">約 60 秒 · 原 90 秒壓縮</div>
+    </div>
+    <div class="seg-body">
+      <div class="vo">
+        <div class="label">逐字稿 · 4:40 壓縮版</div>
+        <p>"Why this brand. Not because it's big — because it has a specific, interesting problem."</p>
+        <p>"Beiersdorf's group organic sales grew 2.4% last year. NIVEA grew 0.9%. Volume effect was negative — meaning the growth came from price, not from more people buying more."</p>
+        <p class="beat">— 數字講平,跟 S2 一樣。</p>
+        <p>"For a brand at ~5.5 billion euros that's not a crisis. It's a signal. Skincare has fragmented — derma, ingredient, K-beauty, clean beauty — and every one of them talks to consumers more specifically than a mass brand can."</p>
+        <p class="pull">"So the real question: how does a mass brand stay relevant when the market keeps moving toward niche?"</p>
+        <p>"The answer they're testing — the campaign on loneliness and connection — sounds unrelated to moisturiser. But it makes sense: the brand isn't built on skin care, it's built on <em>care</em>. Moving care from product to human is consistent, not a pivot."</p>
+        <p>"And the same blue tin sits in Watsons in Taipei and in a French pharmacy — completely different trust logic. That's the gap I want to spend time on. Not because I have the answer. Because it's the right question."</p>
+      </div>
+      <div class="craft">
+        <div class="row"><div class="k">Look</div><div class="v"><span class="pill">A · 中景</span> 回到熱桌。回家講主論。跟 S1 完全相同構圖 — 視覺押韻。</div></div>
+        <div class="row"><div class="k">Lens</div><div class="v"><code>35mm · f/2.8</code> · 故意跟 S1 一模一樣。</div></div>
+        <div class="row"><div class="k">Movement</div><div class="v"><span class="pill alt">靜態</span> + 「the right question」 最後 6 秒 <span class="pill">緩推 3%</span>。</div></div>
+        <div class="row"><div class="k">Delivery</div><div class="v">整片最分析性的一段。數字平。「why me」的能量<em>絕對不能</em>滲進來 — 這段是在講品牌的問題,不是你的適配度。</div></div>
+        <div class="row"><div class="k">On-screen text</div><div class="v">可加下三分之一字卡 「<code>+2.4%</code>」、「<code>+0.9%</code>」、「<code>~€5.5bn</code>」— 小等寬字、左下角、各 1.2 秒。v1 版可選。</div></div>
+        <div class="row"><div class="k">Cut beats</div><div class="v"><span class="pill warn">CUT</span> 「the right question」 這句要切到全片最緊的構圖。這是整支片的修辭樞紐。</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== SEGMENT 6 ============== -->
+  <section class="seg">
+    <div class="seg-head">
+      <div class="tc">04:03 — 04:25</div>
+      <h3>Segment 6 · 收尾 — 我帶來什麼</h3>
+      <div class="dur">約 22 秒 · 原 30 秒壓縮</div>
+    </div>
+    <div class="seg-body">
+      <div class="vo">
+        <div class="label">逐字稿 · 最後一段</div>
+        <p>"Where I land. I said I'd show you what I bring, not how I feel about this role."</p>
+        <p class="pull">"Retail experience that lived on a real floor, with real numbers and real consequences. A way of building structure around ambiguous problems. And a perspective from genuinely living in two markets, not just studying them."</p>
+        <p>"I'm here to learn how strategic thinking becomes a concrete commercial decision — on the shelf, in the channel, in front of the shopper. That's where I think I can contribute something real."</p>
+      </div>
+      <div class="craft">
+        <div class="row"><div class="k">Look</div><div class="v"><span class="pill">A · 中景</span> 跟 S1、S5 同一個設置。同一張椅子三次回來 = 論文式結構。</div></div>
+        <div class="row"><div class="k">Movement</div><div class="v"><span class="pill alt">鎖定</span> · 不運鏡。內容本身就是運鏡。</div></div>
+        <div class="row"><div class="k">Delivery</div><div class="v">直視鏡頭。略慢。最後一個子句之前不要笑 — 真要笑也只是一下。</div></div>
+        <div class="row"><div class="k">Audio tail</div><div class="v">最後一個字之後留 2 秒環境音再切片尾卡。<em>現場就要錄</em>,不要靠後製。</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== SEGMENT 7 ============== -->
+  <section class="seg">
+    <div class="seg-head">
+      <div class="tc">04:25 — 04:40</div>
+      <h3>Segment 7 · 片尾卡 — 無聲</h3>
+      <div class="dur">15 秒 · 無旁白</div>
+    </div>
+    <div class="seg-body">
+      <div class="vo" style="padding:0;">
+        <div class="endcard-preview" style="margin: 0; aspect-ratio: auto;">
+          <div class="name">Hou-Sheng SHEN</div>
+          <div class="school">ESCP Business School · Paris</div>
+          <div class="mail">hou_sheng.shen@edu.escp.eu</div>
+          <div class="tag">S&amp;CM Internship Application · 2026</div>
+        </div>
+      </div>
+      <div class="craft">
+        <div class="row"><div class="k">Build</div><div class="v">靜態片尾卡,深墨底色 <code>#0E0E0C</code>,紙白前景 <code>#F5F2EA</code>。字型系統跟全片一致。</div></div>
+        <div class="row"><div class="k">Hold</div><div class="v">15 秒。長到記得住,短到不覺得在拖。</div></div>
+        <div class="row"><div class="k">Audio</div><div class="v">S6 結尾的環境音 4 秒淡出到完全靜音。<strong>全片無配樂</strong>。</div></div>
+        <div class="row"><div class="k">Closing frame</div><div class="v">04:39 → 04:40 最後一格淡入全黑。硬出。</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== ON-SET RUNDOWN ============== -->
+  <h2 class="section-title">
+    <span class="num">§ B</span>
+    <h2>現場流程 · 拍攝順序</h2>
+    <span class="right">約 3.5 小時</span>
+  </h2>
+
+  <div class="endgrid">
+    <div class="panel">
+      <h3>拍攝順序</h3>
+      <ol>
+        <li><b>09:30</b> 到 WeWork。確認預訂空間(熱桌 + 會議室)。看窗戶日照方向。</li>
+        <li><b>09:45</b> 換裝 + 領夾麥測試。錄 30 秒環境音。</li>
+        <li><b>10:00</b> 架設 <b>機位 A</b>(熱桌)。構圖、對焦、音量。</li>
+        <li><b>10:15</b> 連拍 <b>S1 / S5 / S6</b> — 同一個設置,各三 take。<em>不要中途換景</em>。</li>
+        <li><b>11:00</b> 移到 <b>機位 B</b>(玻璃室)。重打光。</li>
+        <li><b>11:15</b> 拍 <b>S3</b> + <b>S2</b> 母親節特寫補拍。</li>
+        <li><b>11:45</b> 回 <b>機位 A</b> 拍 <b>S2</b> 寬景。</li>
+        <li><b>12:15</b> 走廊拍 <b>S4</b> 走拍。至少 3 趟。</li>
+        <li><b>12:30</b> 空鏡衝刺:Rue de Madrid 藥局綠十字、街景、大樓入口。</li>
+        <li><b>12:45</b> 收工。離開前先備份記憶卡。</li>
+      </ol>
+    </div>
+    <div class="panel">
+      <h3>表演筆記</h3>
+      <ul>
+        <li><b>能量曲線:</b> S1 低 → S2 累積 → S3 靜止+分析 → S4 好奇 → S5 最嚴謹 → S6 沉穩。不要太早衝到頂。</li>
+        <li><b>數字是事實,不是業績。</b> 每個百分比都唸平。觀眾自己會決定厲不厲害。</li>
+        <li><b>每個關鍵主張後停半秒。</b>信任沉默,不要填滿它。</li>
+        <li><b>視線</b> 敘事段略偏鏡頭,只有三句主論句直視鏡頭:S1 引言、S5 提問、S6 引言。</li>
+        <li><b>手</b> 中景時要入鏡。<em>講數字時不要手勢</em>,只有講推論的時候才用手。</li>
+        <li><b>如果一個 take 卡詞</b>,從上一個完整句子重來,不要從上個字接。剪接點比較乾淨。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="endgrid">
+    <div class="panel">
+      <h3>燈光 · 用 WeWork 的窗光當主光</h3>
+      <ul>
+        <li><b>主光:</b> 北向窗 45° 在攝影機右側。太陽穿透時,加 ND 或薄紗。</li>
+        <li><b>補光:</b> 銀色反光板在攝影機左,離主角約 1.2 米。光比目標 ~3:1。</li>
+        <li><b>背景:</b> 讓 WeWork 內部柔散成 bokeh — 畫面內<em>不要出現品牌 logo</em>,不要拍到其他人。</li>
+        <li><b>玻璃室:</b> 關走廊側百葉,控制主角後方玻璃反光。</li>
+        <li><b>白平衡:</b> 5200K 鎖死。不要自動。</li>
+        <li><b>時段:</b> 中午前拍完 — 巴黎五月的光在 10:00–12:00 之間最柔。</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>音訊 · 自拍片最常死在這裡</h3>
+      <ul>
+        <li><b>領夾位置:</b> 下巴下方 15 公分,藏在領口下。針織布記得測磨擦聲。</li>
+        <li><b>備份錄音</b> 用手機 Voice Memo,放桌上鏡頭外。每個 take 開拍前拍手對時。</li>
+        <li><b>關空調</b> 如果 WeWork 允許。不行的話,離出風口 1 米以上。</li>
+        <li><b>茶水間咖啡機</b> 會毀掉一整個 take。每次開錄前先聽。</li>
+        <li><b>每個機位 30 秒環境音</b> — 開拍前先錄,不要後錄。</li>
+        <li><b>音量:</b> 峰值 ‑12dB,底噪 ‑40dB。<em>全程戴耳機</em>。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============== POST ============== -->
+  <h2 class="section-title">
+    <span class="num">§ C</span>
+    <h2>後製 · 剪輯與交付</h2>
+    <span class="right">CapCut / Premiere · 24fps · H.264</span>
+  </h2>
+
+  <div class="endgrid">
+    <div class="panel">
+      <h3>剪輯順序</h3>
+      <ol>
+        <li>組合剪:所有 take 接成一條,先別修。看一遍。</li>
+        <li>每段選一個主 take — 看<em>表達</em>,不看臉。</li>
+        <li>收緊到 5:00 的粗剪。先不要擔心超時。</li>
+        <li>鎖死 <b>S1 → S6</b> 主軸,然後狠剪到畫面定剪 4:25。</li>
+        <li>空鏡只放有功能的:藥局綠十字、表格、走拍。<em>不要塞填料</em>。</li>
+        <li>S2 + S5 加下三分之一數字字卡(v2 可選)。</li>
+        <li>混音:-16 LUFS 整體。人聲輕壓縮。<strong>無配樂</strong>。</li>
+        <li>調色:對比 +5,色溫 +200K 偏暖,配 WeWork 室內感。</li>
+        <li>片尾卡 15 秒。總長 4:40。輸出 <code>3840×2160 · 24fps · H.264</code>。</li>
+      </ol>
+    </div>
+    <div class="panel">
+      <h3>送出前自審清單</h3>
+      <ul>
+        <li>□ 1.0× 從頭到尾看一遍,手不要碰時間軸。</li>
+        <li>□ 靜音播放,只看畫面 — 沒有旁白也撐得住嗎?</li>
+        <li>□ 關螢幕只聽聲音 — 論點還站得住嗎?</li>
+        <li>□ 寄給一個你信任的人。請對方指出<em>一個</em>感覺最在「演」的瞬間。</li>
+        <li>□ 那個瞬間如果有時間,重拍。</li>
+        <li>□ 檔名:<code>HouShengSHEN_NIVEA_SCM_2026.mp4</code></li>
+        <li>□ 附字幕檔(.srt)— 法文 + 英文。</li>
+        <li>□ 最終長度:<b>04:40 ± 5 秒。</b></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>文件 v3 · 2026-05-03 · NIVEA_Video</span>
+    <span>一頁印出來 = 一天拍攝。帶去現場。</span>
+  </div>
+
+</div>
+</body>
+</html>
