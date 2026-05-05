@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"/>
+  <title>NIVEA S&CM · 拍攝動態 Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0e0d0b;
+      --surface: #161512;
+      --surface2: #1f1e1b;
+      --border: #2a2926;
+      --ink: #ddd8ce;
+      --ink-soft: #8a8680;
+      --ink-faint: #4a4845;
+      --amber: #c8a76a;
+      --blue: #6a9ec8;
+      --green: #6ac88e;
+      --rec: #e04444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', 'Noto Sans TC', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 16px 32px;
+      gap: 10px;
+    }
+
+    /* ── HEADER ── */
+    .hd {
+      width: 100%; max-width: 980px;
+      display: flex; justify-content: space-between; align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hd-left { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint); }
+    .hd-right { font-size: 12px; font-weight: 600; color: var(--amber); letter-spacing: .04em; }
+
+    /* ── SEGMENT BAR ── */
+    .seg-bar {
+      width: 100%; max-width: 980px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 14px 20px;
+      display: flex; align-items: center; gap: 18px;
+    }
+    .seg-id { font-family: 'JetBrains Mono', monospace; font-size: 30px; font-weight: 600; min-width: 52px; transition: color .4s; }
+    .seg-info { flex: 1; }
+    .seg-name { font-size: 17px; font-weight: 600; margin-bottom: 3px; transition: color .4s; }
+    .seg-desc { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--ink-soft); letter-spacing: .03em; }
+    .seg-shot {
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      background: var(--surface2); border: 1px solid var(--border);
+      padding: 5px 12px; letter-spacing: .1em; text-transform: uppercase;
+      transition: color .4s, border-color .4s;
+    }
+
+    /* ── MAIN ── */
+    .main {
+      width: 100%; max-width: 980px;
+      display: grid; grid-template-columns: 55% 45%; gap: 10px;
+    }
+
+    /* ── FLOOR PLAN ── */
+    .fp-panel {
+      background: var(--surface); border: 1px solid var(--border); padding: 14px;
+    }
+    .panel-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 9px;
+      letter-spacing: .15em; text-transform: uppercase; color: var(--ink-faint);
+      margin-bottom: 10px;
+    }
+    .fp-panel svg { width: 100%; height: auto; display: block; }
+
+    /* SVG dynamic styles */
+    .fp-room { transition: fill .5s, filter .5s; fill: #161512; stroke: #2a2926; }
+    .fp-cam polygon { transition: fill .4s; fill: #2a2926; }
+    .fp-cam.on polygon { animation: camPulse .9s ease-in-out infinite; }
+    @keyframes camPulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+    .fp-sight { transition: stroke .4s, opacity .4s; stroke: #2a2926; opacity:.2; }
+    .fp-subject { transition: fill .4s, r .4s; fill: #2a2926; }
+    .fp-rec { fill: var(--rec); animation: recBlink 1s step-end infinite; transition: opacity .3s; }
+    @keyframes recBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .fp-subject.walking { animation: svgWalk 1.8s ease-in-out infinite alternate; }
+    @keyframes svgWalk { from { transform: translateY(-16px); } to { transform: translateY(16px); } }
+
+    /* ── VIEWFINDERS ── */
+    .vf-col { display: flex; flex-direction: column; gap: 10px; }
+    .vf-wrap { flex: 1; }
+    .vf-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 8.5px;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint);
+      margin-bottom: 5px;
+    }
+    .vf {
+      aspect-ratio: 16/9; background: #050504;
+      border: 1px solid var(--border);
+      position: relative; overflow: hidden;
+      transition: opacity .4s;
+    }
+    .vf.standby { opacity: .4; }
+    .vf-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 35%, #18140e 0%, #050504 100%);
+    }
+    .vf-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 33.33% 33.33%;
+    }
+    .vf-person {
+      position: absolute; bottom: 8%;
+      border-radius: 48% 48% 38% 38% / 55% 55% 45% 45%;
+      transition: all .5s ease;
+      pointer-events: none;
+    }
+    /* framing variants */
+    .vf-person.wide  { width:13%; height:52%; left:50%; transform:translateX(-50%); }
+    .vf-person.mid   { width:20%; height:63%; left:50%; transform:translateX(-50%); }
+    .vf-person.close { width:34%; height:80%; left:50%; transform:translateX(-50%); bottom:4%; }
+    .vf-person.side  { width:20%; height:63%; left:62%; transform:translateX(-50%); }
+    .vf-person.walk  { width:13%; height:50%; bottom:14%; animation: walkPerson 1.8s ease-in-out infinite alternate; }
+    @keyframes walkPerson { from { left:18%; } to { left:52%; } }
+    .vf-person.push  { animation: pushZoom 5s ease-in-out infinite; }
+    @keyframes pushZoom {
+      from { transform:translateX(-50%) scale(1); }
+      to   { transform:translateX(-50%) scale(1.22); }
+    }
+    .vf-zoom {
+      position:absolute; top:7px; left:8px;
+      font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(255,255,255,.5);
+      letter-spacing:.05em;
+    }
+    .vf-rec-badge {
+      position:absolute; top:7px; right:8px;
+      display:flex; align-items:center; gap:4px;
+      font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--rec);
+      letter-spacing:.1em;
+    }
+    .vf-rec-dot { width:6px; height:6px; border-radius:50%; background:var(--rec); animation:recBlink 1s step-end infinite; }
+    .vf-camid {
+      position:absolute; bottom:7px; left:8px;
+      font-family:'JetBrains Mono',monospace; font-size:8px; color:rgba(255,255,255,.35);
+    }
+    .vf-framing {
+      position:absolute; bottom:7px; right:8px;
+      font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:.03em;
+    }
+    .vf-standby-txt {
+      position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+      font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.2em; color:#333;
+    }
+
+    /* ── PROGRESS ── */
+    .prog-wrap { width:100%; max-width:980px; height:2px; background:var(--border); }
+    .prog-bar { height:100%; width:0%; background:var(--amber); transition:width .08s linear; }
+
+    /* ── TIMELINE ── */
+    .timeline { width:100%; max-width:980px; background:var(--surface); border:1px solid var(--border); padding:14px 18px; }
+    .tl-segs { display:flex; gap:3px; margin-bottom:8px; }
+    .tl-seg { flex:1; height:5px; background:var(--border); cursor:pointer; transition:background .3s; }
+    .tl-seg.done { background:var(--ink-faint); }
+    .tl-seg.active { background:var(--amber); }
+    .tl-names { display:flex; gap:3px; }
+    .tl-name {
+      flex:1; text-align:center; cursor:pointer;
+      font-family:'JetBrains Mono',monospace; font-size:8px;
+      color:var(--ink-faint); letter-spacing:.03em;
+      padding: 2px 1px;
+      transition: color .3s;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .tl-name.active { color:var(--amber); }
+
+    /* ── CONTROLS ── */
+    .controls { display:flex; align-items:center; gap:10px; }
+    .btn {
+      font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.08em;
+      padding:8px 22px; border:1px solid var(--border); background:var(--surface);
+      color:var(--ink); cursor:pointer; transition:background .15s, border-color .15s;
+    }
+    .btn:hover { background:var(--surface2); border-color:var(--ink-faint); }
+    .btn.primary { border-color:var(--amber); color:var(--amber); }
+    .btn.primary:hover { background:rgba(200,167,106,.07); }
+    .btn:active { transform: scale(.97); }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hd">
+  <div class="hd-left">NIVEA S&amp;CM Internship · WeWork 7 Rue de Madrid · 75008 Paris</div>
+  <div class="hd-right">拍攝動態 Demo</div>
+</div>
+
+<!-- SEGMENT BAR -->
+<div class="seg-bar">
+  <div class="seg-id" id="jsSegId">S1</div>
+  <div class="seg-info">
+    <div class="seg-name" id="jsSegName">雙機位開場</div>
+    <div class="seg-desc" id="jsSegDesc">機位 A · 熱桌中景 · Errol Morris 直視鏡頭</div>
+  </div>
+  <div class="seg-shot" id="jsSegShot">Locked 定鏡</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- FLOOR PLAN -->
+  <div class="fp-panel">
+    <div class="panel-label">場地平面 · 即時機位</div>
+    <svg viewBox="0 0 720 280">
+      <!-- outer wall -->
+      <rect x="20" y="20" width="680" height="240" fill="none" stroke="#2a2926" stroke-width="1.5"/>
+      <!-- window wall -->
+      <text x="360" y="13" font-family="JetBrains Mono" font-size="9" text-anchor="middle" fill="#2a2926">窗牆 · 北向 · 全片唯一光源</text>
+      <g stroke="#2a2926" stroke-width="1">
+        <line x1="20" y1="20" x2="60" y2="20"/> <line x1="80" y1="20" x2="140" y2="20"/>
+        <line x1="160" y1="20" x2="220" y2="20"/> <line x1="240" y1="20" x2="300" y2="20"/>
+        <line x1="320" y1="20" x2="380" y2="20"/> <line x1="400" y1="20" x2="460" y2="20"/>
+        <line x1="480" y1="20" x2="540" y2="20"/> <line x1="560" y1="20" x2="620" y2="20"/>
+        <line x1="640" y1="20" x2="700" y2="20"/>
+      </g>
+
+      <!-- ROOM A -->
+      <rect id="fpRoomA" class="fp-room" x="28" y="26" width="218" height="118" stroke-width="1"/>
+      <text x="137" y="46" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle" fill="#4a4845">機位 A · 熱桌中景</text>
+      <text x="137" y="59" font-family="JetBrains Mono" font-size="7.5" text-anchor="middle" fill="#333">S1 · S5 · S6</text>
+      <!-- key light dashed -->
+      <line x1="137" y1="20" x2="137" y2="85" stroke="#3a3420" stroke-width="1" stroke-dasharray="3 2"/>
+      <!-- subject A -->
+      <circle id="fpSubA" class="fp-subject" cx="137" cy="92" r="7"/>
+      <!-- sight lines -->
+      <line id="fpSightA1" class="fp-sight" x1="107" y1="162" x2="130" y2="99" stroke-width=".8" stroke-dasharray="4 2"/>
+      <line id="fpSightA2" class="fp-sight" x1="188" y1="158" x2="144" y2="99" stroke-width=".8" stroke-dasharray="4 2"/>
+      <!-- cameras -->
+      <g id="fpCamA1" class="fp-cam" transform="translate(108,170) rotate(-68)">
+        <polygon points="9,0 -5,-6 -5,6"/>
+      </g>
+      <g id="fpCamB1" class="fp-cam" transform="translate(192,168) rotate(-128)">
+        <polygon points="9,0 -5,-6 -5,6"/>
+      </g>
+      <rect x="40" y="162" width="28" height="18" fill="#0e0d0b" stroke="#2a2926" stroke-width="1"/>
+      <text x="54" y="191" font-family="JetBrains Mono" font-size="6" text-anchor="middle" fill="#333">MacBook</text>
+      <!-- rec dots -->
+      <circle id="fpRecA1" class="fp-rec" cx="108" cy="157" r="3.5" opacity="0"/>
+      <circle id="fpRecB1" class="fp-rec" cx="192" cy="155" r="3.5" opacity="0"/>
+
+      <!-- ROOM B -->
+      <rect id="fpRoomB" class="fp-room" x="267" y="26" width="218" height="133" stroke-width="1" stroke-dasharray="5 3"/>
+      <text x="376" y="46" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle" fill="#4a4845">機位 B · 玻璃會議室</text>
+      <text x="376" y="59" font-family="JetBrains Mono" font-size="7.5" text-anchor="middle" fill="#333">S2 · S3</text>
+      <!-- subject B -->
+      <circle id="fpSubB" class="fp-subject" cx="320" cy="95" r="7"/>
+      <!-- sight lines -->
+      <line id="fpSightB1" class="fp-sight" x1="448" y1="95" x2="327" y2="95" stroke-width=".8" stroke-dasharray="4 2"/>
+      <line id="fpSightB2" class="fp-sight" x1="335" y1="175" x2="323" y2="102" stroke-width=".8" stroke-dasharray="4 2"/>
+      <!-- cameras -->
+      <g id="fpCamA2" class="fp-cam" transform="translate(452,95) rotate(180)">
+        <polygon points="9,0 -5,-6 -5,6"/>
+      </g>
+      <g id="fpCamB2" class="fp-cam" transform="translate(335,178) rotate(-90)">
+        <polygon points="9,0 -5,-6 -5,6"/>
+      </g>
+      <circle id="fpRecA2" class="fp-rec" cx="452" cy="83" r="3.5" opacity="0"/>
+      <circle id="fpRecB2" class="fp-rec" cx="335" cy="166" r="3.5" opacity="0"/>
+
+      <!-- ROOM C -->
+      <rect id="fpRoomC" class="fp-room" x="507" y="26" width="150" height="115" stroke-width="1"/>
+      <text x="582" y="46" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle" fill="#4a4845">機位 C · 走廊</text>
+      <text x="582" y="59" font-family="JetBrains Mono" font-size="7.5" text-anchor="middle" fill="#333">S4</text>
+      <!-- subject C -->
+      <circle id="fpSubC" class="fp-subject" cx="548" cy="84" r="7"/>
+      <!-- walk arrow -->
+      <defs>
+        <marker id="wa" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+          <path d="M0,0 L5,2.5 L0,5 z" fill="#2a2926"/>
+        </marker>
+      </defs>
+      <line x1="548" y1="92" x2="548" y2="118" stroke="#2a2926" stroke-width="1" marker-end="url(#wa)"/>
+      <!-- sight line -->
+      <line id="fpSightC" class="fp-sight" x1="598" y1="80" x2="555" y2="84" stroke-width=".8" stroke-dasharray="4 2"/>
+      <!-- camera -->
+      <g id="fpCamB3" class="fp-cam" transform="translate(605,80) rotate(180)">
+        <polygon points="9,0 -5,-6 -5,6"/>
+      </g>
+      <circle id="fpRecB3" class="fp-rec" cx="605" cy="68" r="3.5" opacity="0"/>
+
+      <!-- street -->
+      <rect x="20" y="240" width="680" height="22" fill="#0c0b09" stroke="#2a2926" stroke-width="1" stroke-dasharray="2 3"/>
+      <text x="360" y="254" font-family="JetBrains Mono" font-size="8" text-anchor="middle" fill="#2a2926">Rue de Madrid · 75008 Paris</text>
+    </svg>
+  </div>
+
+  <!-- VIEWFINDERS -->
+  <div class="vf-col">
+    <!-- A機 -->
+    <div class="vf-wrap">
+      <div class="panel-label">A機 · iPhone #1</div>
+      <div id="vfA" class="vf">
+        <div class="vf-bg"></div>
+        <div class="vf-grid"></div>
+        <div id="vfAP" class="vf-person mid"></div>
+        <div class="vf-zoom" id="vfAZ">1×</div>
+        <div class="vf-rec-badge" id="vfARec"><div class="vf-rec-dot"></div>REC</div>
+        <div class="vf-camid">iPhone #1 · A機 · 主鏡</div>
+        <div class="vf-framing" id="vfAF">1× 中景</div>
+        <div class="vf-standby-txt" id="vfAStb" style="display:none">STANDBY</div>
+      </div>
+    </div>
+    <!-- B機 -->
+    <div class="vf-wrap">
+      <div class="panel-label">B機 · iPhone #2</div>
+      <div id="vfB" class="vf">
+        <div class="vf-bg"></div>
+        <div class="vf-grid"></div>
+        <div id="vfBP" class="vf-person side"></div>
+        <div class="vf-zoom" id="vfBZ">2×</div>
+        <div class="vf-rec-badge" id="vfBRec"><div class="vf-rec-dot"></div>REC</div>
+        <div class="vf-camid">iPhone #2 · B機 · 替身/空鏡</div>
+        <div class="vf-framing" id="vfBF">45° 側臉</div>
+        <div class="vf-standby-txt" id="vfBStb" style="display:none">STANDBY</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="prog-wrap"><div class="prog-bar" id="progBar"></div></div>
+
+<!-- TIMELINE -->
+<div class="timeline">
+  <div class="panel-label" style="margin-bottom:8px">拍攝流程時間軸</div>
+  <div class="tl-segs" id="tlSegs">
+    <div class="tl-seg active" onclick="goTo(0)"></div>
+    <div class="tl-seg" onclick="goTo(1)"></div>
+    <div class="tl-seg" onclick="goTo(2)"></div>
+    <div class="tl-seg" onclick="goTo(3)"></div>
+    <div class="tl-seg" onclick="goTo(4)"></div>
+    <div class="tl-seg" onclick="goTo(5)"></div>
+  </div>
+  <div class="tl-names">
+    <div class="tl-name active" onclick="goTo(0)">S1 · 雙機開場</div>
+    <div class="tl-name" onclick="goTo(1)">S2 · 母親節</div>
+    <div class="tl-name" onclick="goTo(2)">S3 · Retail</div>
+    <div class="tl-name" onclick="goTo(3)">S4 · 走廊</div>
+    <div class="tl-name" onclick="goTo(4)">S5 · 回家</div>
+    <div class="tl-name" onclick="goTo(5)">S6 · 結尾</div>
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <button class="btn" onclick="prev()">← PREV</button>
+  <button class="btn primary" id="playBtn" onclick="togglePlay()">▶ PLAY</button>
+  <button class="btn" onclick="next()">NEXT →</button>
+</div>
+
+<script>
+const SEGS = [
+  {
+    id:'S1', name:'雙機位開場', shot:'Locked 定鏡',
+    desc:'機位 A · 熱桌中景 · Errol Morris 直視鏡頭 · A機+B機同步',
+    loc:'A', color:'#c8a76a',
+    cams:['A1','B1'],
+    vfA:{ zoom:'1×', framing:'1× 中景',   person:'mid',   active:true },
+    vfB:{ zoom:'2×', framing:'45° 側臉',  person:'side',  active:true },
+  },
+  {
+    id:'S2', name:'母親節故事', shot:'Locked 定鏡',
+    desc:'機位 B · 玻璃會議室 · 有深度的鏡像感 · A機+B機同步',
+    loc:'B', color:'#6a9ec8',
+    cams:['A2','B2'],
+    vfA:{ zoom:'2×', framing:'2× 特寫',   person:'close', active:true },
+    vfB:{ zoom:'1×', framing:'廣角空間感', person:'wide',  active:true },
+  },
+  {
+    id:'S3', name:'Retail Execution', shot:'Slow Push 緩推',
+    desc:'機位 B · 玻璃會議室 · 緩推鏡收緊主角 · A機推 B機持定',
+    loc:'B', color:'#6a9ec8',
+    cams:['A2','B2'],
+    vfA:{ zoom:'2× →', framing:'緩推 特寫',   person:'close push', active:true },
+    vfB:{ zoom:'1×',   framing:'廣角持定',     person:'wide',        active:true },
+  },
+  {
+    id:'S4', name:'走廊走拍開場', shot:'Walk 跟拍',
+    desc:'機位 C · 走廊 · B機手持跟拍 · 動態開場用',
+    loc:'C', color:'#6ac88e',
+    cams:['B3'],
+    vfA:{ zoom:'—', framing:'', person:'', active:false },
+    vfB:{ zoom:'1×', framing:'手持跟拍', person:'walk', active:true },
+  },
+  {
+    id:'S5', name:'三度回家 pt.1', shot:'Locked 定鏡',
+    desc:'機位 A · 熱桌 · 回家意象 · A機+B機同步',
+    loc:'A', color:'#c8a76a',
+    cams:['A1','B1'],
+    vfA:{ zoom:'1×', framing:'1× 中景',  person:'mid',  active:true },
+    vfB:{ zoom:'2×', framing:'2× 側臉', person:'side', active:true },
+  },
+  {
+    id:'S6', name:'結尾 · French is still A2', shot:'Slow Push 緩推',
+    desc:'機位 A · 熱桌 · 緩推收尾 · 僅A機',
+    loc:'A', color:'#c8a76a',
+    cams:['A1'],
+    vfA:{ zoom:'1× →', framing:'緩推 中→近景', person:'mid push', active:true },
+    vfB:{ zoom:'—', framing:'', person:'', active:false },
+  },
+];
+
+const REC_IDS   = { A1:'fpRecA1', B1:'fpRecB1', A2:'fpRecA2', B2:'fpRecB2', B3:'fpRecB3' };
+const CAM_IDS   = { A1:'fpCamA1', B1:'fpCamB1', A2:'fpCamA2', B2:'fpCamB2', B3:'fpCamB3' };
+const SIGHT_IDS = { A1:['fpSightA1'], B1:['fpSightA2'], A2:['fpSightB1'], B2:['fpSightB2'], B3:['fpSightC'] };
+const ROOM_IDS  = { A:'fpRoomA', B:'fpRoomB', C:'fpRoomC' };
+const SUB_IDS   = { A:'fpSubA',  B:'fpSubB',  C:'fpSubC' };
+
+const ALL_ROOMS  = ['fpRoomA','fpRoomB','fpRoomC'];
+const ALL_CAMS   = ['fpCamA1','fpCamB1','fpCamA2','fpCamB2','fpCamB3'];
+const ALL_RECS   = ['fpRecA1','fpRecB1','fpRecA2','fpRecB2','fpRecB3'];
+const ALL_SIGHTS = ['fpSightA1','fpSightA2','fpSightB1','fpSightB2','fpSightC'];
+const ALL_SUBS   = ['fpSubA','fpSubB','fpSubC'];
+
+let cur = 0, playing = false, progTimer = null;
+const SEG_MS = 5500;
+
+function g(id){ return document.getElementById(id); }
+
+function apply(s){
+  // seg bar
+  g('jsSegId').textContent   = s.id;
+  g('jsSegName').textContent = s.name;
+  g('jsSegDesc').textContent = s.desc;
+  g('jsSegShot').textContent = s.shot;
+  g('jsSegId').style.color   = s.color;
+  g('jsSegName').style.color = s.color;
+  g('jsSegShot').style.color = s.color;
+  g('jsSegShot').style.borderColor = s.color + '66';
+
+  // reset floor plan
+  ALL_ROOMS.forEach(id => {
+    const el = g(id);
+    el.style.fill   = '#161512';
+    el.style.filter = '';
+    el.setAttribute('stroke','#2a2926');
+  });
+  ALL_CAMS.forEach(id => {
+    const el = g(id);
+    el.classList.remove('on');
+    el.querySelector('polygon').style.fill = '#2a2926';
+  });
+  ALL_RECS.forEach(id => { g(id).style.opacity = '0'; });
+  ALL_SIGHTS.forEach(id => {
+    const el = g(id);
+    el.style.stroke  = '#2a2926';
+    el.style.opacity = '.15';
+  });
+  ALL_SUBS.forEach(id => { g(id).style.fill = '#2a2926'; });
+  g('fpSubC').classList.remove('walking');
+
+  // activate room
+  const roomEl = g(ROOM_IDS[s.loc]);
+  roomEl.style.fill   = '#1e1c14';
+  roomEl.style.filter = `drop-shadow(0 0 7px ${s.color}44)`;
+  roomEl.setAttribute('stroke', s.color);
+
+  // activate subject
+  const subEl = g(SUB_IDS[s.loc]);
+  subEl.style.fill = s.color;
+  if(s.loc === 'C') subEl.classList.add('walking');
+
+  // activate cameras
+  s.cams.forEach(cId => {
+    const camEl = g(CAM_IDS[cId]);
+    camEl.querySelector('polygon').style.fill = s.color;
+    camEl.classList.add('on');
+    g(REC_IDS[cId]).style.opacity = '1';
+    (SIGHT_IDS[cId]||[]).forEach(sid => {
+      const sel = g(sid);
+      sel.style.stroke  = s.color;
+      sel.style.opacity = '.6';
+    });
+  });
+
+  // timeline
+  document.querySelectorAll('.tl-seg').forEach((el,i) => {
+    el.classList.remove('active','done');
+    if(i < cur)  el.classList.add('done');
+    if(i === cur) el.classList.add('active');
+  });
+  document.querySelectorAll('.tl-name').forEach((el,i) => {
+    el.classList.toggle('active', i === cur);
+    el.style.color = i === cur ? s.color : '';
+  });
+
+  // viewfinders
+  setVF('A', s.vfA, s.color);
+  setVF('B', s.vfB, s.color);
+}
+
+function setVF(cam, cfg, color){
+  const vf   = g('vf'+cam);
+  const pers  = g('vf'+cam+'P');
+  const zEl   = g('vf'+cam+'Z');
+  const recEl = g('vf'+cam+'Rec');
+  const fEl   = g('vf'+cam+'F');
+  const stbEl = g('vf'+cam+'Stb');
+
+  if(!cfg.active){
+    vf.classList.add('standby');
+    pers.style.display  = 'none';
+    recEl.style.display = 'none';
+    zEl.style.display   = 'none';
+    fEl.style.display   = 'none';
+    stbEl.style.display = '';
+    return;
+  }
+
+  vf.classList.remove('standby');
+  pers.style.display  = '';
+  recEl.style.display = '';
+  zEl.style.display   = '';
+  fEl.style.display   = '';
+  stbEl.style.display = 'none';
+
+  pers.className    = 'vf-person ' + cfg.person;
+  pers.style.background   = color + '22';
+  pers.style.borderColor  = color + '99';
+  pers.style.border       = `1px solid ${color}88`;
+
+  zEl.textContent = cfg.zoom;
+  fEl.textContent = cfg.framing;
+  fEl.style.color = color;
+}
+
+function goTo(idx){
+  cur = idx;
+  apply(SEGS[cur]);
+  resetProg();
+}
+
+function next(){ cur < SEGS.length-1 ? goTo(cur+1) : stopPlay(); }
+function prev(){ if(cur > 0) goTo(cur-1); }
+
+function resetProg(){
+  clearInterval(progTimer);
+  g('progBar').style.width = '0%';
+  if(playing) startProg();
+}
+
+function startProg(){
+  let elapsed = 0;
+  progTimer = setInterval(()=>{
+    elapsed += 80;
+    g('progBar').style.width = Math.min(100,(elapsed/SEG_MS)*100)+'%';
+    if(elapsed >= SEG_MS){
+      clearInterval(progTimer);
+      if(cur < SEGS.length-1) goTo(cur+1);
+      else stopPlay();
+    }
+  },80);
+}
+
+function togglePlay(){ playing ? stopPlay() : startPlay(); }
+
+function startPlay(){
+  playing = true;
+  g('playBtn').textContent = '⏸ PAUSE';
+  startProg();
+}
+
+function stopPlay(){
+  playing = false;
+  clearInterval(progTimer);
+  g('playBtn').textContent = '▶ PLAY';
+}
+
+// init + auto-start
+apply(SEGS[0]);
+setTimeout(startPlay, 800);
+</script>
+</body>
+</html>
