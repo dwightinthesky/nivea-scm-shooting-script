@@ -788,6 +788,111 @@
         padding: 32px 40px
       }
     }
+    /* ===== § B2 DEMO ===== */
+    .dm-wrap {
+      background: #0e0d0b;
+      border: 1px solid #2a2926;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    .dm-seg-bar {
+      display: flex; align-items: center; gap: 18px;
+      padding: 14px 20px;
+      border-bottom: 1px solid #2a2926;
+    }
+    .dm-seg-id {
+      font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 600;
+      min-width: 52px; transition: color .4s; color: #c8a76a;
+    }
+    .dm-seg-info { flex: 1; }
+    .dm-seg-name { font-size: 16px; font-weight: 600; margin-bottom: 3px; transition: color .4s; color: #c8a76a; }
+    .dm-seg-desc { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #8a8680; letter-spacing: .03em; }
+    .dm-seg-shot {
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      background: #161512; border: 1px solid #2a2926;
+      padding: 5px 12px; letter-spacing: .1em; text-transform: uppercase;
+      transition: color .4s, border-color .4s; color: #c8a76a;
+    }
+    .dm-main {
+      display: grid; grid-template-columns: 55% 45%; gap: 0;
+      border-bottom: 1px solid #2a2926;
+    }
+    .dm-fp {
+      padding: 14px; border-right: 1px solid #2a2926;
+    }
+    .dm-panel-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 9px;
+      letter-spacing: .15em; text-transform: uppercase; color: #4a4845;
+      margin-bottom: 10px;
+    }
+    .dm-fp svg { width: 100%; height: auto; display: block; }
+    .dm-fp-room { transition: fill .5s, filter .5s; fill: #161512; stroke: #2a2926; }
+    .dm-fp-cam polygon { transition: fill .4s; fill: #2a2926; }
+    .dm-fp-cam.dm-on polygon { animation: dmCamPulse .9s ease-in-out infinite; }
+    @keyframes dmCamPulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .dm-fp-sight { transition: stroke .4s, opacity .4s; stroke: #2a2926; opacity:.2; }
+    .dm-fp-sub { transition: fill .4s; fill: #2a2926; }
+    .dm-fp-rec { fill: #e04444; animation: dmRecBlink 1s step-end infinite; transition: opacity .3s; }
+    @keyframes dmRecBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .dm-fp-sub.dm-walking { animation: dmSvgWalk 1.8s ease-in-out infinite alternate; }
+    @keyframes dmSvgWalk { from { transform:translateY(-16px); } to { transform:translateY(16px); } }
+    .dm-vf-col {
+      display: flex; flex-direction: column;
+    }
+    .dm-vf-wrap { flex: 1; border-bottom: 1px solid #2a2926; padding: 12px 14px; }
+    .dm-vf-wrap:last-child { border-bottom: none; }
+    .dm-vf {
+      aspect-ratio: 16/9; background: #050504;
+      border: 1px solid #2a2926;
+      position: relative; overflow: hidden;
+      transition: opacity .4s;
+    }
+    .dm-vf.dm-standby { opacity: .35; }
+    .dm-vf-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 35%, #18140e 0%, #050504 100%);
+    }
+    .dm-vf-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 33.33% 33.33%;
+    }
+    .dm-vf-person {
+      position: absolute; bottom: 8%;
+      border-radius: 48% 48% 38% 38% / 55% 55% 45% 45%;
+      transition: all .5s ease; pointer-events: none;
+    }
+    .dm-vf-person.wide  { width:13%; height:52%; left:50%; transform:translateX(-50%); }
+    .dm-vf-person.mid   { width:20%; height:63%; left:50%; transform:translateX(-50%); }
+    .dm-vf-person.close { width:34%; height:80%; left:50%; transform:translateX(-50%); bottom:4%; }
+    .dm-vf-person.side  { width:20%; height:63%; left:62%; transform:translateX(-50%); }
+    .dm-vf-person.walk  { width:13%; height:50%; bottom:14%; animation:dmWalkPerson 1.8s ease-in-out infinite alternate; }
+    @keyframes dmWalkPerson { from{left:18%;} to{left:52%;} }
+    .dm-vf-person.push  { animation:dmPushZoom 5s ease-in-out infinite; }
+    @keyframes dmPushZoom { from{transform:translateX(-50%) scale(1);} to{transform:translateX(-50%) scale(1.22);} }
+    .dm-vf-zoom { position:absolute; top:7px; left:8px; font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(255,255,255,.45); letter-spacing:.05em; }
+    .dm-vf-rec { position:absolute; top:7px; right:8px; display:flex; align-items:center; gap:4px; font-family:'JetBrains Mono',monospace; font-size:9px; color:#e04444; letter-spacing:.1em; }
+    .dm-vf-recdot { width:6px; height:6px; border-radius:50%; background:#e04444; animation:dmRecBlink 1s step-end infinite; }
+    .dm-vf-camid { position:absolute; bottom:7px; left:8px; font-family:'JetBrains Mono',monospace; font-size:8px; color:rgba(255,255,255,.3); }
+    .dm-vf-framing { position:absolute; bottom:7px; right:8px; font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:.03em; }
+    .dm-vf-stb { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.2em; color:#2a2926; }
+    .dm-prog-wrap { height:2px; background:#2a2926; }
+    .dm-prog-bar { height:100%; width:0%; background:#c8a76a; transition:width .08s linear; }
+    .dm-timeline { padding: 14px 20px; border-bottom: 1px solid #2a2926; }
+    .dm-tl-segs { display:flex; gap:3px; margin-bottom:8px; }
+    .dm-tl-seg { flex:1; height:5px; background:#2a2926; cursor:pointer; transition:background .3s; }
+    .dm-tl-seg.dm-done { background:#4a4845; }
+    .dm-tl-seg.dm-active { background:#c8a76a; }
+    .dm-tl-names { display:flex; gap:3px; }
+    .dm-tl-name { flex:1; text-align:center; cursor:pointer; font-family:'JetBrains Mono',monospace; font-size:8px; color:#4a4845; letter-spacing:.03em; padding:2px 1px; transition:color .3s; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .dm-tl-name.dm-active { color:#c8a76a; }
+    .dm-controls { display:flex; justify-content:center; align-items:center; gap:10px; padding:14px 20px; }
+    .dm-btn { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.08em; padding:7px 20px; border:1px solid #2a2926; background:#161512; color:#ddd8ce; cursor:pointer; transition:background .15s; }
+    .dm-btn:hover { background:#1f1e1b; }
+    .dm-btn.dm-primary { border-color:#c8a76a; color:#c8a76a; }
+    .dm-btn.dm-primary:hover { background:rgba(200,167,106,.07); }
   </style>
 </head>
 
@@ -1015,6 +1120,143 @@
         <div><span class="dot" style="background:#3b3a36"></span>iPhone #2 · B 機(替身/空鏡)</div>
         <div><span class="dot" style="background:#fbf9f3;border-color:#161614"></span>MacBook · 提詞+監看</div>
         <div><span class="dot" style="background:oklch(82% 0.10 85)"></span>窗光主光源</div>
+      </div>
+    </div>
+
+    <!-- ===== § B2 DEMO ===== -->
+    <div class="section-title" style="margin-top:48px">
+      <span class="num">§ B2</span>
+      <h2>拍攝動態 Demo</h2>
+      <span class="right">S1 → S2 → S3 → S4 → S5 → S6</span>
+    </div>
+
+    <div class="dm-wrap">
+      <!-- SEG BAR -->
+      <div class="dm-seg-bar">
+        <div class="dm-seg-id" id="dmSegId">S1</div>
+        <div class="dm-seg-info">
+          <div class="dm-seg-name" id="dmSegName">雙機位開場</div>
+          <div class="dm-seg-desc" id="dmSegDesc">機位 A · 熱桌中景 · Errol Morris 直視鏡頭 · A機+B機同步</div>
+        </div>
+        <div class="dm-seg-shot" id="dmSegShot">Locked 定鏡</div>
+      </div>
+
+      <!-- MAIN -->
+      <div class="dm-main">
+        <!-- Floor Plan -->
+        <div class="dm-fp">
+          <div class="dm-panel-label">場地平面 · 即時機位</div>
+          <svg viewBox="0 0 720 280">
+            <rect x="20" y="20" width="680" height="240" fill="none" stroke="#2a2926" stroke-width="1.5"/>
+            <text x="360" y="13" font-family="JetBrains Mono" font-size="9" text-anchor="middle" fill="#2a2926">窗牆 · 北向 · 全片唯一光源</text>
+            <g stroke="#2a2926" stroke-width="1">
+              <line x1="20" y1="20" x2="60" y2="20"/> <line x1="80" y1="20" x2="140" y2="20"/>
+              <line x1="160" y1="20" x2="220" y2="20"/> <line x1="240" y1="20" x2="300" y2="20"/>
+              <line x1="320" y1="20" x2="380" y2="20"/> <line x1="400" y1="20" x2="460" y2="20"/>
+              <line x1="480" y1="20" x2="540" y2="20"/> <line x1="560" y1="20" x2="620" y2="20"/>
+              <line x1="640" y1="20" x2="700" y2="20"/>
+            </g>
+            <!-- ROOM A -->
+            <rect id="dmRoomA" class="dm-fp-room" x="28" y="26" width="218" height="118" stroke-width="1"/>
+            <text x="137" y="46" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle" fill="#4a4845">機位 A · 熱桌中景</text>
+            <text x="137" y="59" font-family="JetBrains Mono" font-size="7.5" text-anchor="middle" fill="#333">S1 · S5 · S6</text>
+            <line x1="137" y1="20" x2="137" y2="85" stroke="#3a3420" stroke-width="1" stroke-dasharray="3 2"/>
+            <circle id="dmSubA" class="dm-fp-sub" cx="137" cy="92" r="7"/>
+            <line id="dmSightA1" class="dm-fp-sight" x1="107" y1="162" x2="130" y2="99" stroke-width=".8" stroke-dasharray="4 2"/>
+            <line id="dmSightA2" class="dm-fp-sight" x1="188" y1="158" x2="144" y2="99" stroke-width=".8" stroke-dasharray="4 2"/>
+            <g id="dmCamA1" class="dm-fp-cam" transform="translate(108,170) rotate(-68)"><polygon points="9,0 -5,-6 -5,6"/></g>
+            <g id="dmCamB1" class="dm-fp-cam" transform="translate(192,168) rotate(-128)"><polygon points="9,0 -5,-6 -5,6"/></g>
+            <rect x="40" y="162" width="28" height="18" fill="#0e0d0b" stroke="#2a2926" stroke-width="1"/>
+            <text x="54" y="191" font-family="JetBrains Mono" font-size="6" text-anchor="middle" fill="#333">MacBook</text>
+            <circle id="dmRecA1" class="dm-fp-rec" cx="108" cy="157" r="3.5" opacity="0"/>
+            <circle id="dmRecB1" class="dm-fp-rec" cx="192" cy="155" r="3.5" opacity="0"/>
+            <!-- ROOM B -->
+            <rect id="dmRoomB" class="dm-fp-room" x="267" y="26" width="218" height="133" stroke-width="1" stroke-dasharray="5 3"/>
+            <text x="376" y="46" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle" fill="#4a4845">機位 B · 玻璃會議室</text>
+            <text x="376" y="59" font-family="JetBrains Mono" font-size="7.5" text-anchor="middle" fill="#333">S2 · S3</text>
+            <circle id="dmSubB" class="dm-fp-sub" cx="320" cy="95" r="7"/>
+            <line id="dmSightB1" class="dm-fp-sight" x1="448" y1="95" x2="327" y2="95" stroke-width=".8" stroke-dasharray="4 2"/>
+            <line id="dmSightB2" class="dm-fp-sight" x1="335" y1="175" x2="323" y2="102" stroke-width=".8" stroke-dasharray="4 2"/>
+            <g id="dmCamA2" class="dm-fp-cam" transform="translate(452,95) rotate(180)"><polygon points="9,0 -5,-6 -5,6"/></g>
+            <g id="dmCamB2" class="dm-fp-cam" transform="translate(335,178) rotate(-90)"><polygon points="9,0 -5,-6 -5,6"/></g>
+            <circle id="dmRecA2" class="dm-fp-rec" cx="452" cy="83" r="3.5" opacity="0"/>
+            <circle id="dmRecB2" class="dm-fp-rec" cx="335" cy="166" r="3.5" opacity="0"/>
+            <!-- ROOM C -->
+            <rect id="dmRoomC" class="dm-fp-room" x="507" y="26" width="150" height="115" stroke-width="1"/>
+            <text x="582" y="46" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle" fill="#4a4845">機位 C · 走廊</text>
+            <text x="582" y="59" font-family="JetBrains Mono" font-size="7.5" text-anchor="middle" fill="#333">S4</text>
+            <circle id="dmSubC" class="dm-fp-sub" cx="548" cy="84" r="7"/>
+            <defs><marker id="dmWa" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill="#2a2926"/></marker></defs>
+            <line x1="548" y1="92" x2="548" y2="118" stroke="#2a2926" stroke-width="1" marker-end="url(#dmWa)"/>
+            <line id="dmSightC" class="dm-fp-sight" x1="598" y1="80" x2="555" y2="84" stroke-width=".8" stroke-dasharray="4 2"/>
+            <g id="dmCamB3" class="dm-fp-cam" transform="translate(605,80) rotate(180)"><polygon points="9,0 -5,-6 -5,6"/></g>
+            <circle id="dmRecB3" class="dm-fp-rec" cx="605" cy="68" r="3.5" opacity="0"/>
+            <!-- street -->
+            <rect x="20" y="240" width="680" height="22" fill="#0c0b09" stroke="#2a2926" stroke-width="1" stroke-dasharray="2 3"/>
+            <text x="360" y="254" font-family="JetBrains Mono" font-size="8" text-anchor="middle" fill="#2a2926">Rue de Madrid · 75008 Paris</text>
+          </svg>
+        </div>
+
+        <!-- Viewfinders -->
+        <div class="dm-vf-col">
+          <div class="dm-vf-wrap">
+            <div class="dm-panel-label">A機 · iPhone #1 · 主鏡</div>
+            <div id="dmVfA" class="dm-vf">
+              <div class="dm-vf-bg"></div>
+              <div class="dm-vf-grid"></div>
+              <div id="dmVfAP" class="dm-vf-person mid"></div>
+              <div class="dm-vf-zoom" id="dmVfAZ">1×</div>
+              <div class="dm-vf-rec" id="dmVfARec"><div class="dm-vf-recdot"></div>REC</div>
+              <div class="dm-vf-camid">iPhone #1 · A機</div>
+              <div class="dm-vf-framing" id="dmVfAF">1× 中景</div>
+              <div class="dm-vf-stb" id="dmVfAStb" style="display:none">STANDBY</div>
+            </div>
+          </div>
+          <div class="dm-vf-wrap">
+            <div class="dm-panel-label">B機 · iPhone #2 · 替身/空鏡</div>
+            <div id="dmVfB" class="dm-vf">
+              <div class="dm-vf-bg"></div>
+              <div class="dm-vf-grid"></div>
+              <div id="dmVfBP" class="dm-vf-person side"></div>
+              <div class="dm-vf-zoom" id="dmVfBZ">2×</div>
+              <div class="dm-vf-rec" id="dmVfBRec"><div class="dm-vf-recdot"></div>REC</div>
+              <div class="dm-vf-camid">iPhone #2 · B機</div>
+              <div class="dm-vf-framing" id="dmVfBF">45° 側臉</div>
+              <div class="dm-vf-stb" id="dmVfBStb" style="display:none">STANDBY</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROGRESS -->
+      <div class="dm-prog-wrap"><div class="dm-prog-bar" id="dmProgBar"></div></div>
+
+      <!-- TIMELINE -->
+      <div class="dm-timeline">
+        <div class="dm-panel-label" style="margin-bottom:8px">拍攝流程</div>
+        <div class="dm-tl-segs">
+          <div class="dm-tl-seg dm-active" onclick="dmGoTo(0)"></div>
+          <div class="dm-tl-seg" onclick="dmGoTo(1)"></div>
+          <div class="dm-tl-seg" onclick="dmGoTo(2)"></div>
+          <div class="dm-tl-seg" onclick="dmGoTo(3)"></div>
+          <div class="dm-tl-seg" onclick="dmGoTo(4)"></div>
+          <div class="dm-tl-seg" onclick="dmGoTo(5)"></div>
+        </div>
+        <div class="dm-tl-names">
+          <div class="dm-tl-name dm-active" onclick="dmGoTo(0)">S1 · 雙機開場</div>
+          <div class="dm-tl-name" onclick="dmGoTo(1)">S2 · 母親節</div>
+          <div class="dm-tl-name" onclick="dmGoTo(2)">S3 · Retail</div>
+          <div class="dm-tl-name" onclick="dmGoTo(3)">S4 · 走廊</div>
+          <div class="dm-tl-name" onclick="dmGoTo(4)">S5 · 回家</div>
+          <div class="dm-tl-name" onclick="dmGoTo(5)">S6 · 結尾</div>
+        </div>
+      </div>
+
+      <!-- CONTROLS -->
+      <div class="dm-controls">
+        <button class="dm-btn" onclick="dmPrev()">← PREV</button>
+        <button class="dm-btn dm-primary" id="dmPlayBtn" onclick="dmTogglePlay()">▶ PLAY</button>
+        <button class="dm-btn" onclick="dmNext()">NEXT →</button>
       </div>
     </div>
 
@@ -1946,6 +2188,87 @@
     </div>
 
   </div>
+
+<script>
+(function(){
+  var SEGS=[
+    {id:'S1',name:'雙機位開場',shot:'Locked 定鏡',desc:'機位 A · 熱桌中景 · Errol Morris 直視鏡頭 · A機+B機同步',loc:'A',color:'#c8a76a',cams:['A1','B1'],vfA:{zoom:'1×',framing:'1× 中景',person:'mid',active:true},vfB:{zoom:'2×',framing:'45° 側臉',person:'side',active:true}},
+    {id:'S2',name:'母親節故事',shot:'Locked 定鏡',desc:'機位 B · 玻璃會議室 · 有深度的鏡像感 · A機+B機同步',loc:'B',color:'#6a9ec8',cams:['A2','B2'],vfA:{zoom:'2×',framing:'2× 特寫',person:'close',active:true},vfB:{zoom:'1×',framing:'廣角空間感',person:'wide',active:true}},
+    {id:'S3',name:'Retail Execution',shot:'Slow Push 緩推',desc:'機位 B · 玻璃會議室 · A機緩推入鏡 · B機廣角持定',loc:'B',color:'#6a9ec8',cams:['A2','B2'],vfA:{zoom:'2× →',framing:'緩推 特寫',person:'close push',active:true},vfB:{zoom:'1×',framing:'廣角持定',person:'wide',active:true}},
+    {id:'S4',name:'走廊走拍開場',shot:'Walk 跟拍',desc:'機位 C · 走廊 · B機手持跟拍 · 動態開場用',loc:'C',color:'#6ac88e',cams:['B3'],vfA:{zoom:'—',framing:'',person:'',active:false},vfB:{zoom:'1×',framing:'手持跟拍',person:'walk',active:true}},
+    {id:'S5',name:'三度回家 pt.1',shot:'Locked 定鏡',desc:'機位 A · 熱桌 · 回家意象 · A機+B機同步',loc:'A',color:'#c8a76a',cams:['A1','B1'],vfA:{zoom:'1×',framing:'1× 中景',person:'mid',active:true},vfB:{zoom:'2×',framing:'2× 側臉',person:'side',active:true}},
+    {id:'S6',name:'結尾 · French is still A2',shot:'Slow Push 緩推',desc:'機位 A · 熱桌 · 緩推收尾 · 僅A機',loc:'A',color:'#c8a76a',cams:['A1'],vfA:{zoom:'1× →',framing:'緩推 中→近景',person:'mid push',active:true},vfB:{zoom:'—',framing:'',person:'',active:false}}
+  ];
+  var REC_IDS={A1:'dmRecA1',B1:'dmRecB1',A2:'dmRecA2',B2:'dmRecB2',B3:'dmRecB3'};
+  var CAM_IDS={A1:'dmCamA1',B1:'dmCamB1',A2:'dmCamA2',B2:'dmCamB2',B3:'dmCamB3'};
+  var SIGHT_IDS={A1:['dmSightA1'],B1:['dmSightA2'],A2:['dmSightB1'],B2:['dmSightB2'],B3:['dmSightC']};
+  var ROOM_IDS={A:'dmRoomA',B:'dmRoomB',C:'dmRoomC'};
+  var SUB_IDS={A:'dmSubA',B:'dmSubB',C:'dmSubC'};
+  var ALL_ROOMS=['dmRoomA','dmRoomB','dmRoomC'];
+  var ALL_CAMS=['dmCamA1','dmCamB1','dmCamA2','dmCamB2','dmCamB3'];
+  var ALL_RECS=['dmRecA1','dmRecB1','dmRecA2','dmRecB2','dmRecB3'];
+  var ALL_SIGHTS=['dmSightA1','dmSightA2','dmSightB1','dmSightB2','dmSightC'];
+  var ALL_SUBS=['dmSubA','dmSubB','dmSubC'];
+  var cur=0,playing=false,progTimer=null;
+  var SEG_MS=5500;
+
+  function g(id){return document.getElementById(id);}
+
+  function dmApply(s){
+    g('dmSegId').textContent=s.id; g('dmSegName').textContent=s.name;
+    g('dmSegDesc').textContent=s.desc; g('dmSegShot').textContent=s.shot;
+    g('dmSegId').style.color=s.color; g('dmSegName').style.color=s.color;
+    g('dmSegShot').style.color=s.color; g('dmSegShot').style.borderColor=s.color+'55';
+    ALL_ROOMS.forEach(function(id){var el=g(id);el.style.fill='#161512';el.style.filter='';el.setAttribute('stroke','#2a2926');});
+    ALL_CAMS.forEach(function(id){var el=g(id);el.classList.remove('dm-on');el.querySelector('polygon').style.fill='#2a2926';});
+    ALL_RECS.forEach(function(id){g(id).style.opacity='0';});
+    ALL_SIGHTS.forEach(function(id){var el=g(id);el.style.stroke='#2a2926';el.style.opacity='.15';});
+    ALL_SUBS.forEach(function(id){g(id).style.fill='#2a2926';});
+    g('dmSubC').classList.remove('dm-walking');
+    var roomEl=g(ROOM_IDS[s.loc]);
+    roomEl.style.fill='#1e1c14'; roomEl.style.filter='drop-shadow(0 0 7px '+s.color+'44)';
+    roomEl.setAttribute('stroke',s.color);
+    var subEl=g(SUB_IDS[s.loc]); subEl.style.fill=s.color;
+    if(s.loc==='C') subEl.classList.add('dm-walking');
+    s.cams.forEach(function(cId){
+      var camEl=g(CAM_IDS[cId]); camEl.querySelector('polygon').style.fill=s.color; camEl.classList.add('dm-on');
+      g(REC_IDS[cId]).style.opacity='1';
+      (SIGHT_IDS[cId]||[]).forEach(function(sid){var sel=g(sid);sel.style.stroke=s.color;sel.style.opacity='.6';});
+    });
+    document.querySelectorAll('.dm-tl-seg').forEach(function(el,i){el.classList.remove('dm-active','dm-done');if(i<cur)el.classList.add('dm-done');if(i===cur)el.classList.add('dm-active');});
+    document.querySelectorAll('.dm-tl-name').forEach(function(el,i){el.classList.toggle('dm-active',i===cur);el.style.color=i===cur?s.color:'';});
+    dmSetVF('A',s.vfA,s.color); dmSetVF('B',s.vfB,s.color);
+  }
+
+  function dmSetVF(cam,cfg,color){
+    var vf=g('dmVf'+cam),pers=g('dmVf'+cam+'P'),zEl=g('dmVf'+cam+'Z'),recEl=g('dmVf'+cam+'Rec'),fEl=g('dmVf'+cam+'F'),stbEl=g('dmVf'+cam+'Stb');
+    if(!cfg.active){vf.classList.add('dm-standby');pers.style.display='none';recEl.style.display='none';zEl.style.display='none';fEl.style.display='none';stbEl.style.display='';return;}
+    vf.classList.remove('dm-standby');pers.style.display='';recEl.style.display='';zEl.style.display='';fEl.style.display='';stbEl.style.display='none';
+    pers.className='dm-vf-person '+(cfg.person||'mid');
+    pers.style.background=color+'20'; pers.style.border='1px solid '+color+'88';
+    zEl.textContent=cfg.zoom; fEl.textContent=cfg.framing; fEl.style.color=color;
+  }
+
+  window.dmGoTo=function(idx){cur=idx;dmApply(SEGS[cur]);dmResetProg();};
+  window.dmNext=function(){cur<SEGS.length-1?dmGoTo(cur+1):dmStopPlay();};
+  window.dmPrev=function(){if(cur>0)dmGoTo(cur-1);};
+
+  function dmResetProg(){clearInterval(progTimer);g('dmProgBar').style.width='0%';if(playing)dmStartProg();}
+  function dmStartProg(){
+    var elapsed=0;
+    progTimer=setInterval(function(){
+      elapsed+=80; g('dmProgBar').style.width=Math.min(100,(elapsed/SEG_MS)*100)+'%';
+      if(elapsed>=SEG_MS){clearInterval(progTimer);cur<SEGS.length-1?dmGoTo(cur+1):dmStopPlay();}
+    },80);
+  }
+  window.dmTogglePlay=function(){playing?dmStopPlay():dmStartPlay();};
+  function dmStartPlay(){playing=true;g('dmPlayBtn').textContent='⏸ PAUSE';dmStartProg();}
+  function dmStopPlay(){playing=false;clearInterval(progTimer);g('dmPlayBtn').textContent='▶ PLAY';}
+
+  dmApply(SEGS[0]);
+  setTimeout(dmStartPlay,1000);
+})();
+</script>
 </body>
 
 </html>
