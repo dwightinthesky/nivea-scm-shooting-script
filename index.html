@@ -889,19 +889,7 @@
         linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
       background-size: 33.33% 33.33%;
     }
-    .dm-vf-person {
-      position: absolute; bottom: 8%;
-      border-radius: 48% 48% 38% 38% / 55% 55% 45% 45%;
-      transition: all .5s ease; pointer-events: none;
-    }
-    .dm-vf-person.wide  { width:13%; height:52%; left:50%; transform:translateX(-50%); }
-    .dm-vf-person.mid   { width:20%; height:63%; left:50%; transform:translateX(-50%); }
-    .dm-vf-person.close { width:34%; height:80%; left:50%; transform:translateX(-50%); bottom:4%; }
-    .dm-vf-person.side  { width:20%; height:63%; left:62%; transform:translateX(-50%); }
-    .dm-vf-person.walk  { width:13%; height:50%; bottom:14%; animation:dmWalkPerson 1.8s ease-in-out infinite alternate; }
-    @keyframes dmWalkPerson { from{left:18%;} to{left:52%;} }
-    .dm-vf-person.push  { animation:dmPushZoom 5s ease-in-out infinite; }
-    @keyframes dmPushZoom { from{transform:translateX(-50%) scale(1);} to{transform:translateX(-50%) scale(1.22);} }
+    .dm-vf-svg { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:hidden; }
     .dm-vf-zoom { position:absolute; top:7px; left:8px; font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(255,255,255,.45); letter-spacing:.05em; }
     .dm-vf-rec { position:absolute; top:7px; right:8px; display:flex; align-items:center; gap:4px; font-family:'JetBrains Mono',monospace; font-size:9px; color:#e04444; letter-spacing:.1em; }
     .dm-vf-recdot { width:6px; height:6px; border-radius:50%; background:#e04444; animation:dmRecBlink 1s step-end infinite; }
@@ -1234,7 +1222,7 @@
             <div id="dmVfA" class="dm-vf">
               <div class="dm-vf-bg"></div>
               <div class="dm-vf-grid"></div>
-              <div id="dmVfAP" class="dm-vf-person mid"></div>
+              <svg id="dmVfAP" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" class="dm-vf-svg"></svg>
               <div class="dm-vf-zoom" id="dmVfAZ">1×</div>
               <div class="dm-vf-rec" id="dmVfARec"><div class="dm-vf-recdot"></div>REC</div>
               <div class="dm-vf-camid">iPhone #1 · A機</div>
@@ -1247,7 +1235,7 @@
             <div id="dmVfB" class="dm-vf">
               <div class="dm-vf-bg"></div>
               <div class="dm-vf-grid"></div>
-              <div id="dmVfBP" class="dm-vf-person side"></div>
+              <svg id="dmVfBP" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" class="dm-vf-svg"></svg>
               <div class="dm-vf-zoom" id="dmVfBZ">2×</div>
               <div class="dm-vf-rec" id="dmVfBRec"><div class="dm-vf-recdot"></div>REC</div>
               <div class="dm-vf-camid">iPhone #2 · B機</div>
@@ -2497,12 +2485,94 @@
     dmSetVF('A',s.vfA,s.color); dmSetVF('B',s.vfB,s.color);
   }
 
+  var DM_T='<rect x="50" y="136" width="220" height="3" fill="#3b3a36"/>';
+  var DM_CB='<rect x="50" y="174" width="220" height="2" fill="SEGCOL" opacity=".6"/>';
+  var DM_PUSH_ARR='<line x1="262" y1="82" x2="234" y2="82" stroke="oklch(55% 0.12 35)" stroke-width="1.2"/><polygon points="234,78 228,82 234,86" fill="oklch(55% 0.12 35)"/>';
+
+  /* ---- seated figure at cx=160 cy=57 r=14 ---- */
+  var DM_SEAT160='<circle cx="160" cy="57" r="14" fill="none" stroke="#c8c3b3" stroke-width="2.5"/>'+
+    '<circle cx="154" cy="54" r="1.8" fill="#c8c3b3"/><circle cx="166" cy="54" r="1.8" fill="#c8c3b3"/>'+
+    '<line x1="155" y1="63" x2="165" y2="63" stroke="#c8c3b3" stroke-width="1.5"/>'+
+    '<line x1="160" y1="71" x2="160" y2="82" stroke="#c8c3b3" stroke-width="2.5"/>'+
+    '<line x1="132" y1="82" x2="188" y2="82" stroke="#c8c3b3" stroke-width="2.5"/>'+
+    '<line x1="132" y1="82" x2="113" y2="109" stroke="#c8c3b3" stroke-width="2"/>'+
+    '<line x1="113" y1="109" x2="97" y2="133" stroke="#c8c3b3" stroke-width="1.8"/>'+
+    '<line x1="188" y1="82" x2="207" y2="109" stroke="#c8c3b3" stroke-width="2"/>'+
+    '<line x1="207" y1="109" x2="223" y2="133" stroke="#c8c3b3" stroke-width="1.8"/>'+
+    '<line x1="160" y1="82" x2="160" y2="133" stroke="#c8c3b3" stroke-width="2.5"/>';
+
+  /* ---- 45° side figure cx=188 cy=44 r=22 ---- */
+  var DM_SIDE188='<line x1="0" y1="170" x2="300" y2="80" stroke="#2a2926" stroke-width="1" stroke-dasharray="4 3"/>'+
+    '<circle cx="188" cy="44" r="22" fill="none" stroke="#c8c3b3" stroke-width="2.5"/>'+
+    '<circle cx="177" cy="40" r="2" fill="#c8c3b3" opacity=".6"/><circle cx="197" cy="38" r="2.5" fill="#c8c3b3"/>'+
+    '<path d="M 165 38 Q 160 44 165 52" stroke="#c8c3b3" stroke-width="1.5" fill="none"/>'+
+    '<line x1="188" y1="66" x2="188" y2="80" stroke="#c8c3b3" stroke-width="2.5"/>'+
+    '<line x1="158" y1="80" x2="218" y2="80" stroke="#c8c3b3" stroke-width="2.5"/>'+
+    '<line x1="158" y1="80" x2="138" y2="107" stroke="#c8c3b3" stroke-width="2"/>'+
+    '<line x1="138" y1="107" x2="122" y2="131" stroke="#c8c3b3" stroke-width="1.8"/>'+
+    '<line x1="218" y1="80" x2="237" y2="107" stroke="#c8c3b3" stroke-width="2"/>'+
+    '<line x1="237" y1="107" x2="253" y2="131" stroke="#c8c3b3" stroke-width="1.8"/>'+
+    '<line x1="188" y1="80" x2="188" y2="131" stroke="#c8c3b3" stroke-width="2.5"/>';
+
+  /* ---- extreme close-up head cx=160 cy=78 r=70 ---- */
+  var DM_CLOSE='<circle cx="160" cy="78" r="70" fill="none" stroke="#c8c3b3" stroke-width="3"/>'+
+    '<circle cx="137" cy="63" r="4" fill="#c8c3b3"/><circle cx="163" cy="58" r="4" fill="#c8c3b3"/>'+
+    '<line x1="138" y1="87" x2="166" y2="87" stroke="#c8c3b3" stroke-width="2.2"/>'+
+    '<path d="M 222 64 Q 236 74 222 92" fill="none" stroke="#c8c3b3" stroke-width="2.5"/>'+
+    '<line x1="160" y1="148" x2="160" y2="162" stroke="#c8c3b3" stroke-width="3.5"/>'+
+    '<line x1="55" y1="168" x2="265" y2="168" stroke="#c8c3b3" stroke-width="3"/>';
+
+  /* ---- wide / small figure cx=160 cy=76 r=10 ---- */
+  var DM_WIDE='<rect x="20" y="20" width="58" height="100" fill="none" stroke="#2a2926" stroke-width=".8"/>'+
+    '<rect x="242" y="20" width="58" height="100" fill="none" stroke="#2a2926" stroke-width=".8"/>'+
+    '<circle cx="160" cy="76" r="10" fill="none" stroke="#c8c3b3" stroke-width="2"/>'+
+    '<circle cx="156" cy="73" r="1.3" fill="#c8c3b3"/><circle cx="164" cy="73" r="1.3" fill="#c8c3b3"/>'+
+    '<line x1="157" y1="80" x2="163" y2="80" stroke="#c8c3b3" stroke-width="1.2"/>'+
+    '<line x1="160" y1="86" x2="160" y2="95" stroke="#c8c3b3" stroke-width="2"/>'+
+    '<line x1="145" y1="95" x2="175" y2="95" stroke="#c8c3b3" stroke-width="2"/>'+
+    '<line x1="145" y1="95" x2="136" y2="110" stroke="#c8c3b3" stroke-width="1.6"/>'+
+    '<line x1="136" y1="110" x2="129" y2="126" stroke="#c8c3b3" stroke-width="1.4"/>'+
+    '<line x1="175" y1="95" x2="184" y2="110" stroke="#c8c3b3" stroke-width="1.6"/>'+
+    '<line x1="184" y1="110" x2="191" y2="126" stroke="#c8c3b3" stroke-width="1.4"/>'+
+    '<line x1="160" y1="95" x2="160" y2="126" stroke="#c8c3b3" stroke-width="2"/>';
+
+  /* ---- walking figure with corridor ---- */
+  var DM_WALK='<line x1="0" y1="25" x2="160" y2="88" stroke="#3b3a36" stroke-width=".8"/>'+
+    '<line x1="320" y1="25" x2="160" y2="88" stroke="#3b3a36" stroke-width=".8"/>'+
+    '<line x1="0" y1="155" x2="160" y2="118" stroke="#3b3a36" stroke-width=".8"/>'+
+    '<line x1="320" y1="155" x2="160" y2="118" stroke="#3b3a36" stroke-width=".8"/>'+
+    '<line x1="0" y1="155" x2="320" y2="155" stroke="#3b3a36" stroke-width=".5"/>'+
+    '<g class="sb-push">'+
+    '<circle cx="160" cy="54" r="13" fill="none" stroke="#c8c3b3" stroke-width="2.5"/>'+
+    '<circle cx="154" cy="51" r="1.8" fill="#c8c3b3"/><circle cx="166" cy="51" r="1.8" fill="#c8c3b3"/>'+
+    '<line x1="156" y1="60" x2="164" y2="60" stroke="#c8c3b3" stroke-width="1.4"/>'+
+    '<line x1="160" y1="67" x2="160" y2="100" stroke="#c8c3b3" stroke-width="2.5"/>'+
+    '<line x1="160" y1="76" x2="138" y2="95" stroke="#c8c3b3" stroke-width="2"/>'+
+    '<line x1="138" y1="95" x2="128" y2="110" stroke="#c8c3b3" stroke-width="1.8"/>'+
+    '<line x1="160" y1="76" x2="182" y2="90" stroke="#c8c3b3" stroke-width="2"/>'+
+    '<line x1="182" y1="90" x2="192" y2="104" stroke="#c8c3b3" stroke-width="1.8"/>'+
+    '<line x1="148" y1="100" x2="172" y2="100" stroke="#c8c3b3" stroke-width="2"/>'+
+    '<g class="sb-legL"><line x1="152" y1="100" x2="142" y2="128" stroke="#c8c3b3" stroke-width="2"/><line x1="142" y1="128" x2="136" y2="152" stroke="#c8c3b3" stroke-width="1.8"/></g>'+
+    '<g class="sb-legR"><line x1="168" y1="100" x2="178" y2="128" stroke="#c8c3b3" stroke-width="2"/><line x1="178" y1="128" x2="184" y2="152" stroke="#c8c3b3" stroke-width="1.8"/></g>'+
+    '</g>';
+
+  var DM_PERSONS={
+    'mid':       DM_T+'<g class="sb-breathe">'+DM_SEAT160+'</g>'+DM_CB,
+    'side':      DM_T+'<g class="sb-breathe">'+DM_SIDE188+'</g>'+DM_CB,
+    'close':     '<g class="sb-breathe">'+DM_CLOSE+'</g>'+'<rect x="50" y="172" width="220" height="2" fill="SEGCOL" opacity=".6"/>',
+    'wide':      DM_T+'<g class="sb-breathe">'+DM_WIDE+'</g>'+DM_CB,
+    'walk':      DM_WALK,
+    'push':      DM_T+'<g class="sb-push">'+DM_SEAT160+'</g>'+DM_PUSH_ARR+DM_CB,
+    'mid push':  DM_T+'<g class="sb-push">'+DM_SEAT160+'</g>'+DM_PUSH_ARR+DM_CB,
+    'close push':'<g class="sb-push">'+DM_CLOSE+'</g>'+DM_PUSH_ARR+'<rect x="50" y="172" width="220" height="2" fill="SEGCOL" opacity=".6"/>'
+  };
+
   function dmSetVF(cam,cfg,color){
     var vf=g('dmVf'+cam),pers=g('dmVf'+cam+'P'),zEl=g('dmVf'+cam+'Z'),recEl=g('dmVf'+cam+'Rec'),fEl=g('dmVf'+cam+'F'),stbEl=g('dmVf'+cam+'Stb');
-    if(!cfg.active){vf.classList.add('dm-standby');pers.style.display='none';recEl.style.display='none';zEl.style.display='none';fEl.style.display='none';stbEl.style.display='';return;}
+    if(!cfg.active){vf.classList.add('dm-standby');pers.innerHTML='';recEl.style.display='none';zEl.style.display='none';fEl.style.display='none';stbEl.style.display='';return;}
     vf.classList.remove('dm-standby');pers.style.display='';recEl.style.display='';zEl.style.display='';fEl.style.display='';stbEl.style.display='none';
-    pers.className='dm-vf-person '+(cfg.person||'mid');
-    pers.style.background=color+'20'; pers.style.border='1px solid '+color+'88';
+    var tmpl=(DM_PERSONS[cfg.person]||DM_PERSONS['mid']).replace(/SEGCOL/g,color);
+    pers.innerHTML=tmpl;
     zEl.textContent=cfg.zoom; fEl.textContent=cfg.framing; fEl.style.color=color;
   }
 
