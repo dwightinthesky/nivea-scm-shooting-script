@@ -953,6 +953,15 @@
     .ep-seg-hdr{padding:5px 10px 3px;font-family:'JetBrains Mono',monospace;font-size:7px;color:#4a4845;letter-spacing:.1em;border-top:1px solid #141210}
     .ep-seg-hdr:first-child{border-top:none}
     @media(max-width:620px){.ep-shotlist{max-height:220px;flex-basis:100%}}
+    /* ===== § D Location Guide ===== */
+    .loc-wrap{padding:0 24px 32px;display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+    .loc-svg-box{flex:2 1 360px;background:#0a0908;border:1px solid #2a2926}
+    .loc-legend{flex:1 1 200px}
+    .loc-zone{padding:9px 0;border-bottom:1px solid #141210}
+    .loc-zone:last-child{border-bottom:none}
+    .loc-zone-id{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.12em;margin-bottom:3px}
+    .loc-zone-note{font-family:'JetBrains Mono',monospace;font-size:7px;color:#6b6a64;line-height:1.55}
+    .loc-note{padding:10px 0 0;font-family:'JetBrains Mono',monospace;font-size:7px;color:#3b3a36;line-height:1.6}
   </style>
 </head>
 
@@ -1387,6 +1396,182 @@
       </div>
     </div>
 
+    <!-- ===== § D LOCATION GUIDE ===== -->
+    <div class="section-title">
+      <span class="num">§ D</span>
+      <h2>場地動線 · 六段機位對照</h2>
+      <span class="right">WeWork Paris · 拍攝前確認此圖</span>
+    </div>
+    <div class="loc-wrap">
+      <div class="loc-svg-box">
+        <svg viewBox="0 0 560 488" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+          <defs>
+            <marker id="arrowG" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+              <polygon points="0 0, 7 3.5, 0 7" fill="#6ac88e" opacity=".8"/>
+            </marker>
+          </defs>
+          <!-- background -->
+          <rect width="560" height="488" fill="#0a0908"/>
+
+          <!-- ── INDOOR MAIN AREA ── -->
+          <rect x="20" y="20" width="480" height="282" fill="#0e0d0c" stroke="#2a2926" stroke-width="1.2"/>
+
+          <!-- Kitchen strip (top-left) -->
+          <rect x="20" y="20" width="252" height="88" fill="#141210" stroke="#2a2926" stroke-width=".7"/>
+          <text x="90" y="58" font-family="JetBrains Mono,monospace" font-size="7" fill="#4a4845" text-anchor="middle">廚房</text>
+          <!-- Kitchen island (Zone B) -->
+          <rect x="58" y="58" width="158" height="26" rx="2" fill="#1e1c18" stroke="#6a9ec8" stroke-width="1" opacity=".75"/>
+          <text x="137" y="75" font-family="JetBrains Mono,monospace" font-size="6.5" fill="#6a9ec8" text-anchor="middle" opacity=".85">Zone B · 廚房中島 · S2 前段</text>
+
+          <!-- Glass-walled meeting room (Zone C) -->
+          <rect x="278" y="20" width="222" height="172" fill="#12181c" stroke="#6a9ec8" stroke-width="1.2" stroke-dasharray="5 3" opacity=".8"/>
+          <text x="389" y="100" font-family="JetBrains Mono,monospace" font-size="8" fill="#6a9ec8" text-anchor="middle" opacity=".85">玻璃會議室</text>
+          <text x="389" y="114" font-family="JetBrains Mono,monospace" font-size="7" fill="#6a9ec8" text-anchor="middle" opacity=".6">Zone C · S2後段 / S3</text>
+
+          <!-- Fiddle leaf fig -->
+          <circle cx="36" cy="133" r="11" fill="#182018" stroke="#253025" stroke-width=".8"/>
+          <text x="36" y="150" font-family="JetBrains Mono,monospace" font-size="5" fill="#303a30" text-anchor="middle">琴葉榕</text>
+
+          <!-- Community table (Zone A) — gold accent -->
+          <rect x="52" y="136" width="212" height="84" rx="3" fill="#1a1712" stroke="#c8a76a" stroke-width="1.4" opacity=".88"/>
+          <text x="158" y="175" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#c8a76a" text-anchor="middle" font-weight="600">Zone A · 大木桌</text>
+          <text x="158" y="190" font-family="JetBrains Mono,monospace" font-size="7" fill="#c8a76a" text-anchor="middle" opacity=".65">S1 · S5 · S6 主鏡位</text>
+
+          <!-- Sofa -->
+          <rect x="52" y="232" width="198" height="40" rx="2" fill="#181614" stroke="#2a2926" stroke-width=".7"/>
+          <text x="151" y="257" font-family="JetBrains Mono,monospace" font-size="7" fill="#3b3a36" text-anchor="middle">灰色沙發</text>
+
+          <!-- Exposed piping / divider wall -->
+          <rect x="276" y="140" width="16" height="162" fill="#080807" stroke="#1a1916" stroke-width=".5"/>
+          <circle cx="284" cy="162" r="2" fill="#2a2926"/><circle cx="284" cy="192" r="2" fill="#2a2926"/>
+          <circle cx="284" cy="222" r="2" fill="#2a2926"/><circle cx="284" cy="252" r="2" fill="#2a2926"/>
+          <text x="284" y="300" font-family="JetBrains Mono,monospace" font-size="5" fill="#2a2926" text-anchor="middle">明管</text>
+
+          <!-- Booth seating (Zone F) -->
+          <rect x="294" y="196" width="206" height="106" fill="#141210" stroke="#2a2926" stroke-width=".7"/>
+          <text x="397" y="249" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#3b3a36" text-anchor="middle">Zone F · 卡座 Booth</text>
+
+          <!-- Glass entrance strip -->
+          <rect x="294" y="286" width="206" height="16" fill="#0c0b0a" stroke="#2a2926" stroke-width=".5" stroke-dasharray="3 2"/>
+          <text x="397" y="297" font-family="JetBrains Mono,monospace" font-size="6" fill="#2a2926" text-anchor="middle">玻璃辦公室入口</text>
+
+          <!-- ── OUTDOOR TERRACE (Zone E) ── -->
+          <rect x="20" y="308" width="252" height="160" fill="#0c0d0a" stroke="#2a2926" stroke-width="1.2"/>
+          <text x="146" y="380" font-family="JetBrains Mono,monospace" font-size="8" fill="#3a4a3a" text-anchor="middle">Zone E · 中庭 / 露台</text>
+          <text x="146" y="395" font-family="JetBrains Mono,monospace" font-size="7" fill="#3a4a3a" text-anchor="middle" opacity=".7">S4 B-roll · 戶外自然光</text>
+          <!-- Plants -->
+          <circle cx="42" cy="438" r="10" fill="#1a2e18" stroke="#243a20" stroke-width="1"/>
+          <circle cx="58" cy="455" r="7" fill="#1a2e18" stroke="#243a20" stroke-width="1"/>
+          <circle cx="144" cy="448" r="10" fill="#1a2e18" stroke="#243a20" stroke-width="1"/>
+          <!-- Blue sculpture -->
+          <polygon points="86,400 100,428 72,428" fill="#182030" stroke="#20304a" stroke-width="1"/>
+
+          <!-- Non-space area (right of outdoor) -->
+          <rect x="278" y="308" width="222" height="160" fill="#080807"/>
+          <text x="389" y="390" font-family="JetBrains Mono,monospace" font-size="7" fill="#1a1916" text-anchor="middle">—</text>
+
+          <!-- ══ CAMERA POSITIONS ══ -->
+
+          <!-- ZONE A: Subject marker (S1/S5/S6) -->
+          <circle cx="168" cy="178" r="9" fill="none" stroke="#c8a76a" stroke-width="1.6"/>
+          <circle cx="168" cy="178" r="3.5" fill="#c8a76a" opacity=".8"/>
+          <text x="168" y="165" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#c8a76a" text-anchor="middle">主角</text>
+
+          <!-- S1 A機: west end, faces east toward subject → pointing right -->
+          <g transform="translate(274,171)">
+            <polygon points="-11,0 1,-5 1,5" fill="#c8a76a" opacity=".9"/>
+            <circle cx="5" cy="0" r="5.5" fill="none" stroke="#c8a76a" stroke-width="1" opacity=".8"/>
+            <text x="3" y="13" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#c8a76a" text-anchor="middle">A機 1×</text>
+          </g>
+
+          <!-- S1 B機: SE position, 45° toward subject -->
+          <g transform="translate(270,215) rotate(-38)">
+            <polygon points="-10,0 1,-5 1,5" fill="#c8a76a" opacity=".7"/>
+          </g>
+          <circle cx="274" cy="218" r="5" fill="none" stroke="#c8a76a" stroke-width="1" opacity=".65"/>
+          <text x="292" y="232" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#c8a76a" opacity=".75">B機 45°</text>
+
+          <!-- MacBook teleprompter -->
+          <rect x="122" y="173" width="18" height="12" rx="1" fill="#1a1916" stroke="#3b3a36" stroke-width=".7"/>
+          <text x="131" y="161" font-family="JetBrains Mono,monospace" font-size="5" fill="#4a4845" text-anchor="middle">提詞器</text>
+          <line x1="131" y1="163" x2="131" y2="172" stroke="#3b3a36" stroke-width=".5" stroke-dasharray="2 1"/>
+
+          <!-- ZONE B: S2 kitchen island subject + camera -->
+          <circle cx="148" cy="71" r="7" fill="none" stroke="#6a9ec8" stroke-width="1.3"/>
+          <circle cx="148" cy="71" r="2.5" fill="#6a9ec8" opacity=".7"/>
+          <g transform="translate(235,69)">
+            <polygon points="-10,0 1,-4 1,4" fill="#6a9ec8" opacity=".8"/>
+            <circle cx="5" cy="0" r="4.5" fill="none" stroke="#6a9ec8" stroke-width=".8" opacity=".7"/>
+            <text x="5" y="13" font-family="JetBrains Mono,monospace" font-size="5" fill="#6a9ec8" text-anchor="middle">A機 2×</text>
+          </g>
+          <text x="148" y="57" font-family="JetBrains Mono,monospace" font-size="6" fill="#6a9ec8" opacity=".8" text-anchor="middle">S2</text>
+
+          <!-- ZONE C: S3 glass room — subject + camera -->
+          <circle cx="392" cy="104" r="7" fill="none" stroke="#6a9ec8" stroke-width="1.3"/>
+          <circle cx="392" cy="104" r="2.5" fill="#6a9ec8" opacity=".7"/>
+          <!-- A機 inside glass room (left side), faces right toward subject -->
+          <g transform="translate(328,101)">
+            <polygon points="10,0 -1,-4 -1,4" fill="#6a9ec8" opacity=".8"/>
+            <circle cx="-5" cy="0" r="4.5" fill="none" stroke="#6a9ec8" stroke-width=".8" opacity=".7"/>
+            <text x="-5" y="13" font-family="JetBrains Mono,monospace" font-size="5" fill="#6a9ec8" text-anchor="middle">A機 2×</text>
+          </g>
+          <!-- OTS B機 outside glass -->
+          <g transform="translate(280,132)">
+            <polygon points="10,0 -1,-3.5 -1,3.5" fill="#6a9ec8" opacity=".55"/>
+          </g>
+          <text x="308" y="142" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#6a9ec8" opacity=".65">B機 OTS (玻璃外)</text>
+          <text x="308" y="151" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#6a9ec8" opacity=".5">越肩拍 MacBook</text>
+
+          <!-- S4 walk path: Zone A → corridor → outdoor -->
+          <path d="M 210 178 L 274 178 L 284 178 L 284 308 L 284 390"
+                stroke="#6ac88e" stroke-width="1.8" stroke-dasharray="7 4" fill="none" opacity=".75"
+                marker-end="url(#arrowG)"/>
+          <text x="298" y="185" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#6ac88e" opacity=".8">S4 B機倒退走</text>
+          <text x="298" y="248" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#6ac88e" opacity=".7">手持走廊跟拍</text>
+          <text x="298" y="330" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#6ac88e" opacity=".6">→ 中庭方向</text>
+
+          <!-- North arrow -->
+          <g transform="translate(510,452)">
+            <circle cx="0" cy="0" r="14" fill="none" stroke="#3b3a36" stroke-width="1"/>
+            <polygon points="0,-10 -3,2 0,0 3,2" fill="#c8c3b3" opacity=".8"/>
+            <text x="0" y="25" font-family="JetBrains Mono,monospace" font-size="7" fill="#4a4845" text-anchor="middle">N</text>
+          </g>
+
+          <!-- Watermark -->
+          <text x="400" y="478" font-family="JetBrains Mono,monospace" font-size="5.5" fill="#1a1916" text-anchor="middle">WeWork Paris · 非比例示意圖</text>
+        </svg>
+      </div>
+      <div class="loc-legend">
+        <div class="loc-zone">
+          <div class="loc-zone-id" style="color:#c8a76a">Zone A · 大木桌</div>
+          <div class="loc-zone-note">S1 / S5 / S6 三度使用同一機位。主角坐東端面西。A機在西側 1.4m 鎖定；B機東南方 45°。背景：琴葉榕虛焦。</div>
+        </div>
+        <div class="loc-zone">
+          <div class="loc-zone-id" style="color:#6a9ec8">Zone B · 廚房中島</div>
+          <div class="loc-zone-note">S2 前段特寫。主角站中島南側面北。A機在北側 0.9m，2× 緊貼。中島高度可降低視角，製造 retail counter 感。</div>
+        </div>
+        <div class="loc-zone">
+          <div class="loc-zone-id" style="color:#6a9ec8">Zone C · 玻璃會議室</div>
+          <div class="loc-zone-note">S2 玻璃室 PUSH 段 + S3 整段。玻璃牆製造透明景深。A機在室內；OTS B機從玻璃外拍。偏光鏡消反光。</div>
+        </div>
+        <div class="loc-zone">
+          <div class="loc-zone-id" style="color:#6ac88e">S4 走廊動線</div>
+          <div class="loc-zone-note">從 Zone A 沿明管走廊往南，轉入中庭方向。B機倒退走；主角前方 1m。護航人員必需在場。最後 15 秒切回 Zone A。</div>
+        </div>
+        <div class="loc-zone">
+          <div class="loc-zone-id" style="color:#3a5a3a">Zone E · 中庭 / 露台</div>
+          <div class="loc-zone-note">S4 B-roll 戶外段。植栽＋自然光。注意從室內走出後曝光突變 — 需提前設定 AE Lock 或手動曝光。</div>
+        </div>
+        <div class="loc-zone">
+          <div class="loc-zone-id" style="color:#4a4845">Zone F · 卡座 Booth</div>
+          <div class="loc-zone-note">走拍路徑護航緩衝區。注意 B機操作者倒退時不要撞到卡座邊角。</div>
+        </div>
+        <div class="loc-note">
+          拍攝前在地板貼膠帶標記三段 Zone A 機位。A機與 B機腳架位置各貼一條，確保 S1／S5／S6 構圖完全一致。MacBook 提詞器位置同樣標記。
+        </div>
+      </div>
+    </div>
+
     <!-- ===== SEGMENT 1 ===== -->
     <section class="seg">
       <div class="seg-head">
@@ -1406,6 +1591,22 @@
           <p>"By the end of this video, I hope those three points explain why I am applying, and why I think I could contribute to NIVEA's S&amp;CM team."</p>
         </div>
         <div class="craft">
+          <div class="row">
+            <div class="k">拍攝位置</div>
+            <div class="v"><span class="pill">Zone A · 大木桌</span> 主角坐大木桌東端，面向西（朝 A 機方向）。背景左側：琴葉榕虛焦；背景右後方：玻璃會議室虛焦。</div>
+          </div>
+          <div class="row">
+            <div class="k">A 機座標</div>
+            <div class="v">大木桌西端，距主角 1.4m，眉心高度，三腳架鎖定。主角構圖在畫面右三分線。MacBook 提詞器置於 A 機右側 30°、桌面上，主角視線瞥提詞時自然落在「略偏鏡頭」位置。</div>
+          </div>
+          <div class="row">
+            <div class="k">B 機座標</div>
+            <div class="v">主角東南方 45°，距主角約 2m，站在沙發區後方或旁側。高度略低於 A 機。玻璃會議室落在遠端背景虛焦。B 機腳架不得進入 A 機視角。</div>
+          </div>
+          <div class="row">
+            <div class="k">地板標記</div>
+            <div class="v">拍攝前用白色紙膠帶標記：① A 機腳架三點位置、② B 機腳架三點位置、③ 主角椅腳位置、④ MacBook 腳位置。S5、S6 使用同一標記，確保三段構圖完全一致。</div>
+          </div>
           <div class="row">
             <div class="k">大師運鏡</div>
             <div class="v"><b>Errol Morris 式直視鏡頭</b>。一個 take,A 機 + B 機同步雙機位錄,後製從同一句話裡剪 jump-cut。觀眾以為是兩次拍攝,其實是一次。</div>
@@ -1592,6 +1793,18 @@
         </div>
         <div class="craft">
           <div class="row">
+            <div class="k">拍攝位置①</div>
+            <div class="v"><span class="pill">Zone B · 廚房中島</span> 前段（鋪陳 + 數字前）。主角站中島南側面北，雙手可輕放中島桌面。A 機在中島北側，距主角 0.9m，2× 中景；中島高度自然壓低主角視角，製造零售現場感。</div>
+          </div>
+          <div class="row">
+            <div class="k">拍攝位置②</div>
+            <div class="v"><span class="pill alt">Zone C · 玻璃會議室</span> 後段（「Mother's Day」那句起切入）。主角移至玻璃室內坐下，A 機在室內對面 2× 特寫鎖定；玻璃牆做景深背景。此段加 Slow PUSH。</div>
+          </div>
+          <div class="row">
+            <div class="k">俯拍空鏡</div>
+            <div class="v">站在椅子或矮梯上，從中島正上方 90° 向下拍桌面紋理或地板。作為段落開場 cutaway，1.5–2 秒即可。確認中島桌面乾淨、無雜物。</div>
+          </div>
+          <div class="row">
             <div class="k">大師運鏡</div>
             <div class="v"><b>場景 = 內容</b>。前半段(鋪陳)在熱桌中景講,「Mother's Day」這句切到玻璃會議室特寫 — 場地的轉換對應論點的轉換。Wes Anderson 級的
               deliberate spatial logic。</div>
@@ -1744,6 +1957,18 @@
           <p>"I think that same thinking pattern matters in S&amp;CM. Whether the task is supporting a sales orientation, preparing a clear recommendation for a product display, or helping different teams align around an activation plan, the challenge is not only to have data. It is to make data usable for action."</p>
         </div>
         <div class="craft">
+          <div class="row">
+            <div class="k">拍攝位置</div>
+            <div class="v"><span class="pill">Zone C · 玻璃會議室</span> 整段在玻璃室內。主角坐在會議桌面向玻璃牆外（面南），A 機在主角對面（北側），距主角約 0.9m。</div>
+          </div>
+          <div class="row">
+            <div class="k">玻璃牆利用</div>
+            <div class="v">A 機在室內拍：玻璃牆在主角背後，透過玻璃可見外側走廊景深，製造縱深層次。若有反光，調整 A 機角度或貼消光紙於玻璃反光點。OTS B 機在玻璃<b>外側</b>拍：鏡頭需垂直於玻璃，避免折射失真。</div>
+          </div>
+          <div class="row">
+            <div class="k">PAUSE 停拍點</div>
+            <div class="v">「That is not an AI skill. It is a thinking pattern.」此句前後各 hold 至少 0.5 秒真實停頓，不要剪掉。剪輯時保留此沉默。拍攝時提醒主角：說完這句後眼神保持，不要馬上看提詞器。</div>
+          </div>
           <div class="row">
             <div class="k">大師運鏡</div>
             <div class="v"><b>整段一個鏡位 · Lex Fridman 級單機紀律</b>。最分析性的段落,鏡頭也最克制。整段一個 take 不換景,A 機鎖死 50 多秒,中間插一個 2 秒越肩鏡頭。
@@ -1909,6 +2134,22 @@
           <p>"That perspective matters to me because S&amp;CM is not only about what the brand wants to say. It is also about what the shopper actually understands at the shelf."</p>
         </div>
         <div class="craft">
+          <div class="row">
+            <div class="k">走拍起點</div>
+            <div class="v"><span class="pill">Zone A 東側 → 明管走廊 → Zone E 方向</span> 主角從大木桌旁出發，沿明管走廊向南，B 機操作者在主角前方 1–1.2m 倒退走。護航人員站在 B 機操作者正後方引導，確保不撞卡座（Zone F）邊角或牆面。</div>
+          </div>
+          <div class="row">
+            <div class="k">B 機動線</div>
+            <div class="v">手持，動態穩定 ON（iPhone 內建影片穩定）。建議走速：主角每步約 0.4 秒，整體行進速度慢於正常步伐 30%。走廊寬度有限，B 機需靠中間走，主角沿走廊右側（靠Zone A 方向）前進，形成自然對角構圖。</div>
+          </div>
+          <div class="row">
+            <div class="k">曝光預備</div>
+            <div class="v">走廊室內→中庭室外曝光差異大。若走入 Zone E：拍攝前先在中庭站定做 AE Lock，或切手動曝光，避免進出室外時畫面閃爍。建議先拍中庭 B-roll 定曝光，再拍走廊段。</div>
+          </div>
+          <div class="row">
+            <div class="k">收尾回位</div>
+            <div class="v">走拍 25 秒後主角停步，B 機繼續 hold 3 秒再喊停。主角快速回到 <span class="pill">Zone A 大木桌</span> 就位（提前標記），接拍「My French is still improving」那句收尾鎖定段（A 機重新架好）。</div>
+          </div>
           <div class="row">
             <div class="k">大師運鏡</div>
             <div class="v"><b>身體感的論述</b>。整段以走廊走拍開場 — 主角邊走邊講「兩個市場的對比」,身體前進對應思想前進。Vox 級紀錄片走拍。</div>
@@ -2079,6 +2320,14 @@
         </div>
         <div class="craft">
           <div class="row">
+            <div class="k">拍攝位置</div>
+            <div class="v"><span class="pill">Zone A · 大木桌</span> 依地板膠帶標記重新就位，與 S1 構圖完全一致。拍攝前用手機拍一張 S1 畫面截圖對照，確認主角頭部位置、背景虛焦比例相同。</div>
+          </div>
+          <div class="row">
+            <div class="k">字卡時機提示</div>
+            <div class="v">講到「2.4 percent」、「0.9 percent」、「5.5 billion euros」三個數字時，主角自然停頓約 1.5 秒（不需要特別演，讓資料「落地」的節奏）。後製在此空間疊字卡。拍攝時告知主角：數字後面那一拍不要急著接下一句。</div>
+          </div>
+          <div class="row">
             <div class="k">大師運鏡</div>
             <div class="v"><b>視覺押韻 + FT Big Read 級資訊圖</b>。回機位 A,跟 S1 完全相同構圖 — 三度回家。下三分之一字卡(自己用 Keynote 做、後製貼)在數字上方淡入淡出。
             </div>
@@ -2224,6 +2473,14 @@
           <p>"That is the mindset I am ready to bring to NIVEA's S&amp;CM team."</p>
         </div>
         <div class="craft">
+          <div class="row">
+            <div class="k">拍攝位置</div>
+            <div class="v"><span class="pill">Zone A · 大木桌</span> 三度回家。膠帶標記確認。此段提詞器關掉，主角看向 MacBook 黑屏（假裝 monitor）。最後一段不能有提詞器痕跡（眼睛不能往螢幕方向漂）。</div>
+          </div>
+          <div class="row">
+            <div class="k">尾音收錄</div>
+            <div class="v">主角講完「S&amp;CM team」後<b>不要喊停</b>。讓 rolling 繼續至少 3 秒，收走廊環境音。拍攝者只需輕輕比手勢，主角保持姿勢不動，慢慢放鬆。此 2 秒環境音後製接在影片結尾淡出。</div>
+          </div>
           <div class="row">
             <div class="k">大師運鏡</div>
             <div class="v"><b>三度回家 · BBC Newsnight 級收尾</b>。整片第三次出現同一個機位 A 中景。內容本身就是運鏡 — 鏡頭重複,觀眾的潛意識會把它讀成「這個人有想法、有結構」。
