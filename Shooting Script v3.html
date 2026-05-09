@@ -912,27 +912,47 @@
     .dm-btn.dm-primary { border-color:#c8a76a; color:#c8a76a; }
     .dm-btn.dm-primary:hover { background:rgba(200,167,106,.07); }
     /* ===== § C2 EDIT PREVIEW ===== */
+    @keyframes ep-cut{0%{opacity:0}100%{opacity:1}}
     .ep-wrap{padding:0 24px 32px}
-    .ep-monitor{background:#0a0908;border:1px solid #2a2926;max-width:640px;margin:0 auto}
-    .ep-vf-outer{position:relative;aspect-ratio:16/9;background:#050504;overflow:hidden;cursor:pointer}
+    .ep-body{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
+    .ep-monitor{flex:1 1 380px;background:#0a0908;border:1px solid #2a2926}
+    .ep-vf-outer{position:relative;aspect-ratio:16/9;background:#050504;overflow:hidden}
     .ep-vf-bg2{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 35%,#18140e 0%,#050504 100%)}
     .ep-vf-grid2{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:33.33% 33.33%}
     .ep-fig{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:hidden}
+    .ep-cut{animation:ep-cut .18s ease-out}
     .ep-tc{position:absolute;top:8px;left:10px;font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(255,255,255,.55);letter-spacing:.05em}
     .ep-cam-lbl{position:absolute;top:8px;right:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.05em}
-    .ep-shot-lbl{position:absolute;bottom:8px;right:10px;font-family:'JetBrains Mono',monospace;font-size:8px;color:rgba(255,255,255,.35);letter-spacing:.03em}
+    .ep-shot-lbl{position:absolute;bottom:8px;right:10px;font-family:'JetBrains Mono',monospace;font-size:8px;color:rgba(255,255,255,.35);letter-spacing:.03em;max-width:55%;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .ep-seg-lbl{position:absolute;bottom:8px;left:10px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em}
-    .ep-info{padding:8px 14px;border-bottom:1px solid #1a1916;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-    .ep-pill{padding:3px 8px;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.06em;border-radius:2px;background:#1a1916;color:#4a4845;transition:background .3s,color .3s}
+    .ep-dur-lbl{position:absolute;top:30px;left:10px;font-family:'JetBrains Mono',monospace;font-size:8px;color:rgba(255,255,255,.25);letter-spacing:.03em}
+    .ep-info{padding:7px 12px;border-bottom:1px solid #1a1916;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+    .ep-pill{padding:2px 7px;font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.06em;border-radius:2px;background:#1a1916;color:#4a4845;transition:background .3s,color .3s;cursor:default}
     .ep-pill.ep-on{color:#0e0e0c}
-    .ep-prog-wrap{height:3px;background:#1a1916}
+    .ep-counter{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:8px;color:#3b3a36;letter-spacing:.04em}
+    .ep-prog-wrap{position:relative;height:4px;background:#1a1916}
     .ep-prog-bar{height:100%;width:0%;transition:width .08s linear,background .3s}
-    .ep-ctrls{padding:10px 14px;display:flex;justify-content:center;align-items:center;gap:8px}
+    .ep-mark{position:absolute;top:0;width:1px;height:100%;background:#2a2926;pointer-events:none}
+    .ep-ctrls{padding:9px 12px;display:flex;align-items:center;gap:7px}
     .ep-btn2{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;background:#1a1916;color:#c8c3b3;border:1px solid #2a2926;padding:5px 12px;cursor:pointer;transition:background .2s}
     .ep-btn2:hover{background:#2a2926}
     .ep-btn2.ep-primary{background:#c8a76a22;border-color:#c8a76a66;color:#c8a76a}
-    .ep-spd{padding:4px 10px;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.06em;background:#1a1916;color:#4a4845;border:1px solid #2a2926;cursor:pointer;transition:all .2s}
+    .ep-spds{display:flex;gap:3px}
+    .ep-spd{padding:4px 9px;font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.05em;background:#1a1916;color:#4a4845;border:1px solid #2a2926;cursor:pointer;transition:all .2s}
     .ep-spd.ep-on{background:#c8c3b322;border-color:#c8c3b366;color:#c8c3b3}
+    .ep-hint{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:7px;color:#2a2926;letter-spacing:.03em}
+    /* Shot list */
+    .ep-shotlist{flex:1 1 200px;background:#0a0908;border:1px solid #2a2926;max-height:390px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#2a2926 transparent}
+    .ep-si{display:grid;grid-template-columns:24px 34px 1fr 36px;padding:7px 10px;cursor:pointer;border-left:2px solid transparent;transition:background .12s;align-items:center;gap:2px}
+    .ep-si:hover{background:#111009}
+    .ep-si.ep-cur{background:#161412}
+    .ep-si-num{font-family:'JetBrains Mono',monospace;font-size:7px;color:#2a2926}
+    .ep-si-cam{font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:600;letter-spacing:.02em}
+    .ep-si-lbl{font-family:'JetBrains Mono',monospace;font-size:7.5px;color:#6b6a64;padding:0 5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .ep-si-tc{font-family:'JetBrains Mono',monospace;font-size:7px;color:#3b3a36;text-align:right}
+    .ep-seg-hdr{padding:5px 10px 3px;font-family:'JetBrains Mono',monospace;font-size:7px;color:#4a4845;letter-spacing:.1em;border-top:1px solid #141210}
+    .ep-seg-hdr:first-child{border-top:none}
+    @media(max-width:620px){.ep-shotlist{max-height:220px;flex-basis:100%}}
   </style>
 </head>
 
@@ -1323,35 +1343,47 @@
     <div class="section-title">
       <span class="num">§ C2</span>
       <h2>剪接模擬 · 火柴人版</h2>
-      <span class="right">全片 4:45 · 點 PLAY 播放</span>
+      <span class="right">全片 4:45 · 24 個鏡頭 · Space / ← →</span>
     </div>
     <div class="ep-wrap">
-      <div class="ep-monitor">
-        <div class="ep-vf-outer" id="epOuter">
-          <div class="ep-vf-bg2"></div>
-          <div class="ep-vf-grid2"></div>
-          <svg id="epFig" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" class="ep-fig"></svg>
-          <div class="ep-tc" id="epTC">00:00</div>
-          <div class="ep-cam-lbl" id="epCam">A機</div>
-          <div class="ep-shot-lbl" id="epShot">1× 中景</div>
-          <div class="ep-seg-lbl" id="epSeg">S1</div>
+      <div class="ep-body">
+        <!-- ── Monitor ── -->
+        <div class="ep-monitor">
+          <div class="ep-vf-outer" id="epOuter">
+            <div class="ep-vf-bg2"></div>
+            <div class="ep-vf-grid2"></div>
+            <svg id="epFig" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" class="ep-fig"></svg>
+            <div class="ep-tc" id="epTC">00:00</div>
+            <div class="ep-dur-lbl" id="epDur"></div>
+            <div class="ep-cam-lbl" id="epCam">A機</div>
+            <div class="ep-shot-lbl" id="epShot">1× 中景</div>
+            <div class="ep-seg-lbl" id="epSeg">S1</div>
+          </div>
+          <div class="ep-info">
+            <div class="ep-pill ep-on" id="epP1">S1</div>
+            <div class="ep-pill" id="epP2">S2</div>
+            <div class="ep-pill" id="epP3">S3</div>
+            <div class="ep-pill" id="epP4">S4</div>
+            <div class="ep-pill" id="epP5">S5</div>
+            <div class="ep-pill" id="epP6">S6</div>
+            <span class="ep-counter" id="epCounter">01 / 24</span>
+          </div>
+          <div class="ep-prog-wrap" id="epProgWrap"><div class="ep-prog-bar" id="epProg"></div></div>
+          <div class="ep-ctrls">
+            <button class="ep-btn2 ep-primary" id="epPlayBtn" onclick="epToggle()">▶ PLAY</button>
+            <button class="ep-btn2" onclick="epReset()">↺</button>
+            <button class="ep-btn2" onclick="epGoTo(Math.max(0,window._epCur-1))">◀</button>
+            <button class="ep-btn2" onclick="epGoTo(Math.min(23,window._epCur+1))">▶</button>
+            <div class="ep-spds">
+              <button class="ep-spd ep-on" id="epS4" onclick="epSpeed(4)">4×</button>
+              <button class="ep-spd" id="epS8" onclick="epSpeed(8)">8×</button>
+              <button class="ep-spd" id="epS16" onclick="epSpeed(16)">16×</button>
+            </div>
+            <span class="ep-hint">Space · ← →</span>
+          </div>
         </div>
-        <div class="ep-info">
-          <div class="ep-pill ep-on" id="epP1">S1 · 開場</div>
-          <div class="ep-pill" id="epP2">S2 · 零售</div>
-          <div class="ep-pill" id="epP3">S3 · 資料</div>
-          <div class="ep-pill" id="epP4">S4 · 走廊</div>
-          <div class="ep-pill" id="epP5">S5 · NIVEA</div>
-          <div class="ep-pill" id="epP6">S6 · 結尾</div>
-        </div>
-        <div class="ep-prog-wrap"><div class="ep-prog-bar" id="epProg"></div></div>
-        <div class="ep-ctrls">
-          <button class="ep-btn2 ep-primary" id="epPlayBtn" onclick="epToggle()">▶ PLAY</button>
-          <button class="ep-btn2" onclick="epReset()">↺ RESET</button>
-          <button class="ep-spd ep-on" id="epS4" onclick="epSpeed(4)">4×</button>
-          <button class="ep-spd" id="epS8" onclick="epSpeed(8)">8×</button>
-          <button class="ep-spd" id="epS16" onclick="epSpeed(16)">16×</button>
-        </div>
+        <!-- ── Shot list ── -->
+        <div class="ep-shotlist" id="epShotList"></div>
       </div>
     </div>
 
@@ -2655,40 +2687,37 @@
 })();
 </script>
 <script>
-/* ===== § C2 · EDIT PREVIEW PLAYER ===== */
+/* ===== § C2 · EDIT PREVIEW PLAYER  v3 ===== */
 (function(){
   var SHOTS=[
-    /* S1 · 開場 0:00-0:25 */
-    {tc:0,  dur:8,  seg:'S1',color:'#c8a76a',cam:'A機',shot:'1× 中景',       p:'mid'},
-    {tc:8,  dur:6,  seg:'S1',color:'#c8a76a',cam:'B機',shot:'2× 45° 側臉',   p:'side'},
-    {tc:14, dur:6,  seg:'S1',color:'#c8a76a',cam:'A機',shot:'三個名詞',       p:'mid'},
-    {tc:20, dur:5,  seg:'S1',color:'#c8a76a',cam:'B機',shot:'Retail · Data · Cross', p:'side'},
-    /* S2 · 零售 0:25-1:25 */
-    {tc:25, dur:25, seg:'S2',color:'#6a9ec8',cam:'A機',shot:'2× 熱桌 特寫',  p:'close'},
-    {tc:50, dur:15, seg:'S2',color:'#6a9ec8',cam:'A機',shot:'PUSH 玻璃室',   p:'closepush'},
-    {tc:65, dur:20, seg:'S2',color:'#6a9ec8',cam:'B機',shot:'1× 俯拍空鏡',   p:'wide'},
-    /* S3 · 資料 1:25-2:20 */
-    {tc:85, dur:28, seg:'S3',color:'#6a9ec8',cam:'A機',shot:'2× 鎖定特寫',   p:'closepush'},
-    {tc:113,dur:4,  seg:'S3',color:'#6a9ec8',cam:'B機',shot:'越肩 · MacBook · 2s',p:'ots'},
-    {tc:117,dur:13, seg:'S3',color:'#6a9ec8',cam:'A機',shot:'2× 繼續',       p:'closepush'},
-    {tc:130,dur:1,  seg:'S3',color:'#6a9ec8',cam:'—',  shot:'PAUSE',         p:'pause'},
-    {tc:131,dur:9,  seg:'S3',color:'#6a9ec8',cam:'A機',shot:'thinking',       p:'closepush'},
-    /* S4 · 走廊 2:20-3:20 */
-    {tc:140,dur:30, seg:'S4',color:'#6ac88e',cam:'B機',shot:'手持走廊跟拍',   p:'walk'},
-    {tc:170,dur:3,  seg:'S4',color:'#6ac88e',cam:'B-ROLL',shot:'巴黎綠十字', p:'cross'},
-    {tc:173,dur:27, seg:'S4',color:'#6ac88e',cam:'A機',shot:'1× 收尾鎖定',   p:'mid'},
-    /* S5 · NIVEA 3:20-4:20 */
-    {tc:200,dur:35, seg:'S5',color:'#c8a76a',cam:'A機',shot:'字卡 · 數字',    p:'card'},
-    {tc:235,dur:5,  seg:'S5',color:'#c8a76a',cam:'B機',shot:'2× 修辭樞紐',   p:'close'},
-    {tc:240,dur:20, seg:'S5',color:'#c8a76a',cam:'A機',shot:'SLOW PUSH 3%',  p:'midpush'},
-    /* S6 · 結尾 4:20-4:45 */
-    {tc:260,dur:20, seg:'S6',color:'#c8a76a',cam:'A機',shot:'LOCKED · 直視', p:'mid'},
-    {tc:280,dur:2,  seg:'S6',color:'#c8a76a',cam:'A機',shot:'微笑 · final clause', p:'smile'},
-    {tc:282,dur:3,  seg:'S6',color:'#c8a76a',cam:'—',  shot:'2s 尾音',       p:'fade'}
+    {tc:0,  dur:7,  seg:'S1',color:'#c8a76a',cam:'A機',   shot:'1× 中景 · 開場白',      p:'mid'},
+    {tc:7,  dur:4,  seg:'S1',color:'#c8a76a',cam:'B機',   shot:'2× 側臉',               p:'side'},
+    {tc:11, dur:5,  seg:'S1',color:'#c8a76a',cam:'A機',   shot:'1× 中景 · three things', p:'mid'},
+    {tc:16, dur:2,  seg:'S1',color:'#c8a76a',cam:'B機',   shot:'Retail',                p:'side'},
+    {tc:18, dur:2,  seg:'S1',color:'#c8a76a',cam:'A機',   shot:'Data',                  p:'mid'},
+    {tc:20, dur:5,  seg:'S1',color:'#c8a76a',cam:'B機',   shot:'Cross-cultural',        p:'side'},
+    {tc:25, dur:25, seg:'S2',color:'#6a9ec8',cam:'A機',   shot:'2× 熱桌 特寫',          p:'close'},
+    {tc:50, dur:15, seg:'S2',color:'#6a9ec8',cam:'A機',   shot:'PUSH 玻璃室',           p:'closepush'},
+    {tc:65, dur:20, seg:'S2',color:'#6a9ec8',cam:'B機',   shot:'1× 俯拍空鏡',           p:'wide'},
+    {tc:85, dur:28, seg:'S3',color:'#6a9ec8',cam:'A機',   shot:'2× 鎖定特寫',           p:'closepush'},
+    {tc:113,dur:4,  seg:'S3',color:'#6a9ec8',cam:'B機',   shot:'越肩 · MacBook · 2s',  p:'ots'},
+    {tc:117,dur:11, seg:'S3',color:'#6a9ec8',cam:'A機',   shot:'2× 繼續',               p:'closepush'},
+    {tc:128,dur:2,  seg:'S3',color:'#6a9ec8',cam:'—',    shot:'PAUSE',                 p:'pause'},
+    {tc:130,dur:10, seg:'S3',color:'#6a9ec8',cam:'A機',   shot:'thinking',              p:'closepush'},
+    {tc:140,dur:30, seg:'S4',color:'#6ac88e',cam:'B機',   shot:'手持走廊跟拍',           p:'walk'},
+    {tc:170,dur:3,  seg:'S4',color:'#6ac88e',cam:'B-ROLL',shot:'巴黎綠十字',            p:'cross'},
+    {tc:173,dur:27, seg:'S4',color:'#6ac88e',cam:'A機',   shot:'1× 收尾鎖定',           p:'mid'},
+    {tc:200,dur:18, seg:'S5',color:'#c8a76a',cam:'A機',   shot:'字卡 · 數字',           p:'card'},
+    {tc:218,dur:17, seg:'S5',color:'#c8a76a',cam:'A機',   shot:'字卡 · +2.4% ORG',     p:'card'},
+    {tc:235,dur:5,  seg:'S5',color:'#c8a76a',cam:'B機',   shot:'2× 修辭樞紐',           p:'close'},
+    {tc:240,dur:20, seg:'S5',color:'#c8a76a',cam:'A機',   shot:'SLOW PUSH 3%',          p:'midpush'},
+    {tc:260,dur:20, seg:'S6',color:'#c8a76a',cam:'A機',   shot:'LOCKED · 直視',         p:'mid'},
+    {tc:280,dur:2,  seg:'S6',color:'#c8a76a',cam:'A機',   shot:'微笑 · final clause',   p:'smile'},
+    {tc:282,dur:3,  seg:'S6',color:'#c8a76a',cam:'—',    shot:'2s 尾音',               p:'fade'}
   ];
-  var TOTAL=285;
+  var TOTAL=285, N=SHOTS.length;
 
-  /* ---- SVG person templates ---- */
+  /* person templates */
   var _T='<rect x="50" y="136" width="220" height="3" fill="#3b3a36"/>';
   var _CB='<rect x="50" y="174" width="220" height="2" fill="EC" opacity=".6"/>';
   var _PA='<line x1="262" y1="82" x2="234" y2="82" stroke="oklch(55% 0.12 35)" stroke-width="1.2"/><polygon points="234,78 228,82 234,86" fill="oklch(55% 0.12 35)"/>';
@@ -2752,7 +2781,7 @@
   var EP={
     'mid':       _T+'<g class="sb-breathe">'+_F+'</g>'+_CB,
     'midpush':   _T+'<g class="sb-push">'+_F+'</g>'+_PA+_CB,
-    'close':     '<g class="sb-breathe">'+_CL+'</g>'+'<rect x="50" y="172" width="220" height="2" fill="EC" opacity=".6"/>',
+    'close':     '<g class="sb-breathe">'+_CL+'</g><rect x="50" y="172" width="220" height="2" fill="EC" opacity=".6"/>',
     'closepush': '<g class="sb-push">'+_CL+'</g>'+_PA+'<rect x="50" y="172" width="220" height="2" fill="EC" opacity=".6"/>',
     'side':      _T+'<g class="sb-breathe"><line x1="0" y1="170" x2="300" y2="80" stroke="#2a2926" stroke-width="1" stroke-dasharray="4 3"/>'+_S+'</g>'+_CB,
     'wide':      _T+'<g class="sb-breathe">'+_W+'</g>'+_CB,
@@ -2793,54 +2822,118 @@
       '<text x="160" y="100" font-family="JetBrains Mono,monospace" font-size="9" fill="oklch(82% 0.10 85)" text-anchor="middle">2s ROOM TONE</text>'
   };
 
-  /* ---- state ---- */
-  var cur=0, playing=false, elapsed=0, speed=4, timer;
-
+  /* helpers */
+  function g(id){return document.getElementById(id);}
   function fmt(s){var m=Math.floor(s/60),ss=Math.floor(s%60);return(m<10?'0':'')+m+':'+(ss<10?'0':'')+ss;}
-  function shotAt(t){for(var i=SHOTS.length-1;i>=0;i--){if(t>=SHOTS[i].tc)return i;}return 0;}
+  function shotAt(t){for(var i=N-1;i>=0;i--){if(t>=SHOTS[i].tc)return i;}return 0;}
 
-  function apply(idx){
-    cur=idx;
-    var sh=SHOTS[idx];
-    var fig=document.getElementById('epFig');
-    fig.innerHTML=(EP[sh.p]||EP['mid']).replace(/EC/g,sh.color);
-    document.getElementById('epCam').textContent=sh.cam;
-    document.getElementById('epCam').style.color=sh.color;
-    document.getElementById('epShot').textContent=sh.shot;
-    document.getElementById('epSeg').textContent=sh.seg;
-    document.getElementById('epSeg').style.color=sh.color;
-    document.getElementById('epProg').style.background=sh.color;
-    ['S1','S2','S3','S4','S5','S6'].forEach(function(s,i){
-      var p=document.getElementById('epP'+(i+1));
-      var on=s===sh.seg;
-      p.classList.toggle('ep-on',on);
-      p.style.background=on?sh.color:'';
+  /* build shot list */
+  function renderShotList(){
+    var el=g('epShotList'),html='',seg='';
+    SHOTS.forEach(function(sh,i){
+      if(sh.seg!==seg){seg=sh.seg;html+='<div class="ep-seg-hdr">'+sh.seg+'</div>';}
+      var num=(i<9?'0':'')+(i+1);
+      html+='<div class="ep-si" id="epSI'+i+'" onclick="epGoTo('+i+')">'+
+        '<span class="ep-si-num">'+num+'</span>'+
+        '<span class="ep-si-cam" style="color:'+sh.color+'">'+sh.cam+'</span>'+
+        '<span class="ep-si-lbl">'+sh.shot+'</span>'+
+        '<span class="ep-si-tc">'+fmt(sh.tc)+'</span>'+
+        '</div>';
+    });
+    el.innerHTML=html;
+  }
+
+  /* build progress markers */
+  function renderMarkers(){
+    var wrap=g('epProgWrap');
+    wrap.querySelectorAll('.ep-mark').forEach(function(m){m.parentNode.removeChild(m);});
+    SHOTS.forEach(function(sh,i){
+      if(!i)return;
+      var m=document.createElement('div');
+      m.className='ep-mark';
+      m.style.left=(sh.tc/TOTAL*100)+'%';
+      wrap.appendChild(m);
     });
   }
 
+  /* state */
+  var elapsed=0, speed=4, timer, playing=false;
+  window._epCur=-1;
+
+  function cutFlash(){
+    var fig=g('epFig');
+    fig.classList.remove('ep-cut');
+    void fig.offsetWidth;
+    fig.classList.add('ep-cut');
+  }
+
+  function apply(idx){
+    window._epCur=idx;
+    var sh=SHOTS[idx];
+    g('epFig').innerHTML=(EP[sh.p]||EP['mid']).replace(/EC/g,sh.color);
+    g('epCam').textContent=sh.cam; g('epCam').style.color=sh.color;
+    g('epShot').textContent=sh.shot;
+    g('epSeg').textContent=sh.seg; g('epSeg').style.color=sh.color;
+    g('epProg').style.background=sh.color;
+    ['S1','S2','S3','S4','S5','S6'].forEach(function(s,i){
+      var p=g('epP'+(i+1)), on=s===sh.seg;
+      p.classList.toggle('ep-on',on);
+      p.style.background=on?sh.color:'';
+    });
+    g('epCounter').textContent=(idx<9?'0':'')+(idx+1)+' / '+N;
+    for(var j=0;j<N;j++){
+      var si=g('epSI'+j);
+      if(!si)continue;
+      si.classList.toggle('ep-cur',j===idx);
+      si.style.borderLeftColor=j===idx?sh.color:'transparent';
+    }
+    var el=g('epSI'+idx);
+    if(el)el.scrollIntoView({block:'nearest'});
+  }
+
   function updateTC(){
-    document.getElementById('epTC').textContent=fmt(Math.min(elapsed,TOTAL));
-    document.getElementById('epProg').style.width=(Math.min(elapsed,TOTAL)/TOTAL*100)+'%';
+    var t=Math.min(elapsed,TOTAL);
+    g('epTC').textContent=fmt(t);
+    g('epProg').style.width=(t/TOTAL*100)+'%';
+    var sh=window._epCur>=0?SHOTS[window._epCur]:SHOTS[0];
+    g('epDur').textContent=sh?'▸ '+sh.dur+'s':'';
   }
 
   function tick(){
     elapsed+=0.08*speed;
     if(elapsed>=TOTAL){elapsed=TOTAL;updateTC();stop();return;}
     var idx=shotAt(elapsed);
-    if(idx!==cur)apply(idx);
+    if(idx!==window._epCur){cutFlash();apply(idx);}
     updateTC();
   }
 
-  function start(){playing=true;document.getElementById('epPlayBtn').textContent='⏸ PAUSE';timer=setInterval(tick,80);}
-  function stop(){playing=false;clearInterval(timer);document.getElementById('epPlayBtn').textContent='▶ PLAY';}
+  function start(){playing=true;g('epPlayBtn').textContent='⏸ PAUSE';timer=setInterval(tick,80);}
+  function stop(){playing=false;clearInterval(timer);g('epPlayBtn').textContent='▶ PLAY';}
 
   window.epToggle=function(){playing?stop():start();};
-  window.epReset=function(){stop();elapsed=0;apply(0);updateTC();};
+  window.epReset=function(){stop();elapsed=0;cutFlash();apply(0);updateTC();};
   window.epSpeed=function(s){
     speed=s;
-    [4,8,16].forEach(function(v){document.getElementById('epS'+v).classList.toggle('ep-on',v===s);});
+    [4,8,16].forEach(function(v){g('epS'+v).classList.toggle('ep-on',v===s);});
+  };
+  window.epGoTo=function(idx){
+    idx=Math.max(0,Math.min(N-1,idx));
+    elapsed=SHOTS[idx].tc;
+    cutFlash();
+    apply(idx);
+    updateTC();
   };
 
+  document.addEventListener('keydown',function(e){
+    var tag=document.activeElement&&document.activeElement.tagName;
+    if(tag==='INPUT'||tag==='TEXTAREA')return;
+    if(e.code==='Space'){e.preventDefault();window.epToggle();}
+    else if(e.code==='ArrowLeft'){e.preventDefault();window.epGoTo(Math.max(0,(window._epCur||0)-1));}
+    else if(e.code==='ArrowRight'){e.preventDefault();window.epGoTo(Math.min(N-1,(window._epCur||0)+1));}
+  });
+
+  renderShotList();
+  renderMarkers();
   apply(0);
   updateTC();
 })();
